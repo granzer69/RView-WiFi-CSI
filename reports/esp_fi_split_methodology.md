@@ -2,6 +2,17 @@
 
 Evaluation uses session-grouped splits. The git-published `train_amp` and `test_amp` folders are a leakage check, not the split used for metrics. The three strategies below are reported separately and are not averaged.
 
+## Session leakage question
+
+**Can information from the same recording leak between train and test?** **NO** for this protocol.
+
+- One recording is one trial file named `X-Y-Z-M`. Its `session_id` is that stem.
+- Each `session_id` is assigned to exactly one of `train`, `val`, or `test`.
+- A trial file is never cut so that part of its samples are in train and part in test.
+- Preprocessing segments (when enabled) stay inside a single session window; they do not mix sessions.
+
+Published `train_amp` / `test_amp` folders also have **no shared session ids** (measured). They are still not used as the evaluation split because they only cover scenario 3 and implement a single-participant holdout, not the three session-grouped strategies below.
+
 ## Rules
 
 - The split unit is one recording session, which is one trial file named `X-Y-Z-M`. A file is never cut so that part of it is in train and part of it is in test.

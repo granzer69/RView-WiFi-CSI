@@ -145,22 +145,138 @@
   "folder_unverified_labels": 2240,
   "folder_verified_labels": 0,
   "missing_cells": [],
-  "plots": [
-    "artifacts/figures/arm_wave_1-1-5-1_amplitude.png",
-    "artifacts/figures/arm_wave_1-1-5-1_heatmap.png",
-    "artifacts/figures/falling_1-1-7-1_amplitude.png",
-    "artifacts/figures/falling_1-1-7-1_heatmap.png",
-    "artifacts/figures/jumping_1-1-3-1_amplitude.png",
-    "artifacts/figures/jumping_1-1-3-1_heatmap.png",
-    "artifacts/figures/running_1-1-1-1_amplitude.png",
-    "artifacts/figures/running_1-1-1-1_heatmap.png",
-    "artifacts/figures/squatting_1-1-4-1_amplitude.png",
-    "artifacts/figures/squatting_1-1-4-1_heatmap.png",
-    "artifacts/figures/turning_1-1-6-1_amplitude.png",
-    "artifacts/figures/turning_1-1-6-1_heatmap.png",
-    "artifacts/figures/walking_1-1-2-1_amplitude.png",
-    "artifacts/figures/walking_1-1-2-1_heatmap.png"
-  ],
+  "numeric_audit": {
+    "amplitude_max": 181.01933598375618,
+    "amplitude_mean": 67.43897325330194,
+    "amplitude_min": 0.0,
+    "amplitude_std": 27.402697081657077,
+    "dtype": "float64",
+    "expected_shape": [
+      950,
+      52
+    ],
+    "files_read": 2240,
+    "max_constant_subcarriers_in_one_recording": 0,
+    "near_constant_std_threshold": 1e-09,
+    "non_finite_count": 0,
+    "per_recording_amplitude_max": 181.01933598375618,
+    "per_recording_amplitude_min": 0.0,
+    "per_recording_mean_max": 114.99733269982289,
+    "per_recording_mean_min": 27.15856765331164,
+    "per_subcarrier_mean": [
+      89.03217695911496,
+      87.35327932355612,
+      86.51761683331753,
+      85.28212418215031,
+      83.0263939985814,
+      80.70209179587377,
+      79.66933515501171,
+      77.85324388234574,
+      77.13204228712475,
+      75.73679798693166,
+      75.4197404371177,
+      74.246934447553,
+      73.46473960487253,
+      72.01418130121368,
+      70.93186627483155,
+      70.65561073423943,
+      69.4669583862801,
+      68.14437285256021,
+      68.67002743659522,
+      68.71071054209425,
+      68.15085958384275,
+      68.79264488559458,
+      67.48986708931598,
+      68.96071076126557,
+      69.10300596679153,
+      68.8092407435046,
+      69.2091783836901,
+      69.00725742092814,
+      68.7560303588891,
+      68.32552749308736,
+      67.36028143699872,
+      67.77824686757123,
+      67.1513844790541,
+      65.51987941500889,
+      64.98281801947627,
+      63.634792499528736,
+      62.57929827293666,
+      60.62317394561457,
+      59.6135522445959,
+      58.393806670770594,
+      57.22077701806653,
+      56.36128253630092,
+      56.08324654827047,
+      54.350320707887214,
+      53.80917455120968,
+      52.83440623345065,
+      53.38978567622668,
+      53.57203479251169,
+      53.20632829455567,
+      53.16082206450827,
+      52.6041640256642,
+      51.96246576321776
+    ],
+    "per_subcarrier_std": [
+      24.088455623063446,
+      24.08353424989563,
+      24.14876702479522,
+      24.100823190068404,
+      23.917195090998817,
+      23.68110459473449,
+      23.694295125298215,
+      23.495465241633497,
+      23.621585304099593,
+      23.653593395058056,
+      23.983319519610884,
+      24.135419018003436,
+      24.401613060177993,
+      24.529750757987912,
+      24.764355570573723,
+      25.32453447354372,
+      25.57262472309016,
+      25.71523472993131,
+      26.605700638797682,
+      27.218631083159565,
+      27.63185941468061,
+      28.48609768859499,
+      28.53018166816228,
+      29.603110239782907,
+      30.080946575842443,
+      30.347962364768474,
+      30.844989785081484,
+      30.743801186575045,
+      30.558036992153713,
+      30.14934093735345,
+      29.566749897206577,
+      29.440949615230515,
+      28.916500789400413,
+      28.05485733939262,
+      27.58228543577221,
+      26.87295773475823,
+      26.251938516633636,
+      25.39746794533257,
+      24.854983835995593,
+      24.327639538273882,
+      23.74352105544508,
+      23.277410413585724,
+      22.992973751654095,
+      22.106181375833202,
+      21.72229420237285,
+      21.188393772220707,
+      21.300615707662725,
+      21.259773456442108,
+      21.173888655675473,
+      21.215729071132014,
+      21.195257340734603,
+      21.15517220707347
+    ],
+    "recordings_with_constant_subcarrier": 0,
+    "recordings_with_near_constant_subcarrier": 0,
+    "unique_shapes": {
+      "(950, 52)": 2240
+    }
+  },
   "published_folders": {
     "participant_leakage": false,
     "role": "leakage_check_only",
@@ -218,6 +334,139 @@
   "splits": {
     "cross_environment": {
       "assignment_sha256": "00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8",
+      "audit": {
+        "counts": {
+          "test": 560,
+          "train": 1120,
+          "val": 560
+        },
+        "groups_crossing_splits": [],
+        "per_split": {
+          "test": {
+            "by_dataset_label": {
+              "arm_wave": 80,
+              "fall": 80,
+              "jump": 80,
+              "run": 80,
+              "squat": 80,
+              "turn": 80,
+              "walk": 80
+            },
+            "by_normalized_label": {
+              "arm_wave": 80,
+              "falling": 80,
+              "jumping": 80,
+              "running": 80,
+              "squatting": 80,
+              "turning": 80,
+              "walking": 80
+            },
+            "participant_count": 8,
+            "participants": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "samples": 560,
+            "scenario_count": 1,
+            "scenarios": [
+              4
+            ],
+            "sessions": 560
+          },
+          "train": {
+            "by_dataset_label": {
+              "arm_wave": 160,
+              "fall": 160,
+              "jump": 160,
+              "run": 160,
+              "squat": 160,
+              "turn": 160,
+              "walk": 160
+            },
+            "by_normalized_label": {
+              "arm_wave": 160,
+              "falling": 160,
+              "jumping": 160,
+              "running": 160,
+              "squatting": 160,
+              "turning": 160,
+              "walking": 160
+            },
+            "participant_count": 8,
+            "participants": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "samples": 1120,
+            "scenario_count": 2,
+            "scenarios": [
+              1,
+              2
+            ],
+            "sessions": 1120
+          },
+          "val": {
+            "by_dataset_label": {
+              "arm_wave": 80,
+              "fall": 80,
+              "jump": 80,
+              "run": 80,
+              "squat": 80,
+              "turn": 80,
+              "walk": 80
+            },
+            "by_normalized_label": {
+              "arm_wave": 80,
+              "falling": 80,
+              "jumping": 80,
+              "running": 80,
+              "squatting": 80,
+              "turning": 80,
+              "walking": 80
+            },
+            "participant_count": 8,
+            "participants": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "samples": 560,
+            "scenario_count": 1,
+            "scenarios": [
+              3
+            ],
+            "sessions": 560
+          }
+        },
+        "seed": 42,
+        "session_integrity": {
+          "protocol_answer": "NO \u2014 each session_id maps to exactly one split; a trial file is never divided.",
+          "same_recording_leaks_train_and_test": false,
+          "shared_sessions_train_test": [],
+          "shared_sessions_train_val": [],
+          "shared_sessions_val_test": [],
+          "split_unit": "one trial file (session_id = stem X-Y-Z-M)",
+          "trial_file_cut_across_splits": false
+        },
+        "strategy": "cross_environment"
+      },
       "counts": {
         "test": 560,
         "train": 1120,
@@ -242,6 +491,131 @@
     },
     "cross_user": {
       "assignment_sha256": "ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72",
+      "audit": {
+        "counts": {
+          "test": 280,
+          "train": 1680,
+          "val": 280
+        },
+        "groups_crossing_splits": [],
+        "per_split": {
+          "test": {
+            "by_dataset_label": {
+              "arm_wave": 40,
+              "fall": 40,
+              "jump": 40,
+              "run": 40,
+              "squat": 40,
+              "turn": 40,
+              "walk": 40
+            },
+            "by_normalized_label": {
+              "arm_wave": 40,
+              "falling": 40,
+              "jumping": 40,
+              "running": 40,
+              "squatting": 40,
+              "turning": 40,
+              "walking": 40
+            },
+            "participant_count": 1,
+            "participants": [
+              4
+            ],
+            "samples": 280,
+            "scenario_count": 4,
+            "scenarios": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "sessions": 280
+          },
+          "train": {
+            "by_dataset_label": {
+              "arm_wave": 240,
+              "fall": 240,
+              "jump": 240,
+              "run": 240,
+              "squat": 240,
+              "turn": 240,
+              "walk": 240
+            },
+            "by_normalized_label": {
+              "arm_wave": 240,
+              "falling": 240,
+              "jumping": 240,
+              "running": 240,
+              "squatting": 240,
+              "turning": 240,
+              "walking": 240
+            },
+            "participant_count": 6,
+            "participants": [
+              1,
+              2,
+              3,
+              6,
+              7,
+              8
+            ],
+            "samples": 1680,
+            "scenario_count": 4,
+            "scenarios": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "sessions": 1680
+          },
+          "val": {
+            "by_dataset_label": {
+              "arm_wave": 40,
+              "fall": 40,
+              "jump": 40,
+              "run": 40,
+              "squat": 40,
+              "turn": 40,
+              "walk": 40
+            },
+            "by_normalized_label": {
+              "arm_wave": 40,
+              "falling": 40,
+              "jumping": 40,
+              "running": 40,
+              "squatting": 40,
+              "turning": 40,
+              "walking": 40
+            },
+            "participant_count": 1,
+            "participants": [
+              5
+            ],
+            "samples": 280,
+            "scenario_count": 4,
+            "scenarios": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "sessions": 280
+          }
+        },
+        "seed": 42,
+        "session_integrity": {
+          "protocol_answer": "NO \u2014 each session_id maps to exactly one split; a trial file is never divided.",
+          "same_recording_leaks_train_and_test": false,
+          "shared_sessions_train_test": [],
+          "shared_sessions_train_val": [],
+          "shared_sessions_val_test": [],
+          "split_unit": "one trial file (session_id = stem X-Y-Z-M)",
+          "trial_file_cut_across_splits": false
+        },
+        "strategy": "cross_user"
+      },
       "counts": {
         "test": 280,
         "train": 1680,
@@ -270,6 +644,147 @@
     },
     "in_domain": {
       "assignment_sha256": "6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da",
+      "audit": {
+        "counts": {
+          "test": 224,
+          "train": 1792,
+          "val": 224
+        },
+        "groups_crossing_splits": [],
+        "per_split": {
+          "test": {
+            "by_dataset_label": {
+              "arm_wave": 32,
+              "fall": 32,
+              "jump": 32,
+              "run": 32,
+              "squat": 32,
+              "turn": 32,
+              "walk": 32
+            },
+            "by_normalized_label": {
+              "arm_wave": 32,
+              "falling": 32,
+              "jumping": 32,
+              "running": 32,
+              "squatting": 32,
+              "turning": 32,
+              "walking": 32
+            },
+            "participant_count": 8,
+            "participants": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "samples": 224,
+            "scenario_count": 4,
+            "scenarios": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "sessions": 224
+          },
+          "train": {
+            "by_dataset_label": {
+              "arm_wave": 256,
+              "fall": 256,
+              "jump": 256,
+              "run": 256,
+              "squat": 256,
+              "turn": 256,
+              "walk": 256
+            },
+            "by_normalized_label": {
+              "arm_wave": 256,
+              "falling": 256,
+              "jumping": 256,
+              "running": 256,
+              "squatting": 256,
+              "turning": 256,
+              "walking": 256
+            },
+            "participant_count": 8,
+            "participants": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "samples": 1792,
+            "scenario_count": 4,
+            "scenarios": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "sessions": 1792
+          },
+          "val": {
+            "by_dataset_label": {
+              "arm_wave": 32,
+              "fall": 32,
+              "jump": 32,
+              "run": 32,
+              "squat": 32,
+              "turn": 32,
+              "walk": 32
+            },
+            "by_normalized_label": {
+              "arm_wave": 32,
+              "falling": 32,
+              "jumping": 32,
+              "running": 32,
+              "squatting": 32,
+              "turning": 32,
+              "walking": 32
+            },
+            "participant_count": 8,
+            "participants": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "samples": 224,
+            "scenario_count": 4,
+            "scenarios": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "sessions": 224
+          }
+        },
+        "seed": 42,
+        "session_integrity": {
+          "protocol_answer": "NO \u2014 each session_id maps to exactly one split; a trial file is never divided.",
+          "same_recording_leaks_train_and_test": false,
+          "shared_sessions_train_test": [],
+          "shared_sessions_train_val": [],
+          "shared_sessions_val_test": [],
+          "split_unit": "one trial file (session_id = stem X-Y-Z-M)",
+          "trial_file_cut_across_splits": false
+        },
+        "strategy": "in_domain"
+      },
       "counts": {
         "test": 224,
         "train": 1792,

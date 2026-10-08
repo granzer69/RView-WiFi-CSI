@@ -31,6 +31,7 @@ from datasets.esp_fi import (
     observe_csv_packet_rate,
     sibling_csv,
 )
+from datasets.audit import audit_numeric, audit_split_assignment
 from datasets.leakage import published_folder_report
 from datasets.splits import assign_splits
 from ingestion.schema import CsiWindow
@@ -54,8 +55,11 @@ def main() -> None:
     records = discover_trials(args.root)
     summary = summarize(records)
     summary["shapes"] = audit_shapes(records)
+    summary["numeric_audit"] = audit_numeric(records).to_dict()
     summary["csv_rate_observations"] = csv_observations(records)
-    summary["splits"] = {name: split_summary(records, name, args.seed) for name in ("in_domain", "cross_user", "cross_environment")}
+    summary["splits"] = {
+        name: split_summary(records, name, args.seed, include_audit=True) for name in ("in_domain", "cross_user", "cross_environment")
+    }
     summary["published_folders"] = load_published(args.published)
     summary["default_preprocess"] = default_preprocess_check(records)
     if args.plots is not None:
@@ -150,13 +154,13 @@ def csv_observations(records: list[Any]) -> list[dict[str, Any]]:
     return observations
 
 
-def split_summary(records: list[Any], strategy: str, seed: int) -> dict[str, Any]:
+def split_summary(records: list[Any], strategy: str, seed: int, *, include_audit: bool = False) -> dict[str, Any]:
     assignment = assign_splits(records, strategy=strategy, seed=seed)
     groups: dict[str, set[str]] = {"train": set(), "val": set(), "test": set()}
     for record in records:
         groups[assignment.session_to_split[record.session_id]].add(record.group_value(strategy))
     lines = [f"{session}\t{split}" for session, split in sorted(assignment.session_to_split.items())]
-    return {
+    payload: dict[str, Any] = {
         "strategy": strategy,
         "seed": assignment.seed,
         "test_fraction": assignment.test_fraction,
@@ -165,6 +169,9 @@ def split_summary(records: list[Any], strategy: str, seed: int) -> dict[str, Any
         "group_ids": {name: sorted(values, key=_group_sort) for name, values in groups.items()},
         "assignment_sha256": hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest(),
     }
+    if include_audit:
+        payload["audit"] = audit_split_assignment(records, assignment)
+    return payload
 
 
 def load_published(path: Path) -> dict[str, Any]:
@@ -227,6 +234,17 @@ def render_methodology(summary: dict[str, Any]) -> str:
         "# ESP-Fi split methodology",
         "",
         "Evaluation uses session-grouped splits. The git-published `train_amp` and `test_amp` folders are a leakage check, not the split used for metrics. The three strategies below are reported separately and are not averaged.",
+        "",
+        "## Session leakage question",
+        "",
+        "**Can information from the same recording leak between train and test?** **NO** for this protocol.",
+        "",
+        "- One recording is one trial file named `X-Y-Z-M`. Its `session_id` is that stem.",
+        "- Each `session_id` is assigned to exactly one of `train`, `val`, or `test`.",
+        "- A trial file is never cut so that part of its samples are in train and part in test.",
+        "- Preprocessing segments (when enabled) stay inside a single session window; they do not mix sessions.",
+        "",
+        "Published `train_amp` / `test_amp` folders also have **no shared session ids** (measured). They are still not used as the evaluation split because they only cover scenario 3 and implement a single-participant holdout, not the three session-grouped strategies below.",
         "",
         "## Rules",
         "",
