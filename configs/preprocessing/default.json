@@ -1,0 +1,8 @@
+{
+  "clip_mad": false,
+  "mad_k": 5.0,
+  "normalize": "none",
+  "window_length": null,
+  "hop": null,
+  "note": "Default keeps the trial unchanged: no clipping, no z-score, one segment equal to the whole session. Normalization, when enabled, is applied to the session before segments are cut."
+}

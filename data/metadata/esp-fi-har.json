@@ -1,0 +1,22 @@
+{
+  "codes_disagreeing_with_readme": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "complete_grid": true,
+  "dataset_id": "esp-fi-har",
+  "dataset_version": "rar-sha256-85f3df633c5b1a48ca4b1423467fce22821b21eeb3eed085a8d9f983dc156660",
+  "folder_unverified_labels": 2240,
+  "label_map": "published_folder_codes_not_readme",
+  "license": "CC-BY-4.0",
+  "phase": "absent",
+  "sample_rate_hz": null,
+  "shape": {
+    "(950, 52)": 2240
+  },
+  "trial_count": 2240
+}

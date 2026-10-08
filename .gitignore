@@ -1,0 +1,14 @@
+data/raw/
+data/interim/
+data/processed/
+artifacts/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.mypy_cache/
+dist/
+build/
+.env
+*.kaggle.json

@@ -1,0 +1,24 @@
+{
+  "dataset_id": "esp-fi-har",
+  "seed": 42,
+  "test_fraction": 0.15,
+  "val_fraction": 0.15,
+  "generator": "numpy.random.Generator(seed)",
+  "allocation": "n_holdout = max(1, floor(n_groups * fraction)); remainder is train",
+  "strategies": {
+    "in_domain": {
+      "group": "session_id (one trial file)",
+      "stratum": "scenario_id:participant_id:dataset_label"
+    },
+    "cross_user": {
+      "group": "participant_id",
+      "stratum": "all"
+    },
+    "cross_environment": {
+      "group": "scenario_id",
+      "stratum": "all"
+    }
+  },
+  "published_folders": "leakage check only; not an evaluation split",
+  "do_not_average_strategies": true
+}

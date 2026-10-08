@@ -1,0 +1,8 @@
+{
+  "acquisition": "blocked_no_kaggle_credentials",
+  "code_policy": "reference_only",
+  "code_url": "https://github.com/guozhen-jenn-zhu/CSI-Bench-Real-WiFi-Sensing-Benchmark",
+  "data_url": "https://www.kaggle.com/datasets/guozhenjennzhu/csi-bench",
+  "dataset_license": "CC-BY-NC-ND-4.0",
+  "experiment_use": "blocked"
+}

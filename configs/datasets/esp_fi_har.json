@@ -1,0 +1,35 @@
+{
+  "dataset_id": "esp-fi-har",
+  "root": "data/raw/esp-fi-har",
+  "archive_sha256": "85f3df633c5b1a48ca4b1423467fce22821b21eeb3eed085a8d9f983dc156660",
+  "license": "CC-BY-4.0",
+  "citation": "Wen et al., Ad Hoc Networks, 2026, DOI 10.1016/j.adhoc.2026.104192",
+  "source_repo": "https://github.com/AutoSmartGroup/ESP-Fi-HAR",
+  "source_commit": "c8bf6aa0d680fa02695c85a82b05e79b3ebb10c4",
+  "amplitude_key": "CSIamp",
+  "expected_shape": [950, 52],
+  "phase_present": false,
+  "sample_rate_hz": null,
+  "label_map": "published_folder_codes_not_readme",
+  "activity_code_to_dataset_label": {
+    "1": "run",
+    "2": "walk",
+    "3": "jump",
+    "4": "squat",
+    "5": "arm_wave",
+    "6": "turn",
+    "7": "fall"
+  },
+  "readme_activity_code_to_dataset_label": {
+    "1": "run",
+    "2": "fall",
+    "3": "walk",
+    "4": "turn",
+    "5": "jump",
+    "6": "squat",
+    "7": "arm_wave"
+  },
+  "label_note": "Scenarios 1, 2, and 4 have no class folders. Their labels follow the folder map measured on scenario 3 and are unverified.",
+  "published_split_manifest": "configs/datasets/esp_fi_published_split.json",
+  "published_split_role": "leakage_check_only"
+}
