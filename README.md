@@ -4,6 +4,8 @@ Software-first pipeline for recognizing human activity from Wi-Fi channel state 
 
 **Final scope:** software + ESP-Fi + replay + ML + dashboard only. See **`docs/project-scope.md`** (V4 ESP32 / V5 are not planned unless reopened).
 
+**Full project narrative:** **`docs/what-we-built.md`** (architecture, V1–V3, results, limits, demo).
+
 ## Data
 
 ESP-Fi HAR is the primary dataset. Place the extracted archive at `data/raw/esp-fi-har/` (four environment directories, each with `mat/` and `csv/`). The archive is CC BY 4.0. Raw data is gitignored.
