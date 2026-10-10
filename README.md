@@ -1,6 +1,6 @@
 # WiFi CSI Human Activity Recognition
 
-Software-first pipeline for recognizing human activity from Wi-Fi channel state information. This repository currently covers the data foundation: a canonical CSI window, the ESP-Fi HAR adapter, session-grouped splits, preprocessing switches, and inspection plots. It does not train a model, serve an API, or talk to hardware.
+Software-first pipeline for recognizing human activity from Wi-Fi channel state information. **V1** covers the data foundation (canonical CSI window, ESP-Fi adapter, session-grouped splits, preprocessing, simulator UI). **V2** adds leakage-checked training for classical and deep HAR models on ESP-Fi. There is no production API or hardware path yet.
 
 ## Data
 
@@ -19,10 +19,10 @@ See `data/README.md` for paths, hashes, and the license flags.
 Python 3.11 or newer. From the repository root:
 
 ```bash
-python -m pip install -e ".[dev]"
-python scripts/inspect_esp_fi.py --plots artifacts/figures
-python scripts/inspect_held_datasets.py
-python -m pytest
+python3 -m pip install -e ".[dev,ml]"
+python3 scripts/inspect_esp_fi.py --plots artifacts/figures
+python3 scripts/inspect_held_datasets.py
+python3 -m pytest
 ```
 
 `inspect_esp_fi.py` prints trial counts and writes:
@@ -45,8 +45,25 @@ The default preprocess config keeps each trial unchanged. Clipping, z-scoring, a
 | `src/csi/` | Amplitude plot and subcarrier heatmap |
 | `src/simulator/` | Dataset replay simulator (clock, session controller, `DatasetReplaySource`) |
 | `frontend/` | Visual CSI Activity Simulator UI (Vite + React) |
-| `configs/` | Dataset, preprocess, and split settings |
-| `reports/` | Measured inspection output |
+| `configs/` | Dataset, preprocess, split, and experiment settings |
+| `src/models/`, `src/training/` | V2 model ladder and experiment runners |
+| `artifacts/` | Versioned training outputs (`v2_logreg`, `v2_rf`, `v2_cnn1d`, `v2_gru`) |
+| `reports/` | Measured inspection and V2 experiment summaries |
+
+## V2 ML/HAR engine
+
+Canonical build doc: **`docs/v2-engine-build-guide.md`** (splits, contracts, integrity checklist, commands).
+
+Train baselines on ESP-Fi (requires `data/raw/esp-fi-har/`):
+
+```bash
+python3 scripts/train_logreg.py
+python3 scripts/train_rf.py
+python3 scripts/train_cnn1d.py   # PyTorch via .[ml]
+python3 scripts/train_gru.py
+```
+
+Measured reports: `reports/v2_logreg_results.md`, `reports/v2_rf_results.md`, `reports/v2_cnn1d_results.md`, `reports/v2_gru_results.md`.
 
 ## Visual CSI Activity Simulator (V1 slice)
 

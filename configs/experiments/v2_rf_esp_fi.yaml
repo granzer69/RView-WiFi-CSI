@@ -1,0 +1,26 @@
+name: v2_rf_baseline
+seed: 42
+verify_assignment_hash: true
+dataset:
+  dataset_id: esp-fi-har
+  root: data/raw/esp-fi-har
+  label_map: published_folder_codes_not_readme
+  label_note: "Scenarios 1, 2, and 4 have no class folders; labels follow the scenario-3 folder map (INFERRED — NOT INDEPENDENTLY VERIFIED)."
+preprocess:
+  clip_mad: false
+  mad_k: 5.0
+  normalize: none
+  window_length: null
+  hop: null
+model:
+  n_estimators: 200
+  max_depth: null
+  min_samples_leaf: 1
+  class_weight: null
+  n_jobs: -1
+strategies:
+  - in_domain
+  - cross_user
+  - cross_environment
+artifacts:
+  root: artifacts/v2_rf

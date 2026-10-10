@@ -70,6 +70,6 @@ Full confusion matrices and train/val breakdowns: `artifacts/v2_logreg/20261010T
 - Dynamic activities (jumping, squatting, arm_wave) are weakest under domain shift; falling often has higher recall but lower precision in held-out environments.
 - Baseline is intentionally simple (635-D classical features + multinomial logistic regression, `C=1.0`); no hyperparameter search in this slice.
 
-## Out of scope (not started)
+## Follow-on models
 
-Random Forest, CNN, GRU, and frontend simulator prediction integration were **not** implemented in this change set.
+Random Forest, 1D CNN, and GRU are documented in `docs/v2-engine-build-guide.md` with separate `reports/v2_*_results.md` files. Simulator prediction wiring remains deferred (V3).
