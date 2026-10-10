@@ -1,28 +1,71 @@
-# Cursor in-app browser (Preview / Forwarded Ports)
+# Cursor integrated browser (Cloud Agent)
 
-Desktop Chrome on the **agent VM** can reach `http://127.0.0.1:43123` directly. The **internal browser** in the Cursor Agents window runs on **your machine** and uses **port forwarding** from the cloud VM.
+## Environment
 
-## If Preview shows `ERR_CONNECTION_ABORTED` or `ERR_EMPTY_RESPONSE`
+This project runs on a **Cursor Cloud Agent VM** (remote Linux container). Your **integrated browser** runs on **your machine**; it reaches the app through **port forwarding**, not by opening the VM’s desktop Chrome.
 
-1. Ensure dev servers are running on the agent (API **45231**, UI **43123**), bound to **0.0.0.0**:
-   ```bash
-   bash scripts/start-cursor-dev.sh
-   ```
-   Or two terminals: `python3 scripts/run_api.py` and `cd frontend && npm run dev`.
+| Role | Where it runs | URL you use in Cursor |
+| --- | --- | --- |
+| Vite (UI) | VM `0.0.0.0:43123` | **`http://127.0.0.1:43123`** on **your** machine (forwarded) |
+| FastAPI (API) | VM `0.0.0.0:45231` | Forward **45231** as well (WebSocket + `/api` proxy) |
 
-2. In the **Agents** panel, open the **plug icon** (Forwarded Ports).
-3. Enable **Auto-Forward Ports** or manually forward **43123** (and **45231** if needed).
-4. Choose **Open in internal browser** on port **43123** — do not paste `127.0.0.1:43123` into an external browser on Windows unless that port is forwarded.
+The VM’s own `http://127.0.0.1:43123` is **not** your laptop’s localhost unless the port is forwarded (green in the Ports panel).
 
-5. If forwarding looks stale after an environment snapshot: **Developer: Reload Window**, reopen the project, ask the agent to restart `start-cursor-dev.sh`, then open the forwarded port again.
+## Start the dev stack (no external browser)
+
+From the repository root:
+
+```bash
+bash scripts/dev-stack.sh start
+```
+
+Or only the frontend (API must already be up):
+
+```bash
+cd frontend && BROWSER=none npm run dev
+```
+
+`BROWSER=none`, `server.open: false`, and no `--open` flag prevent Vite from launching a desktop browser on the VM.
+
+Check health:
+
+```bash
+bash scripts/dev-stack.sh status
+```
+
+Stop duplicates before a clean restart:
+
+```bash
+bash scripts/dev-stack.sh stop
+bash scripts/dev-stack.sh start
+```
+
+Logs: `/tmp/rview-vite.log`, `/tmp/rview-api.log`.
+
+## Port forwarding (manual Cursor UI — required)
+
+1. Open the **Agents** chat for this cloud run.
+2. Click the **plug icon** (**Forwarded Ports** / **Ports**).
+3. Turn **Auto-Forward Ports** **ON** (recommended).
+4. Confirm **43123** (web) and **45231** (api) show a **green** active indicator.
+5. On the **43123** row, click the **globe** → **Open in internal browser** (or equivalent “open in Cursor browser”).
+6. Do **not** rely on Windows/macOS Chrome at `127.0.0.1:43123` unless that port is forwarded in Cursor.
+
+If you see `ERR_EMPTY_RESPONSE` or `ERR_CONNECTION_ABORTED`: the tunnel often hit a **Vite restart**. Run `bash scripts/dev-stack.sh status`, then **close** the broken tab, click the **globe** on **43123** again, and hard-refresh.
+
+If ports stay broken: **Developer: Reload Window**, reopen the agent, `bash scripts/dev-stack.sh stop && bash scripts/dev-stack.sh start`, then repeat step 5.
 
 ## Declared ports
 
-`.cursor/environment.json` lists `43123` (web) and `45231` (api) so new agent boots can register them for forwarding. Changes apply on the **next** agent that uses that environment build.
+`.cursor/environment.json` registers **43123** and **45231** for auto-forward on environment builds that use this repo.
 
-## URLs on the VM (Desktop only)
+## Verify
 
-| Service | URL |
-| --- | --- |
-| UI | http://127.0.0.1:43123 |
-| API health | http://127.0.0.1:45231/health |
+On the VM:
+
+```bash
+curl -s -o /dev/null -w "UI %{http_code}\n" http://127.0.0.1:43123/
+curl -s http://127.0.0.1:45231/health
+```
+
+In Cursor’s internal browser: **Visual CSI Activity Simulator** loads, **Dataset Replay** source, session picker, and **Live replay** / **Evaluation** tabs work.

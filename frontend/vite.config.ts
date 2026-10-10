@@ -13,6 +13,7 @@ export default defineConfig({
   server: {
     port: 43123,
     strictPort: true,
+    open: false,
     // 0.0.0.0 so Cursor can detect and forward the port to the in-app browser.
     host: '0.0.0.0',
     allowedHosts: true,
@@ -36,5 +37,11 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  preview: {
+    port: 43123,
+    strictPort: true,
+    host: '0.0.0.0',
+    open: false,
   },
 })

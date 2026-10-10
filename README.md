@@ -75,6 +75,15 @@ Software replay dashboard for ESP-Fi trials. **Real** CSI amplitude comes from A
 
 ### Frontend dev server
 
+**Cursor Cloud (integrated browser):** see **`docs/cursor-in-app-browser.md`**. From repo root:
+
+```bash
+bash scripts/dev-stack.sh start   # API :45231 + Vite :43123, no auto-open browser
+bash scripts/dev-stack.sh status
+```
+
+Forward ports **43123** and **45231** in Cursor, then use the **globe** on **43123** to open the internal browser.
+
 ```bash
 # Refresh manifest + demo trials (or --all-trials for every session)
 PYTHONPATH=src python3 scripts/export_replay_manifest.py --export-trials 1-1-2-1 1-1-1-1
@@ -82,10 +91,10 @@ python3 scripts/export_evaluation_summary.py
 
 cd frontend
 npm install
-npm run dev
+BROWSER=none npm run dev
 ```
 
-Dev server: **http://127.0.0.1:43123** (`vite.config.ts`).
+Vite listens on **`0.0.0.0:43123`** (`strictPort`, `open: false`). In Cursor, use the **forwarded** `http://127.0.0.1:43123` on your machine.
 
 | Layer | Status |
 | --- | --- |
