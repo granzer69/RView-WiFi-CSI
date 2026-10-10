@@ -1,0 +1,26 @@
+{
+  "model_type": "logistic_regression",
+  "feature_kind": "classical_v1",
+  "random_state": 42,
+  "max_iter": 2000,
+  "C": 1.0,
+  "class_weight": null,
+  "label_names": [
+    "running",
+    "walking",
+    "jumping",
+    "squatting",
+    "arm_wave",
+    "turning",
+    "falling"
+  ],
+  "split_strategy": "cross_user",
+  "dataset_id": "esp-fi-har",
+  "preprocess": {
+    "clip_mad": false,
+    "mad_k": 5.0,
+    "normalize": "none",
+    "window_length": null,
+    "hop": null
+  }
+}

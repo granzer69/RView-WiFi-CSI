@@ -1,0 +1,397 @@
+{
+  "split_strategy": "cross_environment",
+  "assignment_sha256": "00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8",
+  "counts": {
+    "train": 1120,
+    "val": 560,
+    "test": 560
+  },
+  "train": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "per_class": {
+      "running": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "walking": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "jumping": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "squatting": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "arm_wave": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "turning": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      },
+      "falling": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 160
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "running",
+        "walking",
+        "jumping",
+        "squatting",
+        "arm_wave",
+        "turning",
+        "falling"
+      ],
+      "matrix": [
+        [
+          160,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          160,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          160,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          160,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          160,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          160,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          160
+        ]
+      ]
+    }
+  },
+  "val": {
+    "accuracy": 0.30892857142857144,
+    "macro_f1": 0.2933090979400779,
+    "weighted_f1": 0.293309097940078,
+    "per_class": {
+      "running": {
+        "precision": 0.5714285714285714,
+        "recall": 0.3,
+        "f1": 0.39344262295081966,
+        "support": 80
+      },
+      "walking": {
+        "precision": 0.34234234234234234,
+        "recall": 0.475,
+        "f1": 0.39790575916230364,
+        "support": 80
+      },
+      "jumping": {
+        "precision": 0.2,
+        "recall": 0.125,
+        "f1": 0.15384615384615385,
+        "support": 80
+      },
+      "squatting": {
+        "precision": 0.2222222222222222,
+        "recall": 0.075,
+        "f1": 0.11214953271028037,
+        "support": 80
+      },
+      "arm_wave": {
+        "precision": 0.2,
+        "recall": 0.25,
+        "f1": 0.2222222222222222,
+        "support": 80
+      },
+      "turning": {
+        "precision": 0.2900763358778626,
+        "recall": 0.475,
+        "f1": 0.36018957345971564,
+        "support": 80
+      },
+      "falling": {
+        "precision": 0.37373737373737376,
+        "recall": 0.4625,
+        "f1": 0.4134078212290503,
+        "support": 80
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "running",
+        "walking",
+        "jumping",
+        "squatting",
+        "arm_wave",
+        "turning",
+        "falling"
+      ],
+      "matrix": [
+        [
+          24,
+          38,
+          1,
+          0,
+          17,
+          0,
+          0
+        ],
+        [
+          8,
+          38,
+          11,
+          0,
+          21,
+          2,
+          0
+        ],
+        [
+          1,
+          8,
+          10,
+          4,
+          22,
+          21,
+          14
+        ],
+        [
+          2,
+          2,
+          13,
+          6,
+          10,
+          31,
+          16
+        ],
+        [
+          7,
+          12,
+          5,
+          1,
+          20,
+          16,
+          19
+        ],
+        [
+          0,
+          12,
+          3,
+          9,
+          5,
+          38,
+          13
+        ],
+        [
+          0,
+          1,
+          7,
+          7,
+          5,
+          23,
+          37
+        ]
+      ]
+    },
+    "inference_latency": {
+      "per_sample_ms_mean": 0.0671200032141834,
+      "per_sample_ms_median": 0.060251735716779616,
+      "per_sample_ms_p95": 0.07942558214121423
+    },
+    "model_size_bytes": 10353446
+  },
+  "test": {
+    "accuracy": 0.2982142857142857,
+    "macro_f1": 0.29124836704564366,
+    "weighted_f1": 0.29124836704564366,
+    "per_class": {
+      "running": {
+        "precision": 0.2605042016806723,
+        "recall": 0.3875,
+        "f1": 0.31155778894472363,
+        "support": 80
+      },
+      "walking": {
+        "precision": 0.358974358974359,
+        "recall": 0.35,
+        "f1": 0.35443037974683544,
+        "support": 80
+      },
+      "jumping": {
+        "precision": 0.23655913978494625,
+        "recall": 0.275,
+        "f1": 0.2543352601156069,
+        "support": 80
+      },
+      "squatting": {
+        "precision": 0.2727272727272727,
+        "recall": 0.1125,
+        "f1": 0.1592920353982301,
+        "support": 80
+      },
+      "arm_wave": {
+        "precision": 0.37777777777777777,
+        "recall": 0.2125,
+        "f1": 0.272,
+        "support": 80
+      },
+      "turning": {
+        "precision": 0.2677165354330709,
+        "recall": 0.425,
+        "f1": 0.3285024154589372,
+        "support": 80
+      },
+      "falling": {
+        "precision": 0.4,
+        "recall": 0.325,
+        "f1": 0.3586206896551724,
+        "support": 80
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "running",
+        "walking",
+        "jumping",
+        "squatting",
+        "arm_wave",
+        "turning",
+        "falling"
+      ],
+      "matrix": [
+        [
+          31,
+          28,
+          5,
+          4,
+          8,
+          3,
+          1
+        ],
+        [
+          32,
+          28,
+          11,
+          2,
+          3,
+          4,
+          0
+        ],
+        [
+          8,
+          4,
+          22,
+          5,
+          10,
+          14,
+          17
+        ],
+        [
+          22,
+          2,
+          15,
+          9,
+          4,
+          26,
+          2
+        ],
+        [
+          11,
+          2,
+          17,
+          1,
+          17,
+          19,
+          13
+        ],
+        [
+          9,
+          7,
+          19,
+          5,
+          0,
+          34,
+          6
+        ],
+        [
+          6,
+          7,
+          4,
+          7,
+          3,
+          27,
+          26
+        ]
+      ]
+    },
+    "inference_latency": {
+      "per_sample_ms_mean": 0.047590685089744504,
+      "per_sample_ms_median": 0.04047398214035119,
+      "per_sample_ms_p95": 0.06110600178804556
+    },
+    "model_size_bytes": 10353446
+  },
+  "training_duration_seconds": 229.27512561299955
+}

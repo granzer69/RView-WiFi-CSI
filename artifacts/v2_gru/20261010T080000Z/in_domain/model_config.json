@@ -1,0 +1,29 @@
+{
+  "model_type": "gru",
+  "input_layout": "time_major_subcarriers",
+  "n_subcarriers": 52,
+  "n_times": 950,
+  "hidden_size": 64,
+  "random_state": 42,
+  "epochs": 6,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "label_names": [
+    "running",
+    "walking",
+    "jumping",
+    "squatting",
+    "arm_wave",
+    "turning",
+    "falling"
+  ],
+  "split_strategy": "in_domain",
+  "dataset_id": "esp-fi-har",
+  "preprocess": {
+    "clip_mad": false,
+    "mad_k": 5.0,
+    "normalize": "none",
+    "window_length": null,
+    "hop": null
+  }
+}
