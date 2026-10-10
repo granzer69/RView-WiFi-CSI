@@ -1,3 +1,4 @@
+import { fetchModelPrediction, useApiPredictions } from '@/services/apiClient'
 import type { TrialReplayPayload } from '@/types/csi'
 import type { Prediction } from '@/types/prediction'
 import type {
@@ -222,9 +223,30 @@ export class LocalReplayTransport {
       subcarriers: row,
       meta,
     })
+    void this.emitPrediction(meta)
+  }
+
+  private async emitPrediction(meta: SessionMeta) {
+    if (!this.trial) return
+    const frameCount = this.trial.time_steps
+    if (useApiPredictions()) {
+      try {
+        const prefix = this.trial.amplitude.slice(0, this.timeIndex + 1)
+        const payload = await fetchModelPrediction(prefix, {
+          session_id: meta.session_id,
+          environment_id: meta.environment_id,
+          time_index: this.timeIndex,
+          frame_count: frameCount,
+        })
+        this.emit({ type: 'prediction', payload })
+        return
+      } catch {
+        // Fall back to stub when API is unreachable.
+      }
+    }
     this.emit({
       type: 'prediction',
-      payload: buildStubPrediction(meta, this.timeIndex, this.trial.time_steps),
+      payload: buildStubPrediction(meta, this.timeIndex, frameCount),
     })
   }
 }

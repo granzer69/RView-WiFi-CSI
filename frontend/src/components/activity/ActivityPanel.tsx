@@ -6,10 +6,10 @@ import type { SessionMeta } from '@/types/session'
 type Props = {
   meta: SessionMeta | null
   groundTruth: Prediction | null
-  stubPrediction: Prediction | null
+  modelPrediction: Prediction | null
 }
 
-export function ActivityPanel({ meta, groundTruth, stubPrediction }: Props) {
+export function ActivityPanel({ meta, groundTruth, modelPrediction }: Props) {
   return (
     <div className="grid gap-3 md:grid-cols-2">
       <Card className="border-emerald-800/60">
@@ -49,24 +49,34 @@ export function ActivityPanel({ meta, groundTruth, stubPrediction }: Props) {
           <CardTitle className="flex items-center gap-2">
             Model output
             <Badge variant="model">MODEL PREDICTION</Badge>
-            <Badge variant="neutral">STUB</Badge>
+            {modelPrediction?.model_version?.startsWith('stub') ? (
+              <Badge variant="neutral">STUB</Badge>
+            ) : (
+              <Badge variant="real">V3 API</Badge>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
-          {stubPrediction ? (
+          {modelPrediction ? (
             <>
-              <p className="text-2xl font-semibold capitalize">{stubPrediction.activity}</p>
+              <p className="text-2xl font-semibold capitalize">{modelPrediction.activity}</p>
               <p className="text-zinc-400">
-                Confidence {(stubPrediction.confidence * 100).toFixed(1)}% · latency{' '}
-                {stubPrediction.latency_ms} ms
+                Confidence {(modelPrediction.confidence * 100).toFixed(1)}% · latency{' '}
+                {modelPrediction.latency_ms} ms
               </p>
-              <p className="text-xs text-amber-200/90">
-                No trained model (V2). Values are synthetic for dashboard wiring only.
-              </p>
-              <p className="text-xs text-zinc-500">Version: {stubPrediction.model_version}</p>
+              {modelPrediction.model_version?.startsWith('stub') ? (
+                <p className="text-xs text-amber-200/90">
+                  API unreachable — showing synthetic stub. Start the V3 API on port 45231.
+                </p>
+              ) : (
+                <p className="text-xs text-emerald-200/90">
+                  Live inference via POST /predict (V2 RF artifact, dataset replay CSI).
+                </p>
+              )}
+              <p className="text-xs text-zinc-500">Version: {modelPrediction.model_version}</p>
             </>
           ) : (
-            <p className="text-zinc-500">Play replay to emit stub predictions.</p>
+            <p className="text-zinc-500">Play replay to emit model predictions.</p>
           )}
         </CardContent>
       </Card>

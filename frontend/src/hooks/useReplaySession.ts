@@ -24,7 +24,7 @@ export function useReplaySession() {
   const [frame, setFrame] = useState<CsiStreamFrame | null>(null)
   const [heatmap, setHeatmap] = useState<number[][]>([])
   const [error, setError] = useState<string | null>(null)
-  const [stubPrediction, setStubPrediction] = useState<Prediction | null>(null)
+  const [modelPrediction, setModelPrediction] = useState<Prediction | null>(null)
 
   useEffect(() => {
     replayTransport
@@ -49,7 +49,7 @@ export function useReplaySession() {
         })
         setTransportState(replayTransport.getState())
       } else if (event.type === 'prediction') {
-        setStubPrediction(event.payload)
+        setModelPrediction(event.payload)
         setTransportState(replayTransport.getState())
       } else if (event.type === 'session_started') {
         setError(null)
@@ -117,7 +117,7 @@ export function useReplaySession() {
     frame,
     heatmap,
     groundTruth,
-    stubPrediction,
+    modelPrediction,
     error,
     openSession,
     play,

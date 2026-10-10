@@ -1,6 +1,6 @@
 # WiFi CSI Human Activity Recognition
 
-Software-first pipeline for recognizing human activity from Wi-Fi channel state information. **V1** covers the data foundation (canonical CSI window, ESP-Fi adapter, session-grouped splits, preprocessing, simulator UI). **V2** adds leakage-checked training for classical and deep HAR models on ESP-Fi. There is no production API or hardware path yet.
+Software-first pipeline for recognizing human activity from Wi-Fi channel state information. **V1** covers the data foundation (canonical CSI window, ESP-Fi adapter, session-grouped splits, preprocessing, simulator UI). **V2** adds leakage-checked training for classical and deep HAR models on ESP-Fi. **V3** exposes a FastAPI platform (HTTP inference + dataset replay WebSocket) and wires the simulator to real RF predictions.
 
 ## Data
 

@@ -21,7 +21,7 @@ export function LiveSensingPage() {
     frame,
     heatmap,
     groundTruth,
-    stubPrediction,
+    modelPrediction,
     error,
     openSession,
     play,
@@ -46,7 +46,7 @@ export function LiveSensingPage() {
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-500">Source</span>
           <SourceChip />
-          <span className="text-xs text-zinc-600">No model loaded (stub predictions)</span>
+          <span className="text-xs text-zinc-600">V3 API · RF in_domain (dataset replay CSI)</span>
         </div>
       </header>
 
@@ -97,14 +97,14 @@ export function LiveSensingPage() {
             </TabsContent>
 
             <TabsContent value="activity">
-              <ActivityPanel meta={meta} groundTruth={groundTruth} stubPrediction={stubPrediction} />
+              <ActivityPanel meta={meta} groundTruth={groundTruth} modelPrediction={modelPrediction} />
             </TabsContent>
 
             <TabsContent value="spatial">
               <SimulatedFloorPlan
                 scenarioId={meta?.scenario_id ?? 1}
                 scenarioName={meta?.scenario_name}
-                prediction={stubPrediction ?? groundTruth}
+                prediction={modelPrediction ?? groundTruth}
               />
             </TabsContent>
 
@@ -114,7 +114,7 @@ export function LiveSensingPage() {
                   <li>Transport: LocalReplayTransport (in-browser, manifest + exported trials)</li>
                   <li>Dataset: {manifest?.dataset_id ?? 'esp-fi-har'} · {manifest?.session_count ?? '—'} sessions in manifest</li>
                   <li>Nominal replay: {manifest?.nominal_replay_hz ?? 95} Hz (config only)</li>
-                  <li>Python simulator: src/simulator/ (DatasetReplaySource for tests &amp; future bridge)</li>
+                  <li>Python simulator: src/simulator/ · V3 API: src/api/ (POST /predict, WS /ws/stream)</li>
                 </ul>
               </div>
             </TabsContent>
