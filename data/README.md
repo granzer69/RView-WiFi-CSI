@@ -2,6 +2,8 @@
 
 Raw recordings stay on disk and out of git. `data/raw/`, `data/interim/`, and `data/processed/` are ignored. `data/metadata/` holds measured provenance and is committed.
 
+**How to download and run the app:** see **[`docs/SETUP.md`](../docs/SETUP.md)** (section 5 — ESP-Fi HAR).
+
 ## ESP-Fi HAR (primary)
 
 | Item | Value |

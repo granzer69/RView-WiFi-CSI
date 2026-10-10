@@ -4,7 +4,25 @@ Software-first pipeline for recognizing human activity from Wi-Fi channel state 
 
 **Final scope:** software + ESP-Fi + replay + ML + dashboard only. See **`docs/project-scope.md`** (V4 ESP32 / V5 are not planned unless reopened).
 
-**Full project narrative:** **`docs/what-we-built.md`** (architecture, V1–V3, results, limits, demo).
+| Doc | Purpose |
+| --- | --- |
+| **[`docs/SETUP.md`](docs/SETUP.md)** | **Start here** — clone, install, ESP-Fi, run API + UI, Cursor ports, env vars, troubleshooting |
+| [`docs/what-we-built.md`](docs/what-we-built.md) | Architecture, V1–V3, measured results, limitations |
+| [`docs/cursor-in-app-browser.md`](docs/cursor-in-app-browser.md) | Cursor Cloud port forwarding |
+
+## Quick start
+
+```bash
+git clone https://github.com/granzer69/RView-WiFi-CSI.git && cd RView-WiFi-CSI
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev,ml]"
+cd frontend && npm ci && cd ..
+# Optional: place ESP-Fi under data/raw/esp-fi-har/ (see docs/SETUP.md)
+bash scripts/dev-stack.sh start-preview
+bash scripts/dev-stack.sh status
+```
+
+Open **http://127.0.0.1:43123** (forward **43123** and **45231** in Cursor Cloud). Full details: **`docs/SETUP.md`**.
 
 ## Data
 

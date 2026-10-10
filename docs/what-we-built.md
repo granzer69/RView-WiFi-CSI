@@ -303,6 +303,7 @@ Aligned with project roadmap discussion **before** generalization study “item 
 
 | Document | Contents |
 | --- | --- |
+| **`docs/SETUP.md`** | **Clone, install, dataset, run commands, env vars, troubleshooting** |
 | `docs/project-scope.md` | Approved in/out of scope |
 | `docs/v2-engine-build-guide.md` | Splits, features, training commands |
 | `docs/v3-platform-build-guide.md` | API, WebSocket protocol, env vars, demo script |
