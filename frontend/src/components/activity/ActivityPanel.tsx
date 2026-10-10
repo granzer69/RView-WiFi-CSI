@@ -70,8 +70,11 @@ export function ActivityPanel({ meta, groundTruth, modelPrediction }: Props) {
                 </p>
               ) : (
                 <p className="text-xs text-emerald-200/90">
-                  Live inference via POST /predict (V2 RF artifact, dataset replay CSI).
+                  Live inference via WebSocket stream (preferred) or POST /predict fallback.
                 </p>
+              )}
+              {modelPrediction.presence === false && (
+                <p className="text-xs text-zinc-500">Presence: low confidence / empty scene (derived).</p>
               )}
               <p className="text-xs text-zinc-500">Version: {modelPrediction.model_version}</p>
             </>

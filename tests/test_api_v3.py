@@ -35,12 +35,23 @@ def test_health_and_models(client: TestClient):
     body = health.json()
     assert body["status"] == "ok"
     assert body["model_loaded"] is True
+    assert body.get("active_model_id")
 
     models = client.get("/models")
     assert models.status_code == 200
     payload = models.json()
     assert payload["active_model_id"]
     assert any(m["model_type"] == "random_forest" for m in payload["models"])
+    assert any(m["family"] == "rf" for m in payload["models"])
+    assert any(m["split_strategy"] == "in_domain" for m in payload["models"])
+
+
+def test_select_active_model(client: TestClient):
+    models = client.get("/models").json()
+    target = next(m for m in models["models"] if m["family"] == "rf")
+    response = client.put("/models/active", json={"model_id": target["model_id"]})
+    assert response.status_code == 200
+    assert response.json()["active_model_id"] == target["model_id"]
 
 
 @pytest.mark.skipif(not MODEL_DIR.is_dir(), reason="RF artifact missing")
@@ -72,12 +83,23 @@ def test_predict_rejects_oversized_payload(client: TestClient):
 
 
 @pytest.mark.skipif(not DATA.exists(), reason="ESP-Fi data missing")
+def test_replay_manifest_endpoint(client: TestClient):
+    response = client.get("/replay/manifest")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["session_count"] > 0
+    assert body["default_session_id"]
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="ESP-Fi data missing")
 def test_websocket_stream_predictions(client: TestClient):
     from datasets.esp_fi import discover_trials
 
     session_id = sorted(discover_trials(DATA), key=lambda r: r.session_id)[0].session_id
     with client.websocket_connect("/ws/stream") as websocket:
         websocket.send_json({"type": "open_session", "session_id": session_id})
+        status = websocket.receive_json()
+        assert status["type"] == "model_status"
         started = websocket.receive_json()
         assert started["type"] == "session_started"
         websocket.send_json({"type": "control", "action": "play", "speed": 8})

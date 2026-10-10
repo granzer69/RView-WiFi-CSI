@@ -1,4 +1,5 @@
 import { fetchModelPrediction, useApiPredictions } from '@/services/apiClient'
+import { wsReplayClient } from '@/services/wsReplayClient'
 import type { TrialReplayPayload } from '@/types/csi'
 import type { Prediction } from '@/types/prediction'
 import type {
@@ -84,7 +85,7 @@ export function buildGroundTruthEcho(meta: SessionMeta, timeIndex: number, frame
   }
 }
 
-export class LocalReplayTransport {
+export class HybridReplayTransport {
   private listeners = new Set<LocalReplayListener>()
   private manifest: ReplayManifest | null = null
   private trial: TrialReplayPayload | null = null
@@ -92,6 +93,9 @@ export class LocalReplayTransport {
   private timer: ReturnType<typeof setInterval> | null = null
   private speed: ReplaySpeed = 1
   private state: TransportState = 'idle'
+  private mode: 'websocket' | 'local' = 'local'
+  private wsReady = false
+  private frameCount = 0
 
   subscribe(listener: LocalReplayListener): () => void {
     this.listeners.add(listener)
@@ -99,12 +103,42 @@ export class LocalReplayTransport {
   }
 
   private emit(event: ReplayEvent) {
-    for (const listener of this.listeners) {
-      listener(event)
-    }
+    for (const listener of this.listeners) listener(event)
   }
 
   async loadManifest(): Promise<ReplayManifest> {
+    this.wsReady = await wsReplayClient.connect()
+    if (this.wsReady) {
+      wsReplayClient.subscribe((event) => {
+        if (event.type === 'csi_frame') {
+          this.timeIndex = event.time_index
+          this.trial = {
+            session_id: event.meta.session_id,
+            meta: event.meta,
+            time_steps: wsReplayClient.getFrameCount() || this.frameCount || 950,
+            subcarriers: event.subcarriers.length,
+            amplitude: [],
+            data_tier: 'real',
+          }
+        }
+        if (event.type === 'session_started') {
+          this.frameCount = wsReplayClient.getFrameCount()
+        }
+        this.state = wsReplayClient.getState()
+        this.emit(event)
+      })
+      this.mode = 'websocket'
+      try {
+        const res = await fetch('/api/replay/manifest')
+        if (res.ok) {
+          this.manifest = (await res.json()) as ReplayManifest
+          return this.manifest
+        }
+      } catch {
+        // fall through to static manifest
+      }
+    }
+    this.mode = 'local'
     const res = await fetch('/replay/manifest.json')
     if (!res.ok) throw new Error('ESP-Fi replay manifest not found')
     this.manifest = (await res.json()) as ReplayManifest
@@ -116,6 +150,7 @@ export class LocalReplayTransport {
   }
 
   getState(): TransportState {
+    if (this.mode === 'websocket') return wsReplayClient.getState()
     return this.state
   }
 
@@ -127,9 +162,18 @@ export class LocalReplayTransport {
     return this.trial
   }
 
+  getTransportMode(): 'websocket' | 'local' {
+    return this.mode
+  }
+
   async openSession(sessionId: string): Promise<void> {
     this.stopTimer()
     this.timeIndex = 0
+    if (this.mode === 'websocket' && wsReplayClient.isConnected()) {
+      wsReplayClient.openSession(sessionId)
+      this.state = 'paused'
+      return
+    }
     const res = await fetch(`/replay/trials/${sessionId}.json`)
     if (!res.ok) {
       this.trial = null
@@ -137,11 +181,14 @@ export class LocalReplayTransport {
       this.emit({
         type: 'error',
         message:
-          `Trial amplitude not exported for ${sessionId}. Run scripts/export_replay_manifest.py --export-trials ${sessionId}`,
+          `Trial amplitude not exported for ${sessionId}. ` +
+          `Run: python3 scripts/export_replay_manifest.py --export-trials ${sessionId} ` +
+          `or start the API with ESP-Fi at RVIEW_DATA_ROOT for WS replay.`,
       })
       return
     }
     this.trial = (await res.json()) as TrialReplayPayload
+    this.frameCount = this.trial.time_steps
     this.state = 'paused'
     this.emit({ type: 'session_started', session_id: sessionId, source: 'dataset_replay' })
     this.emitFrame()
@@ -149,12 +196,17 @@ export class LocalReplayTransport {
 
   setSpeed(speed: ReplaySpeed) {
     this.speed = speed
-    if (this.state === 'playing') {
+    if (this.state === 'playing' && this.mode === 'local') {
       this.startTimer()
     }
   }
 
   control(action: 'play' | 'pause' | 'stop' | 'restart') {
+    if (this.mode === 'websocket' && wsReplayClient.isConnected()) {
+      wsReplayClient.control(action, this.speed)
+      this.state = wsReplayClient.getState()
+      return
+    }
     if (!this.trial && action !== 'stop') return
     switch (action) {
       case 'play':
@@ -251,4 +303,4 @@ export class LocalReplayTransport {
   }
 }
 
-export const replayTransport = new LocalReplayTransport()
+export const replayTransport = new HybridReplayTransport()

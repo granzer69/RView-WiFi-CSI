@@ -251,9 +251,18 @@ Show:
 A user can start a replay session and see live predictions in the
 browser without hardware.
 
+### Approved scope change (2026-10)
+
+**V3 is the final delivery track for this repository:** software + ESP-Fi +
+replay + ML + dashboard. **V4/V5 are out of scope / not planned** unless
+the product owner reopens hardware work. See `docs/project-scope.md`.
+
 ------------------------------------------------------------------------
 
 # V4 --- ESP32 HARDWARE INTEGRATION
+
+> **Not planned** under the approved software-only scope above. Retained for
+> historical roadmap context only.
 
 ## Goal
 

@@ -25,6 +25,11 @@ def main() -> None:
         default=["1-1-2-1", "1-1-1-1"],
         help="session_ids to export full amplitude grids as JSON",
     )
+    parser.add_argument(
+        "--all-trials",
+        action="store_true",
+        help="export every discovered session (large; use for full offline replay)",
+    )
     parser.add_argument("--nominal-replay-hz", type=float, default=95.0)
     args = parser.parse_args()
 
@@ -62,7 +67,8 @@ def main() -> None:
     trials_dir = args.out / "trials"
     trials_dir.mkdir(parents=True, exist_ok=True)
     by_id = {r.session_id: r for r in records}
-    for session_id in args.export_trials:
+    export_ids = sorted(by_id) if args.all_trials else args.export_trials
+    for session_id in export_ids:
         record = by_id.get(session_id)
         if record is None:
             print(f"skip missing trial {session_id}")

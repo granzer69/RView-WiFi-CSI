@@ -1,6 +1,8 @@
 # WiFi CSI Human Activity Recognition
 
-Software-first pipeline for recognizing human activity from Wi-Fi channel state information. **V1** covers the data foundation (canonical CSI window, ESP-Fi adapter, session-grouped splits, preprocessing, simulator UI). **V2** adds leakage-checked training for classical and deep HAR models on ESP-Fi. **V3** exposes a FastAPI platform (HTTP inference + dataset replay WebSocket) and wires the simulator to real RF predictions.
+Software-first pipeline for recognizing human activity from Wi-Fi channel state information. **V1** covers the data foundation (canonical CSI window, ESP-Fi adapter, session-grouped splits, preprocessing, simulator UI). **V2** adds leakage-checked training for classical and deep HAR models on ESP-Fi. **V3** exposes a FastAPI platform (HTTP + **WebSocket replay**), model picker, evaluation dashboard, and wires the simulator to live predictions — **without hardware**.
+
+**Final scope:** software + ESP-Fi + replay + ML + dashboard only. See **`docs/project-scope.md`** (V4 ESP32 / V5 are not planned unless reopened).
 
 ## Data
 
@@ -44,6 +46,7 @@ The default preprocess config keeps each trial unchanged. Clipping, z-scoring, a
 | `src/preprocessing/` | Validation, optional MAD clip, optional z-score, in-session segments |
 | `src/csi/` | Amplitude plot and subcarrier heatmap |
 | `src/simulator/` | Dataset replay simulator (clock, session controller, `DatasetReplaySource`) |
+| `src/api/` | V3 FastAPI platform (`/health`, `/models`, `/predict`, `WS /ws/stream`) |
 | `frontend/` | Visual CSI Activity Simulator UI (Vite + React) |
 | `configs/` | Dataset, preprocess, split, and experiment settings |
 | `src/models/`, `src/training/` | V2 model ladder and experiment runners |
@@ -61,19 +64,21 @@ python3 scripts/train_logreg.py
 python3 scripts/train_rf.py
 python3 scripts/train_cnn1d.py   # PyTorch via .[ml]
 python3 scripts/train_gru.py
+python3 scripts/export_evaluation_summary.py
 ```
 
 Measured reports: `reports/v2_logreg_results.md`, `reports/v2_rf_results.md`, `reports/v2_cnn1d_results.md`, `reports/v2_gru_results.md`.
 
-## Visual CSI Activity Simulator (V1 slice)
+## Visual CSI Activity Simulator + V3 platform
 
-Software replay dashboard for ESP-Fi trials. **Real** CSI amplitude comes from exported `.mat` trials (or live Python `load_window()` in tests). **Simulated position** and **stub model predictions** are clearly labeled in the UI — no trained model yet.
+Software replay dashboard for ESP-Fi trials. **Real** CSI amplitude comes from API WebSocket replay (when ESP-Fi is on the API host) or exported trial JSON. **Simulated position** stays labeled in the UI; model predictions use the V3 API (WebSocket-first, `POST /predict` fallback).
 
 ### Frontend dev server
 
 ```bash
-# Optional: refresh manifest + demo trial JSON from local ESP-Fi archive
+# Refresh manifest + demo trials (or --all-trials for every session)
 PYTHONPATH=src python3 scripts/export_replay_manifest.py --export-trials 1-1-2-1 1-1-1-1
+python3 scripts/export_evaluation_summary.py
 
 cd frontend
 npm install
@@ -82,15 +87,25 @@ npm run dev
 
 Dev server: **http://127.0.0.1:43123** (`vite.config.ts`).
 
-| Layer | V1 status |
+| Layer | Status |
 | --- | --- |
-| CSI heatmap / timeline | **Real** rows from `frontend/public/replay/trials/*.json` (exported MAT) |
-| Session catalog | **Real** metadata in `manifest.json` (all 2240 sessions) |
-| Transport | In-browser `LocalReplayTransport` (not FastAPI/WebSocket) |
-| Model prediction card | **Stub** (`stub_v1_no_training`) for UI wiring only |
+| CSI heatmap / timeline | **Real** rows from WS replay or `frontend/public/replay/trials/*.json` |
+| Session catalog | **Real** metadata (`manifest.json` or `GET /replay/manifest`) |
+| Transport | **WebSocket `/ws/stream`** preferred; local JSON + HTTP fallback |
+| Model picker | All V2 families / split strategies via `GET/PUT /models` |
+| Evaluation | `/evaluation` page from `frontend/public/evaluation/summary.json` |
 | Spatial panel | **Simulated** (`spatial.simulated: true`) |
 
-Design: `docs/csi-activity-simulator-design.md`.
+Design: `docs/csi-activity-simulator-design.md`. Platform: `docs/v3-platform-build-guide.md`.
+
+## V3 API
+
+```bash
+python3 scripts/run_api.py          # http://127.0.0.1:45231
+cd frontend && npm run dev            # proxies /api and /ws → API
+```
+
+See **`docs/v3-platform-build-guide.md`** for endpoints, WebSocket replay, demo script, and integrity labels.
 
 ### Frontend production build check
 

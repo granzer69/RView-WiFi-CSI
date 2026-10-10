@@ -13,10 +13,56 @@ export function useApiPredictions(): boolean {
   return true
 }
 
-export async function fetchHealth(): Promise<{ model_loaded: boolean; model_path?: string }> {
+export function useWebSocketReplay(): boolean {
+  const flag = import.meta.env.VITE_USE_WS_REPLAY as string | undefined
+  if (flag === 'false' || flag === '0') return false
+  return true
+}
+
+export type ApiModelInfo = {
+  model_id: string
+  model_type: string
+  family: string
+  split_strategy: string
+  run_id: string
+  artifact_dir: string
+  label_names: string[]
+  metrics?: Record<string, unknown>
+  load_error?: string
+}
+
+export async function fetchHealth(): Promise<{
+  model_loaded: boolean
+  model_path?: string
+  active_model_id?: string
+  model_load_error?: string
+}> {
   const res = await fetch(`${apiBaseUrl()}/health`)
   if (!res.ok) throw new Error(`API health failed (${res.status})`)
-  return (await res.json()) as { model_loaded: boolean; model_path?: string }
+  return (await res.json()) as {
+    model_loaded: boolean
+    model_path?: string
+    active_model_id?: string
+    model_load_error?: string
+  }
+}
+
+export async function fetchModels(): Promise<{ active_model_id: string | null; models: ApiModelInfo[] }> {
+  const res = await fetch(`${apiBaseUrl()}/models`)
+  if (!res.ok) throw new Error(`models failed (${res.status})`)
+  return (await res.json()) as { active_model_id: string | null; models: ApiModelInfo[] }
+}
+
+export async function selectActiveModel(modelId: string): Promise<void> {
+  const res = await fetch(`${apiBaseUrl()}/models/active`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model_id: modelId }),
+  })
+  if (!res.ok) {
+    const detail = await res.text()
+    throw new Error(`select model failed (${res.status}): ${detail}`)
+  }
 }
 
 export async function fetchModelPrediction(

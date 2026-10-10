@@ -12,19 +12,29 @@ class HealthResponse(BaseModel):
     version: str = "v3"
     model_loaded: bool
     model_path: str | None = None
+    active_model_id: str | None = None
+    model_load_error: str | None = None
 
 
 class ModelInfo(BaseModel):
     model_id: str
     model_type: str
+    family: str
+    split_strategy: str
+    run_id: str
     artifact_dir: str
     label_names: list[str]
     metrics: dict[str, Any] | None = None
+    load_error: str | None = None
 
 
 class ModelsResponse(BaseModel):
     active_model_id: str | None
     models: list[ModelInfo]
+
+
+class SelectModelRequest(BaseModel):
+    model_id: str
 
 
 class PredictRequest(BaseModel):

@@ -4,6 +4,7 @@ import {
   buildGroundTruthEcho,
   replayTransport,
 } from '@/services/replayClient'
+import { wsReplayClient } from '@/services/wsReplayClient'
 import type { CsiStreamFrame } from '@/types/csi'
 import type { Prediction } from '@/types/prediction'
 import type {
@@ -25,6 +26,10 @@ export function useReplaySession() {
   const [heatmap, setHeatmap] = useState<number[][]>([])
   const [error, setError] = useState<string | null>(null)
   const [modelPrediction, setModelPrediction] = useState<Prediction | null>(null)
+  const [timeline, setTimeline] = useState<
+    Array<{ time_index: number; activity: string; confidence: number; presence: boolean }>
+  >([])
+  const [transportMode, setTransportMode] = useState<'websocket' | 'local'>('local')
 
   useEffect(() => {
     replayTransport
@@ -32,6 +37,7 @@ export function useReplaySession() {
       .then(async (m) => {
         setManifest(m)
         setSelectedId(m.default_session_id)
+        setTransportMode(replayTransport.getTransportMode())
         await replayTransport.openSession(m.default_session_id)
         setTransportState(replayTransport.getState())
       })
@@ -54,6 +60,7 @@ export function useReplaySession() {
       } else if (event.type === 'session_started') {
         setError(null)
         setHeatmap([])
+        setTimeline([])
         setTransportState(replayTransport.getState())
       } else if (event.type === 'session_ended') {
         setTransportState(replayTransport.getState())
@@ -64,10 +71,14 @@ export function useReplaySession() {
     })
   }, [])
 
+  useEffect(() => {
+    return wsReplayClient.onTimeline((entries) => setTimeline(entries))
+  }, [])
+
   const groundTruth = useMemo(() => {
     if (!frame) return null
     const trial = replayTransport.getTrial()
-    const count = trial?.time_steps ?? 950
+    const count = trial?.time_steps ?? wsReplayClient.getFrameCount() ?? 950
     return buildGroundTruthEcho(frame.meta, timeIndex, count)
   }, [frame, timeIndex])
 
@@ -119,6 +130,8 @@ export function useReplaySession() {
     groundTruth,
     modelPrediction,
     error,
+    timeline,
+    transportMode,
     openSession,
     play,
     pause,

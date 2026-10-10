@@ -62,11 +62,15 @@ class GruHarModel:
         return torch_mod.as_tensor(normed, dtype=torch_mod.float32, device=self.device)
 
     def predict(self, amplitudes: np.ndarray) -> np.ndarray:
+        proba = self.predict_proba(amplitudes)
+        return proba.argmax(axis=1)
+
+    def predict_proba(self, amplitudes: np.ndarray) -> np.ndarray:
         torch_mod = _require_torch()
         self.network.eval()
         with torch_mod.no_grad():
             logits = self.network(self._to_tensor_batch(amplitudes))
-            return logits.argmax(dim=1).cpu().numpy()
+            return torch_mod.softmax(logits, dim=1).cpu().numpy()
 
     def evaluate(self, amplitudes: np.ndarray, label_ids: np.ndarray) -> dict[str, Any]:
         predictions = self.predict(amplitudes)

@@ -1,0 +1,1183 @@
+{
+  "dataset_id": "esp-fi-har",
+  "generated_from": "artifacts/v2_*/**/metrics.json",
+  "integrity_note": "Offline evaluation on ESP-Fi. Dashboard replay uses the same dataset; presence is derived from model confidence, not hardware sensing.",
+  "models": [
+    {
+      "model_id": "v2_logreg_in_domain_20261010T045500Z",
+      "family": "logreg",
+      "split_strategy": "in_domain",
+      "run_id": "20261010T045500Z",
+      "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/in_domain",
+      "macro_f1": 0.5385289517227084,
+      "weighted_f1": 0.5385289517227084,
+      "accuracy": 0.5446428571428571,
+      "per_class_f1": {
+        "running": 0.6666666666666666,
+        "walking": 0.6865671641791045,
+        "jumping": 0.3157894736842105,
+        "squatting": 0.43636363636363634,
+        "arm_wave": 0.5217391304347826,
+        "turning": 0.5373134328358209,
+        "falling": 0.6052631578947368
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            19,
+            12,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            6,
+            23,
+            0,
+            0,
+            2,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            9,
+            4,
+            8,
+            5,
+            6
+          ],
+          [
+            0,
+            0,
+            5,
+            12,
+            4,
+            5,
+            6
+          ],
+          [
+            0,
+            0,
+            6,
+            0,
+            18,
+            5,
+            3
+          ],
+          [
+            0,
+            0,
+            3,
+            3,
+            2,
+            18,
+            6
+          ],
+          [
+            0,
+            0,
+            2,
+            4,
+            2,
+            1,
+            23
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 61125,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_logreg_cross_user_20261010T045500Z",
+      "family": "logreg",
+      "split_strategy": "cross_user",
+      "run_id": "20261010T045500Z",
+      "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/cross_user",
+      "macro_f1": 0.39737260073864566,
+      "weighted_f1": 0.3973726007386456,
+      "accuracy": 0.42857142857142855,
+      "per_class_f1": {
+        "running": 0.6597938144329897,
+        "walking": 0.2711864406779661,
+        "jumping": 0.14814814814814814,
+        "squatting": 0.2716049382716049,
+        "arm_wave": 0.5121951219512195,
+        "turning": 0.40540540540540543,
+        "falling": 0.5132743362831859
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            32,
+            8,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            20,
+            8,
+            1,
+            0,
+            8,
+            2,
+            1
+          ],
+          [
+            2,
+            0,
+            4,
+            14,
+            1,
+            3,
+            16
+          ],
+          [
+            0,
+            0,
+            3,
+            11,
+            5,
+            7,
+            14
+          ],
+          [
+            3,
+            3,
+            3,
+            4,
+            21,
+            2,
+            4
+          ],
+          [
+            0,
+            0,
+            0,
+            9,
+            7,
+            15,
+            9
+          ],
+          [
+            0,
+            0,
+            3,
+            3,
+            0,
+            5,
+            29
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 61153,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_logreg_cross_environment_20261010T045500Z",
+      "family": "logreg",
+      "split_strategy": "cross_environment",
+      "run_id": "20261010T045500Z",
+      "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/cross_environment",
+      "macro_f1": 0.25643889666161934,
+      "weighted_f1": 0.25643889666161934,
+      "accuracy": 0.26964285714285713,
+      "per_class_f1": {
+        "running": 0.34074074074074073,
+        "walking": 0.3779527559055118,
+        "jumping": 0.2011173184357542,
+        "squatting": 0.1348314606741573,
+        "arm_wave": 0.06779661016949153,
+        "turning": 0.37142857142857144,
+        "falling": 0.30120481927710846
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            23,
+            12,
+            11,
+            0,
+            1,
+            0,
+            33
+          ],
+          [
+            28,
+            24,
+            6,
+            0,
+            1,
+            0,
+            21
+          ],
+          [
+            1,
+            0,
+            18,
+            1,
+            13,
+            7,
+            40
+          ],
+          [
+            0,
+            0,
+            22,
+            6,
+            5,
+            6,
+            41
+          ],
+          [
+            1,
+            7,
+            21,
+            0,
+            4,
+            10,
+            37
+          ],
+          [
+            1,
+            1,
+            10,
+            2,
+            10,
+            26,
+            30
+          ],
+          [
+            1,
+            3,
+            11,
+            0,
+            4,
+            11,
+            50
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 61124,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_rf_in_domain_20261010T060000Z",
+      "family": "rf",
+      "split_strategy": "in_domain",
+      "run_id": "20261010T060000Z",
+      "artifact_dir": "artifacts/v2_rf/20261010T060000Z/in_domain",
+      "macro_f1": 0.7668419869166858,
+      "weighted_f1": 0.7668419869166858,
+      "accuracy": 0.7678571428571429,
+      "per_class_f1": {
+        "running": 0.819672131147541,
+        "walking": 0.8695652173913043,
+        "jumping": 0.6875,
+        "squatting": 0.7017543859649122,
+        "arm_wave": 0.78125,
+        "turning": 0.6956521739130435,
+        "falling": 0.8125
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            25,
+            7,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            30,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            22,
+            0,
+            2,
+            4,
+            3
+          ],
+          [
+            0,
+            0,
+            4,
+            20,
+            2,
+            5,
+            1
+          ],
+          [
+            0,
+            0,
+            3,
+            0,
+            25,
+            3,
+            1
+          ],
+          [
+            0,
+            0,
+            2,
+            3,
+            2,
+            24,
+            1
+          ],
+          [
+            1,
+            0,
+            1,
+            2,
+            1,
+            1,
+            26
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 17378487,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_rf_cross_user_20261010T060000Z",
+      "family": "rf",
+      "split_strategy": "cross_user",
+      "run_id": "20261010T060000Z",
+      "artifact_dir": "artifacts/v2_rf/20261010T060000Z/cross_user",
+      "macro_f1": 0.3348965896896945,
+      "weighted_f1": 0.3348965896896945,
+      "accuracy": 0.35,
+      "per_class_f1": {
+        "running": 0.5319148936170213,
+        "walking": 0.06349206349206349,
+        "jumping": 0.3611111111111111,
+        "squatting": 0.21333333333333335,
+        "arm_wave": 0.4329896907216495,
+        "turning": 0.32967032967032966,
+        "falling": 0.4117647058823529
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            25,
+            6,
+            1,
+            0,
+            4,
+            4,
+            0
+          ],
+          [
+            17,
+            2,
+            3,
+            0,
+            11,
+            7,
+            0
+          ],
+          [
+            4,
+            4,
+            13,
+            7,
+            5,
+            2,
+            5
+          ],
+          [
+            0,
+            2,
+            0,
+            8,
+            10,
+            16,
+            4
+          ],
+          [
+            8,
+            8,
+            3,
+            0,
+            21,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            5,
+            8,
+            6,
+            15,
+            5
+          ],
+          [
+            0,
+            0,
+            7,
+            12,
+            0,
+            7,
+            14
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 15934675,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_rf_cross_environment_20261010T060000Z",
+      "family": "rf",
+      "split_strategy": "cross_environment",
+      "run_id": "20261010T060000Z",
+      "artifact_dir": "artifacts/v2_rf/20261010T060000Z/cross_environment",
+      "macro_f1": 0.29124836704564366,
+      "weighted_f1": 0.29124836704564366,
+      "accuracy": 0.2982142857142857,
+      "per_class_f1": {
+        "running": 0.31155778894472363,
+        "walking": 0.35443037974683544,
+        "jumping": 0.2543352601156069,
+        "squatting": 0.1592920353982301,
+        "arm_wave": 0.272,
+        "turning": 0.3285024154589372,
+        "falling": 0.3586206896551724
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            31,
+            28,
+            5,
+            4,
+            8,
+            3,
+            1
+          ],
+          [
+            32,
+            28,
+            11,
+            2,
+            3,
+            4,
+            0
+          ],
+          [
+            8,
+            4,
+            22,
+            5,
+            10,
+            14,
+            17
+          ],
+          [
+            22,
+            2,
+            15,
+            9,
+            4,
+            26,
+            2
+          ],
+          [
+            11,
+            2,
+            17,
+            1,
+            17,
+            19,
+            13
+          ],
+          [
+            9,
+            7,
+            19,
+            5,
+            0,
+            34,
+            6
+          ],
+          [
+            6,
+            7,
+            4,
+            7,
+            3,
+            27,
+            26
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 10353446,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_cnn1d_in_domain_20261010T070000Z",
+      "family": "cnn1d",
+      "split_strategy": "in_domain",
+      "run_id": "20261010T070000Z",
+      "artifact_dir": "artifacts/v2_cnn1d/20261010T070000Z/in_domain",
+      "macro_f1": 0.441433022070603,
+      "weighted_f1": 0.441433022070603,
+      "accuracy": 0.46875,
+      "per_class_f1": {
+        "running": 0.6206896551724138,
+        "walking": 0.7761194029850746,
+        "jumping": 0.37333333333333335,
+        "squatting": 0.10526315789473684,
+        "arm_wave": 0.4631578947368421,
+        "turning": 0.4657534246575342,
+        "falling": 0.2857142857142857
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            18,
+            9,
+            3,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            5,
+            26,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            14,
+            0,
+            10,
+            7,
+            1
+          ],
+          [
+            1,
+            0,
+            7,
+            2,
+            11,
+            10,
+            1
+          ],
+          [
+            0,
+            0,
+            7,
+            0,
+            22,
+            2,
+            1
+          ],
+          [
+            1,
+            0,
+            7,
+            2,
+            4,
+            17,
+            1
+          ],
+          [
+            1,
+            0,
+            4,
+            2,
+            14,
+            5,
+            6
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 463862,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_cnn1d_cross_user_20261010T070000Z",
+      "family": "cnn1d",
+      "split_strategy": "cross_user",
+      "run_id": "20261010T070000Z",
+      "artifact_dir": "artifacts/v2_cnn1d/20261010T070000Z/cross_user",
+      "macro_f1": 0.2262790100545515,
+      "weighted_f1": 0.22627901005455153,
+      "accuracy": 0.22857142857142856,
+      "per_class_f1": {
+        "running": 0.46938775510204084,
+        "walking": 0.42105263157894735,
+        "jumping": 0.14457831325301204,
+        "squatting": 0.0425531914893617,
+        "arm_wave": 0.14432989690721648,
+        "turning": 0.28205128205128205,
+        "falling": 0.08
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            23,
+            5,
+            8,
+            0,
+            4,
+            0,
+            0
+          ],
+          [
+            28,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            6,
+            1,
+            4,
+            10,
+            17
+          ],
+          [
+            0,
+            0,
+            2,
+            1,
+            12,
+            15,
+            10
+          ],
+          [
+            0,
+            0,
+            7,
+            1,
+            7,
+            2,
+            23
+          ],
+          [
+            0,
+            0,
+            7,
+            3,
+            13,
+            11,
+            6
+          ],
+          [
+            5,
+            0,
+            13,
+            1,
+            17,
+            0,
+            4
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 463865,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_cnn1d_cross_environment_20261010T070000Z",
+      "family": "cnn1d",
+      "split_strategy": "cross_environment",
+      "run_id": "20261010T070000Z",
+      "artifact_dir": "artifacts/v2_cnn1d/20261010T070000Z/cross_environment",
+      "macro_f1": 0.2341713695650083,
+      "weighted_f1": 0.23417136956500828,
+      "accuracy": 0.26071428571428573,
+      "per_class_f1": {
+        "running": 0.367816091954023,
+        "walking": 0.375,
+        "jumping": 0.41081081081081083,
+        "squatting": 0.043478260869565216,
+        "arm_wave": 0.0,
+        "turning": 0.21292775665399238,
+        "falling": 0.22916666666666666
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            32,
+            12,
+            2,
+            0,
+            2,
+            14,
+            18
+          ],
+          [
+            46,
+            24,
+            0,
+            1,
+            0,
+            9,
+            0
+          ],
+          [
+            1,
+            0,
+            38,
+            2,
+            1,
+            23,
+            15
+          ],
+          [
+            6,
+            1,
+            16,
+            2,
+            0,
+            35,
+            20
+          ],
+          [
+            1,
+            8,
+            15,
+            0,
+            0,
+            40,
+            16
+          ],
+          [
+            1,
+            0,
+            26,
+            4,
+            0,
+            28,
+            21
+          ],
+          [
+            7,
+            3,
+            8,
+            3,
+            3,
+            34,
+            22
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 463872,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_gru_in_domain_20261010T080000Z",
+      "family": "gru",
+      "split_strategy": "in_domain",
+      "run_id": "20261010T080000Z",
+      "artifact_dir": "artifacts/v2_gru/20261010T080000Z/in_domain",
+      "macro_f1": 0.21259195830468575,
+      "weighted_f1": 0.21259195830468575,
+      "accuracy": 0.24107142857142858,
+      "per_class_f1": {
+        "running": 0.32989690721649484,
+        "walking": 0.23529411764705882,
+        "jumping": 0.27586206896551724,
+        "squatting": 0.0,
+        "arm_wave": 0.26373626373626374,
+        "turning": 0.15384615384615385,
+        "falling": 0.22950819672131148
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            16,
+            6,
+            2,
+            0,
+            7,
+            0,
+            1
+          ],
+          [
+            10,
+            8,
+            2,
+            1,
+            6,
+            0,
+            5
+          ],
+          [
+            8,
+            3,
+            8,
+            0,
+            10,
+            0,
+            3
+          ],
+          [
+            13,
+            5,
+            0,
+            0,
+            8,
+            1,
+            5
+          ],
+          [
+            5,
+            5,
+            6,
+            0,
+            12,
+            2,
+            2
+          ],
+          [
+            7,
+            3,
+            4,
+            1,
+            8,
+            3,
+            6
+          ],
+          [
+            6,
+            6,
+            4,
+            0,
+            8,
+            1,
+            7
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 97150,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_gru_cross_user_20261010T080000Z",
+      "family": "gru",
+      "split_strategy": "cross_user",
+      "run_id": "20261010T080000Z",
+      "artifact_dir": "artifacts/v2_gru/20261010T080000Z/cross_user",
+      "macro_f1": 0.13151174869195992,
+      "weighted_f1": 0.13151174869195995,
+      "accuracy": 0.21785714285714286,
+      "per_class_f1": {
+        "running": 0.3023255813953488,
+        "walking": 0.09836065573770492,
+        "jumping": 0.043478260869565216,
+        "squatting": 0.038461538461538464,
+        "arm_wave": 0.43795620437956206,
+        "turning": 0.0,
+        "falling": 0.0
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            26,
+            3,
+            0,
+            4,
+            7,
+            0,
+            0
+          ],
+          [
+            21,
+            3,
+            0,
+            2,
+            13,
+            1,
+            0
+          ],
+          [
+            22,
+            0,
+            1,
+            2,
+            12,
+            0,
+            3
+          ],
+          [
+            18,
+            7,
+            0,
+            1,
+            14,
+            0,
+            0
+          ],
+          [
+            9,
+            0,
+            1,
+            0,
+            30,
+            0,
+            0
+          ],
+          [
+            8,
+            6,
+            1,
+            3,
+            15,
+            0,
+            7
+          ],
+          [
+            28,
+            2,
+            3,
+            0,
+            6,
+            1,
+            0
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 97153,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    },
+    {
+      "model_id": "v2_gru_cross_environment_20261010T080000Z",
+      "family": "gru",
+      "split_strategy": "cross_environment",
+      "run_id": "20261010T080000Z",
+      "artifact_dir": "artifacts/v2_gru/20261010T080000Z/cross_environment",
+      "macro_f1": 0.17767875744829867,
+      "weighted_f1": 0.17767875744829864,
+      "accuracy": 0.19464285714285715,
+      "per_class_f1": {
+        "running": 0.19480519480519481,
+        "walking": 0.05042016806722689,
+        "jumping": 0.32098765432098764,
+        "squatting": 0.020833333333333332,
+        "arm_wave": 0.2978723404255319,
+        "turning": 0.18357487922705315,
+        "falling": 0.17525773195876287
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            15,
+            8,
+            6,
+            4,
+            10,
+            19,
+            18
+          ],
+          [
+            19,
+            3,
+            12,
+            2,
+            7,
+            19,
+            18
+          ],
+          [
+            7,
+            7,
+            26,
+            3,
+            14,
+            11,
+            12
+          ],
+          [
+            14,
+            9,
+            9,
+            1,
+            17,
+            17,
+            13
+          ],
+          [
+            1,
+            3,
+            6,
+            0,
+            28,
+            22,
+            20
+          ],
+          [
+            7,
+            9,
+            16,
+            1,
+            12,
+            19,
+            16
+          ],
+          [
+            11,
+            0,
+            7,
+            5,
+            20,
+            20,
+            17
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 97160,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+    }
+  ]
+}

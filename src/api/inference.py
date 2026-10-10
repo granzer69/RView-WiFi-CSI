@@ -50,9 +50,9 @@ def predict_from_amplitude(
     )
     batch = array[None, :, :]
     started = time.perf_counter()
-    proba = model.rf.predict_proba(batch)[0]
+    proba = np.asarray(model.backend.predict_proba(batch)[0], dtype=np.float64)
     class_idx = int(np.argmax(proba))
-    activity = model.rf.label_names[class_idx]
+    activity = model.label_names[class_idx]
     confidence = float(proba[class_idx])
     latency_ms = (time.perf_counter() - started) * 1000.0
 
@@ -60,7 +60,9 @@ def predict_from_amplitude(
     total = frame_count if frame_count is not None else max(array.shape[0], 1)
     progress = idx / (total - 1) if total > 1 else 0.0
 
-    probabilities = {name: float(proba[i]) for i, name in enumerate(model.rf.label_names)}
+    probabilities = {name: float(proba[i]) for i, name in enumerate(model.label_names)}
+
+    presence = confidence >= 0.2 or activity not in {"empty", "none", "background"}
 
     return {
         "activity": activity,
@@ -70,7 +72,7 @@ def predict_from_amplitude(
         "environment_id": environment_id,
         "latency_ms": round(latency_ms, 3),
         "source": "model",
-        "presence": True,
+        "presence": presence,
         "probabilities": probabilities,
         "model_version": model.version_label,
         "spatial": simulated_spatial(progress, activity),

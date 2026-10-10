@@ -1,7 +1,11 @@
+import { useState } from 'react'
+
 import { ActivityPanel } from '@/components/activity/ActivityPanel'
 import { CsiHeatmap } from '@/components/csi/CsiHeatmap'
 import { CsiTimeline } from '@/components/csi/CsiTimeline'
 import { IntegrityLegend } from '@/components/layout/IntegrityLegend'
+import { ModelPicker } from '@/components/model/ModelPicker'
+import { ModelStatusCard } from '@/components/model/ModelStatusCard'
 import { SessionPicker, SourceChip } from '@/components/session/SessionPicker'
 import { TransportControls } from '@/components/session/TransportControls'
 import { SimulatedFloorPlan } from '@/components/spatial/SimulatedFloorPlan'
@@ -11,6 +15,7 @@ import { replayTransport } from '@/services/replayClient'
 import { TIME_STEPS } from '@/types/csi'
 
 export function LiveSensingPage() {
+  const [pickerError, setPickerError] = useState<string | null>(null)
   const {
     manifest,
     sessions,
@@ -23,6 +28,8 @@ export function LiveSensingPage() {
     groundTruth,
     modelPrediction,
     error,
+    timeline,
+    transportMode,
     openSession,
     play,
     pause,
@@ -34,25 +41,27 @@ export function LiveSensingPage() {
   const trial = replayTransport.getTrial()
   const totalSteps = trial?.time_steps ?? TIME_STEPS
   const meta = frame?.meta ?? trial?.meta ?? null
-  const disabled = !trial
+  const disabled = transportMode === 'local' && !trial
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:p-6">
       <header className="flex flex-col gap-2 border-b border-zinc-800 pb-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Visual CSI Activity Simulator</h1>
-          <p className="text-sm text-zinc-400">R-View WiFi CSI · software-first replay (V1)</p>
+          <p className="text-sm text-zinc-400">R-View WiFi CSI · V3 software platform (no hardware)</p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-500">Source</span>
           <SourceChip />
-          <span className="text-xs text-zinc-600">V3 API · RF in_domain (dataset replay CSI)</span>
+          <span className="text-xs text-zinc-600">
+            Transport: {transportMode === 'websocket' ? 'WS /ws/stream' : 'local JSON + HTTP'}
+          </span>
         </div>
       </header>
 
-      {error && (
+      {(error || pickerError) && (
         <div className="rounded-md border border-red-800 bg-red-950/40 px-3 py-2 text-sm text-red-200">
-          {error}
+          {error ?? pickerError}
         </div>
       )}
 
@@ -63,6 +72,7 @@ export function LiveSensingPage() {
             selectedId={selectedId}
             onSelect={(id) => void openSession(id)}
           />
+          <ModelPicker onError={setPickerError} />
           <TransportControls
             state={transportState}
             speed={speed}
@@ -108,13 +118,27 @@ export function LiveSensingPage() {
               />
             </TabsContent>
 
-            <TabsContent value="system">
+            <TabsContent value="system" className="space-y-4">
+              <ModelStatusCard />
+              {timeline.length > 0 && (
+                <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 text-sm">
+                  <p className="mb-2 text-xs uppercase tracking-wide text-zinc-500">Session timeline (WS)</p>
+                  <ul className="max-h-40 space-y-1 overflow-y-auto text-xs text-zinc-400">
+                    {timeline.map((entry) => (
+                      <li key={entry.time_index}>
+                        t={entry.time_index} · {entry.activity} · {(entry.confidence * 100).toFixed(0)}%
+                        {entry.presence ? '' : ' · no presence'}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4 text-sm text-zinc-300">
                 <ul className="list-disc space-y-1 pl-5 text-zinc-400">
-                  <li>Transport: LocalReplayTransport (in-browser, manifest + exported trials)</li>
+                  <li>Transport: {transportMode === 'websocket' ? 'WebSocket /ws/stream (preferred)' : 'Local trials + HTTP fallback'}</li>
                   <li>Dataset: {manifest?.dataset_id ?? 'esp-fi-har'} · {manifest?.session_count ?? '—'} sessions in manifest</li>
                   <li>Nominal replay: {manifest?.nominal_replay_hz ?? 95} Hz (config only)</li>
-                  <li>Python simulator: src/simulator/ · V3 API: src/api/ (POST /predict, WS /ws/stream)</li>
+                  <li>API: src/api/ · PUT /models/active · GET /replay/manifest when ESP-Fi present</li>
                 </ul>
               </div>
             </TabsContent>
