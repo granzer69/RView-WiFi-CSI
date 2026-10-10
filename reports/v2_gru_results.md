@@ -13,11 +13,11 @@ Build guide: `docs/v2-engine-build-guide.md`.
 
 | Strategy | Accuracy | Macro-F1 | Weighted-F1 |
 | --- | ---: | ---: | ---: |
-| `in_domain` | 0.2143 | 0.2126 | 0.2126 |
-| `cross_user` | 0.1357 | 0.1315 | 0.1315 |
-| `cross_environment` | 0.1839 | 0.1777 | 0.1777 |
+| `in_domain` | 0.2411 | 0.2126 | 0.2126 |
+| `cross_user` | 0.2179 | 0.1315 | 0.1315 |
+| `cross_environment` | 0.1946 | 0.1777 | 0.1777 |
 
-Training wall time per strategy: see `metrics.json` per strategy folder.
+Training wall time per strategy: in_domain 91s, cross_user 84s, cross_environment 65s.
 
 ## Observations
 
