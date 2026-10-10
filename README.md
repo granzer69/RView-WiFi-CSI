@@ -43,5 +43,40 @@ The default preprocess config keeps each trial unchanged. Clipping, z-scoring, a
 | `src/datasets/` | ESP-Fi adapter, grouped splits, leakage check, closed gates for the other two datasets |
 | `src/preprocessing/` | Validation, optional MAD clip, optional z-score, in-session segments |
 | `src/csi/` | Amplitude plot and subcarrier heatmap |
+| `src/simulator/` | Dataset replay simulator (clock, session controller, `DatasetReplaySource`) |
+| `frontend/` | Visual CSI Activity Simulator UI (Vite + React) |
 | `configs/` | Dataset, preprocess, and split settings |
 | `reports/` | Measured inspection output |
+
+## Visual CSI Activity Simulator (V1 slice)
+
+Software replay dashboard for ESP-Fi trials. **Real** CSI amplitude comes from exported `.mat` trials (or live Python `load_window()` in tests). **Simulated position** and **stub model predictions** are clearly labeled in the UI — no trained model yet.
+
+### Frontend dev server
+
+```bash
+# Optional: refresh manifest + demo trial JSON from local ESP-Fi archive
+PYTHONPATH=src python3 scripts/export_replay_manifest.py --export-trials 1-1-2-1 1-1-1-1
+
+cd frontend
+npm install
+npm run dev
+```
+
+Dev server: **http://127.0.0.1:43123** (`vite.config.ts`).
+
+| Layer | V1 status |
+| --- | --- |
+| CSI heatmap / timeline | **Real** rows from `frontend/public/replay/trials/*.json` (exported MAT) |
+| Session catalog | **Real** metadata in `manifest.json` (all 2240 sessions) |
+| Transport | In-browser `LocalReplayTransport` (not FastAPI/WebSocket) |
+| Model prediction card | **Stub** (`stub_v1_no_training`) for UI wiring only |
+| Spatial panel | **Simulated** (`spatial.simulated: true`) |
+
+Design: `docs/csi-activity-simulator-design.md`.
+
+### Frontend production build check
+
+```bash
+cd frontend && npm run build
+```

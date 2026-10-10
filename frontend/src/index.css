@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --color-real-border: oklch(0.55 0.12 145);
+  --color-sim-amber: oklch(0.75 0.15 75);
+  --color-model-blue: oklch(0.55 0.14 250);
+}
+
+body {
+  @apply min-h-screen bg-zinc-950 text-zinc-100 antialiased;
+}
