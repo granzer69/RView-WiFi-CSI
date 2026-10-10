@@ -15,6 +15,7 @@ import type {
 } from '@/types/session'
 
 const HEATMAP_HISTORY = 120
+const PREDICTION_HISTORY = 40
 
 export function useReplaySession() {
   const [manifest, setManifest] = useState<ReplayManifest | null>(null)
@@ -26,6 +27,9 @@ export function useReplaySession() {
   const [heatmap, setHeatmap] = useState<number[][]>([])
   const [error, setError] = useState<string | null>(null)
   const [modelPrediction, setModelPrediction] = useState<Prediction | null>(null)
+  const [predictionHistory, setPredictionHistory] = useState<
+    Array<Prediction & { time_index: number; ground_truth?: string }>
+  >([])
   const [timeline, setTimeline] = useState<
     Array<{ time_index: number; activity: string; confidence: number; presence: boolean }>
   >([])
@@ -56,11 +60,23 @@ export function useReplaySession() {
         setTransportState(replayTransport.getState())
       } else if (event.type === 'prediction') {
         setModelPrediction(event.payload)
+        setPredictionHistory((prev) => {
+          const trial = replayTransport.getTrial()
+          const gtLabel = trial?.meta?.normalized_label
+          const entry = {
+            ...event.payload,
+            time_index: replayTransport.getTimeIndex(),
+            ground_truth: gtLabel,
+          }
+          const next = [...prev, entry]
+          return next.length > PREDICTION_HISTORY ? next.slice(-PREDICTION_HISTORY) : next
+        })
         setTransportState(replayTransport.getState())
       } else if (event.type === 'session_started') {
         setError(null)
         setHeatmap([])
         setTimeline([])
+        setPredictionHistory([])
         setTransportState(replayTransport.getState())
       } else if (event.type === 'session_ended') {
         setTransportState(replayTransport.getState())
@@ -109,6 +125,7 @@ export function useReplaySession() {
     setTransportState(replayTransport.getState())
     setTimeIndex(0)
     setHeatmap([])
+    setPredictionHistory([])
   }, [])
 
   const changeSpeed = useCallback((s: ReplaySpeed) => {
@@ -129,6 +146,7 @@ export function useReplaySession() {
     heatmap,
     groundTruth,
     modelPrediction,
+    predictionHistory,
     error,
     timeline,
     transportMode,

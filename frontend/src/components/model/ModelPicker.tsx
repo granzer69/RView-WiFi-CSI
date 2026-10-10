@@ -5,11 +5,18 @@ import { Button } from '@/components/ui/button'
 import { fetchModels, selectActiveModel } from '@/services/apiClient'
 import { wsReplayClient } from '@/services/wsReplayClient'
 
-type Props = {
-  onError?: (message: string) => void
+type ModelSummary = {
+  model_id: string
+  family: string
+  split_strategy: string
 }
 
-export function ModelPicker({ onError }: Props) {
+type Props = {
+  onError?: (message: string) => void
+  onActiveModelChange?: (info: ModelSummary) => void
+}
+
+export function ModelPicker({ onError, onActiveModelChange }: Props) {
   const [models, setModels] = useState<
     Array<{
       model_id: string
@@ -26,11 +33,20 @@ export function ModelPicker({ onError }: Props) {
     try {
       const payload = await fetchModels()
       setModels(payload.models)
-      setActiveId(payload.active_model_id ?? '')
+      const nextId = payload.active_model_id ?? ''
+      setActiveId(nextId)
+      const active = payload.models.find((m) => m.model_id === nextId)
+      if (active) {
+        onActiveModelChange?.({
+          model_id: active.model_id,
+          family: active.family,
+          split_strategy: active.split_strategy,
+        })
+      }
     } catch (err) {
       onError?.(err instanceof Error ? err.message : 'Failed to load models')
     }
-  }, [onError])
+  }, [onError, onActiveModelChange])
 
   useEffect(() => {
     void refresh()

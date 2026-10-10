@@ -11,10 +11,13 @@ export function CsiTimeline({ timeIndex, totalSteps, label }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Timeline</CardTitle>
+        <CardTitle className="text-sm">Replay progress</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        <div className="relative h-8 rounded bg-zinc-800">
+        <div
+          className="relative h-8 rounded bg-zinc-800"
+          title="Progress only — seeking is not available on this transport"
+        >
           <div
             className="absolute inset-y-0 left-0 rounded bg-emerald-700/50"
             style={{ width: `${progress * 100}%` }}

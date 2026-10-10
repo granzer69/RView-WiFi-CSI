@@ -8,6 +8,7 @@ type Props = {
   state: TransportState
   speed: ReplaySpeed
   disabled?: boolean
+  disabledReason?: string
   onPlay: () => void
   onPause: () => void
   onStop: () => void
@@ -19,6 +20,7 @@ export function TransportControls({
   state,
   speed,
   disabled,
+  disabledReason,
   onPlay,
   onPause,
   onStop,
@@ -28,6 +30,11 @@ export function TransportControls({
   const playing = state === 'playing'
   return (
     <div className="flex flex-col gap-3">
+      {disabled && disabledReason && (
+        <p className="rounded border border-amber-800/50 bg-amber-950/20 px-2 py-1.5 text-xs text-amber-100">
+          {disabledReason}
+        </p>
+      )}
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
