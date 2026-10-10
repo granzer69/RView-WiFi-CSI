@@ -16,8 +16,10 @@ export default defineConfig({
     // 0.0.0.0 so Cursor can detect and forward the port to the in-app browser.
     host: '0.0.0.0',
     allowedHosts: true,
+    // Cursor forwards localhost:43123 on your machine → VM:43123; pin asset URLs to that origin.
+    origin: 'http://127.0.0.1:43123',
     hmr: {
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 43123,
       clientPort: 43123,
       protocol: 'ws',
