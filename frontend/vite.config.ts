@@ -13,7 +13,15 @@ export default defineConfig({
   server: {
     port: 43123,
     strictPort: true,
-    host: '127.0.0.1',
+    // 0.0.0.0 so Cursor can detect and forward the port to the in-app browser.
+    host: '0.0.0.0',
+    allowedHosts: true,
+    hmr: {
+      host: 'localhost',
+      port: 43123,
+      clientPort: 43123,
+      protocol: 'ws',
+    },
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:45231',

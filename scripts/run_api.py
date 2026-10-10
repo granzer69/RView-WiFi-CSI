@@ -9,7 +9,7 @@ import uvicorn
 def main() -> None:
     uvicorn.run(
         "api.main:app",
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=45231,
         reload=False,
         factory=False,

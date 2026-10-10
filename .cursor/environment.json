@@ -1,0 +1,8 @@
+{
+  "install": "python3 -m pip install -e \".[dev,ml]\" && cd frontend && npm ci",
+  "start": "bash scripts/start-cursor-dev.sh",
+  "ports": [
+    { "name": "web", "port": 43123 },
+    { "name": "api", "port": 45231 }
+  ]
+}
