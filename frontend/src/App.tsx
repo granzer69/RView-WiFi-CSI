@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { WorkspaceShell } from '@/components/layout/WorkspaceShell'
 import { EvaluationPage } from '@/pages/EvaluationPage'
 import { LiveSensingPage } from '@/pages/LiveSensingPage'
+import { ResearchLabPage } from '@/pages/ResearchLabPage'
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LiveSensingPage />} />
         <Route path="/evaluation" element={<EvaluationPage />} />
+        <Route path="/research" element={<ResearchLabPage />} />
       </Routes>
     </WorkspaceShell>
   )

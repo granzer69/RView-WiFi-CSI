@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-10-11T15:35:55.704148+00:00",
+  "status": "not_evaluated",
+  "reason": null,
+  "protocol": "In-domain personalization (when evaluated): calibrate on each participant's train sessions only; evaluate on that participant's test sessions. cross_user personalization is blocked because held-out users do not appear in training.",
+  "methodology_note": "Personalization A/B (global vs participant-calibrated) is documented but not executed in this export. Use in-domain train/test session disjoint sets.",
+  "cross_user_personalization": "blocked",
+  "in_domain_personalization": "not_evaluated"
+}

@@ -51,6 +51,14 @@ def main() -> None:
                 metrics = json.loads(metrics_path.read_text())
                 test = metrics.get("test") or {}
                 per_class = test.get("per_class") or {}
+                macro_precisions = [s.get("precision") for s in per_class.values() if s.get("precision") is not None]
+                macro_recalls = [s.get("recall") for s in per_class.values() if s.get("recall") is not None]
+                macro_precision = test.get("macro_precision")
+                if macro_precision is None and macro_precisions:
+                    macro_precision = sum(macro_precisions) / len(macro_precisions)
+                macro_recall = test.get("macro_recall")
+                if macro_recall is None and macro_recalls:
+                    macro_recall = sum(macro_recalls) / len(macro_recalls)
                 confusion = test.get("confusion_matrix")
                 models.append(
                     {
@@ -60,10 +68,19 @@ def main() -> None:
                         "run_id": run_dir.name,
                         "artifact_dir": str(strategy_dir.relative_to(REPO_ROOT)),
                         "macro_f1": test.get("macro_f1"),
+                        "macro_precision": macro_precision,
+                        "macro_recall": macro_recall,
                         "weighted_f1": test.get("weighted_f1"),
                         "accuracy": test.get("accuracy"),
+                        "per_class": per_class,
                         "per_class_f1": {
                             name: stats.get("f1") for name, stats in per_class.items()
+                        },
+                        "per_class_precision": {
+                            name: stats.get("precision") for name, stats in per_class.items()
+                        },
+                        "per_class_recall": {
+                            name: stats.get("recall") for name, stats in per_class.items()
                         },
                         "confusion_matrix": confusion,
                         "latency_ms": _latency_ms(metrics),

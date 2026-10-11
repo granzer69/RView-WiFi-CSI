@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -97,6 +99,23 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
         except Exception as exc:  # noqa: BLE001
             raise HTTPException(status_code=503, detail=str(exc)) from exc
         return list_models()
+
+    def _read_research_json(filename: str) -> dict:
+        path = cfg.repo_root / "frontend" / "public" / "research" / filename
+        if not path.is_file():
+            raise HTTPException(
+                status_code=404,
+                detail=f"Research export missing: {path}. Run scripts/export_research_lab.py",
+            )
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    @application.get("/research/generalization")
+    def research_generalization() -> dict:
+        return _read_research_json("generalization.json")
+
+    @application.get("/research/participants")
+    def research_participants() -> dict:
+        return _read_research_json("participants.json")
 
     @application.get("/replay/manifest")
     def replay_manifest() -> dict:

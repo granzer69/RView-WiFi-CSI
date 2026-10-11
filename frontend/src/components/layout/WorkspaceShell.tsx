@@ -43,6 +43,9 @@ export function WorkspaceShell({ children }: Props) {
             <NavLink to="/evaluation" className={navLinkClass}>
               Evaluation
             </NavLink>
+            <NavLink to="/research" className={navLinkClass}>
+              Research Lab
+            </NavLink>
           </nav>
         </div>
       </header>
@@ -52,6 +55,8 @@ export function WorkspaceShell({ children }: Props) {
           <Link to="/" className="hover:text-zinc-400">Sensing</Link>
           <span className="mx-2">·</span>
           <Link to="/evaluation" className="hover:text-zinc-400">Evaluation laboratory</Link>
+          <span className="mx-2">·</span>
+          <Link to="/research" className="hover:text-zinc-400">Research lab</Link>
         </div>
       </footer>
     </div>

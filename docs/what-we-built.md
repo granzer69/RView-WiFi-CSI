@@ -209,6 +209,7 @@ Key modules: `src/api/main.py`, `inference.py`, `model_registry.py`, `replay_str
 | **SPATIAL** | Top-down floor plan — **simulated** (`spatial.simulated: true`) |
 | **SYSTEM** | Model status, transport hints |
 | **Evaluation** (`/evaluation`) | Offline metrics from exported summary JSON |
+| **Research Lab** (`/research`) | Generalization gaps, participant test metrics, personalization protocol |
 | **Model picker** | Switch logreg / RF / CNN / GRU and split strategy via API |
 
 Proxy: `frontend/vite.config.ts` forwards `/api` and `/ws` to `127.0.0.1:45231`.
@@ -221,6 +222,8 @@ python3 -m pip install -e ".[dev,ml]"
 bash scripts/dev-stack.sh start-preview   # recommended for Cursor internal browser
 bash scripts/dev-stack.sh status
 python3 scripts/export_evaluation_summary.py   # refresh /evaluation data
+python3 scripts/export_research_lab.py         # refresh /research generalization JSON
+python3 scripts/export_participant_profiles.py # refresh participant + personalization JSON
 ```
 
 **Cursor Cloud:** Forward **43123** (UI) and **45231** (API); open internal browser via Forwarded Ports **globe** on 43123. See `docs/cursor-in-app-browser.md` (Vite dev HMR is disabled for forwarding; `start-preview` serves a production bundle for stability).
@@ -247,8 +250,9 @@ python3 scripts/export_evaluation_summary.py   # refresh /evaluation data
 | `scripts/` | Inspect, train, export, `run_api.py`, `dev-stack.sh` |
 | `artifacts/` | Trained models (versioned run IDs) |
 | `reports/` | Measured experiment and inspection markdown |
-| `tests/` | 47 pytest tests |
-| `docs/` | Scope, build guides, this document |
+| `src/research/` | Generalization gaps, participant profiling helpers |
+| `tests/` | Pytest suite (includes `test_research_*.py`) |
+| `docs/` | Scope, build guides, research lab methodology, this document |
 
 ---
 
