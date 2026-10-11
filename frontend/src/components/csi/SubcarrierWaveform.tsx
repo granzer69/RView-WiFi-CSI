@@ -3,12 +3,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SUBCARRIERS } from '@/types/csi'
 
 type Props = {
-  subcarriers: number[] | null
-  timeIndex: number
+  subcarriers?: number[] | null
+  timeIndex?: number
+  /** Explorer mode: amplitude vs sample index for one subcarrier */
+  values?: number[]
+  subcarrierIndex?: number
 }
 
-export function SubcarrierWaveform({ subcarriers, timeIndex }: Props) {
-  const values = subcarriers ?? []
+export function SubcarrierWaveform({
+  subcarriers = null,
+  timeIndex = 0,
+  values: timeSeries,
+  subcarrierIndex,
+}: Props) {
+  const values = timeSeries ?? subcarriers ?? []
   const n = values.length || SUBCARRIERS
   const min = values.length ? Math.min(...values) : 0
   const max = values.length ? Math.max(...values) : 1
@@ -32,9 +40,15 @@ export function SubcarrierWaveform({ subcarriers, timeIndex }: Props) {
     <Card className="border-signal surface-card">
       <CardHeader className="pb-2">
         <CardTitle className="flex flex-wrap items-center gap-2 text-sm">
-          Subcarrier waveform
+          {timeSeries ? 'Subcarrier time series' : 'Subcarrier waveform'}
           <Badge variant="real">REAL DATA</Badge>
-          <span className="text-xs font-normal text-zinc-500">frame t={timeIndex}</span>
+          {timeSeries ? (
+            <span className="text-xs font-normal text-zinc-500">
+              subcarrier {subcarrierIndex ?? 0} · raw amplitude
+            </span>
+          ) : (
+            <span className="text-xs font-normal text-zinc-500">frame t={timeIndex}</span>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -48,7 +62,11 @@ export function SubcarrierWaveform({ subcarriers, timeIndex }: Props) {
             viewBox={`0 0 ${width} ${height}`}
             className="w-full rounded border border-zinc-800 bg-zinc-900/50"
             role="img"
-            aria-label={`Amplitude across ${values.length} subcarriers`}
+            aria-label={
+              timeSeries
+                ? `Amplitude across ${values.length} samples`
+                : `Amplitude across ${values.length} subcarriers`
+            }
           >
             <polyline
               fill="none"

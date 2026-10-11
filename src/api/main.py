@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.config import ApiSettings, settings
@@ -12,13 +12,35 @@ from api.inference import predict_from_amplitude
 from api.model_registry import ModelRegistry
 from api.replay_manifest import build_manifest
 from api.replay_stream import ReplayStreamSession
+from api.explorer_service import (
+    build_catalog,
+    compare_trials,
+    slice_amplitude,
+    subcarrier_waveform,
+    trial_detail,
+    trial_prediction,
+)
 from api.schemas import (
+    AmplitudeSliceResponse,
+    ExplorerCatalogResponse,
+    ExperimentRunRequest,
+    ExperimentRunResponse,
     HealthResponse,
     ModelInfo,
     ModelsResponse,
     PredictRequest,
     PredictionResponse,
     SelectModelRequest,
+)
+from api.workbench import (
+    compare_runs,
+    experiment_schema,
+    get_run,
+    list_runs,
+    load_run_metrics,
+    preview_config,
+    start_run_async,
+    validate_run_request,
 )
 from common.errors import DatasetError
 
@@ -155,6 +177,135 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
     async def stream(websocket: WebSocket) -> None:
         session = ReplayStreamSession(websocket, cfg, registry)
         await session.run()
+
+    @application.get("/explorer/catalog", response_model=ExplorerCatalogResponse)
+    def explorer_catalog() -> ExplorerCatalogResponse:
+        try:
+            payload = build_catalog(cfg.data_root)
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        return ExplorerCatalogResponse(**payload)
+
+    @application.get("/explorer/trials/{session_id}")
+    def explorer_trial(session_id: str) -> dict:
+        try:
+            return trial_detail(cfg.data_root, session_id)
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    @application.get("/explorer/trials/{session_id}/amplitude", response_model=AmplitudeSliceResponse)
+    def explorer_amplitude(
+        session_id: str,
+        row_start: int = Query(0, ge=0),
+        row_end: int | None = Query(None, ge=1),
+        max_rows: int = Query(950, ge=1, le=950),
+        subcarrier_start: int = Query(0, ge=0),
+        subcarrier_end: int | None = Query(None, ge=1),
+    ) -> AmplitudeSliceResponse:
+        try:
+            payload = slice_amplitude(
+                cfg.data_root,
+                session_id,
+                row_start=row_start,
+                row_end=row_end,
+                max_rows=max_rows,
+                subcarrier_start=subcarrier_start,
+                subcarrier_end=subcarrier_end,
+            )
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        return AmplitudeSliceResponse(**payload)
+
+    @application.get("/explorer/trials/{session_id}/subcarrier/{subcarrier_index}")
+    def explorer_subcarrier(session_id: str, subcarrier_index: int) -> dict:
+        try:
+            return subcarrier_waveform(cfg.data_root, session_id, subcarrier_index)
+        except DatasetError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    @application.get("/explorer/compare")
+    def explorer_compare(session_a: str = Query(...), session_b: str = Query(...)) -> dict:
+        try:
+            return compare_trials(cfg.data_root, session_a, session_b)
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    @application.get("/explorer/trials/{session_id}/prediction")
+    def explorer_prediction(
+        session_id: str,
+        model_id: str | None = None,
+    ) -> dict:
+        try:
+            return trial_prediction(
+                cfg.data_root,
+                registry,
+                session_id,
+                model_id=model_id,
+                max_rows=cfg.max_amplitude_rows,
+                max_subcarriers=cfg.max_subcarriers,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    @application.get("/experiments/schema")
+    def experiments_schema() -> dict:
+        return experiment_schema()
+
+    @application.get("/experiments/runs")
+    def experiments_list_runs() -> dict:
+        return {"runs": list_runs(cfg.repo_root)}
+
+    @application.get("/experiments/runs/{run_id}")
+    def experiments_get_run(run_id: str) -> dict:
+        run = get_run(cfg.repo_root, run_id)
+        if not run:
+            raise HTTPException(status_code=404, detail=f"unknown run_id: {run_id}")
+        return run
+
+    @application.get("/experiments/runs/{run_id}/metrics")
+    def experiments_run_metrics(run_id: str, strategy: str = Query("in_domain")) -> dict:
+        try:
+            return load_run_metrics(cfg.repo_root, run_id, strategy)
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    @application.post("/experiments/runs", response_model=ExperimentRunResponse)
+    def experiments_start_run(body: ExperimentRunRequest) -> ExperimentRunResponse:
+        try:
+            validated = validate_run_request(
+                body.model_dump(),
+                data_root=cfg.data_root,
+                repo_root=cfg.repo_root,
+            )
+        except DatasetError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        if body.preview_only:
+            return ExperimentRunResponse(
+                run_id=validated["run_id"],
+                family=validated["family"],
+                status="preview",
+                preview=preview_config(validated),
+            )
+        entry = start_run_async(cfg.repo_root, validated)
+        return ExperimentRunResponse(
+            run_id=entry["run_id"],
+            family=entry["family"],
+            status=entry["status"],
+            artifacts_dir=entry.get("artifacts_dir"),
+        )
+
+    @application.post("/experiments/compare")
+    def experiments_compare(body: dict) -> dict:
+        run_ids = body.get("run_ids") or []
+        strategy = body.get("strategy") or "in_domain"
+        if not run_ids:
+            raise HTTPException(status_code=422, detail="run_ids required")
+        try:
+            return compare_runs(cfg.repo_root, list(run_ids), strategy)
+        except DatasetError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     return application
 
