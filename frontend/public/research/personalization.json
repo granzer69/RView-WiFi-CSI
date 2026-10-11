@@ -291,7 +291,7 @@
       ]
     }
   ],
-  "limitations": "Classical families (logreg, rf) only; deep models not adapted. Aggregate means are unweighted across participants. Not a biometric identification claim.",
+  "limitations": "Classical families (logreg, rf) only; deep models not adapted. Aggregate means are unweighted across participants. Global baseline classifiers were trained on the full in-domain train partition, including each participant's calibration sessions; this is not leave-one-user-out or evidence of unseen-user adaptation. For family=logreg, the personalized arm is also logistic regression on the same frozen features. Not a biometric identification claim.",
   "git_sha": "c75d0e5e9434d087c90a7051c7966aa23126252c",
   "baseline_run_ids": {
     "logreg": "20261010T045500Z",
