@@ -52,12 +52,37 @@ type ParticipantsPayload = {
   methodology?: string
 }
 
+type PersonalizationParticipant = {
+  user_id: number
+  status: string
+  calibration_session_count?: number
+  evaluation_session_count?: number
+  general?: { macro_f1: number; accuracy: number }
+  personalized?: { macro_f1: number; accuracy: number }
+  macro_f1_delta?: number
+  adaptation_method?: string
+}
+
+type PersonalizationExperiment = {
+  family: string
+  run_id: string
+  split_strategy: string
+  aggregate?: {
+    mean_macro_f1_general?: number | null
+    mean_macro_f1_personalized?: number | null
+    mean_macro_f1_delta?: number | null
+    participants_evaluated?: number
+  }
+  participants: PersonalizationParticipant[]
+}
+
 type PersonalizationPayload = {
   status: string
   protocol?: string
-  methodology_note?: string
+  limitations?: string
   cross_user_personalization?: string
   in_domain_personalization?: string
+  experiments?: PersonalizationExperiment[]
 }
 
 const STRATEGIES = ['in_domain', 'cross_user', 'cross_environment'] as const
@@ -267,23 +292,59 @@ export function ResearchLabPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="personalization" className="mt-4">
+          <TabsContent value="personalization" className="mt-4 space-y-4">
             <Card className="surface-card border-zinc-800">
               <CardHeader>
                 <CardTitle className="text-sm flex items-center gap-2">
-                  Personalization protocol
+                  In-domain personalization A/B
                   <Badge variant="neutral">{personalization?.status ?? 'unknown'}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-sm text-zinc-400">
                 <p>{personalization?.protocol}</p>
-                <p>{personalization?.methodology_note}</p>
+                <p>{personalization?.limitations}</p>
                 <p>
                   cross_user: {personalization?.cross_user_personalization} · in_domain:{' '}
                   {personalization?.in_domain_personalization}
                 </p>
               </CardContent>
             </Card>
+            {personalization?.experiments?.map((exp) => (
+              <Card key={exp.family} className="surface-card border-zinc-800">
+                <CardHeader>
+                  <CardTitle className="text-sm flex items-center gap-2">
+                    {exp.family}
+                    <Badge variant="model">{exp.split_strategy}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {exp.aggregate && (
+                    <p className="text-xs text-zinc-400">
+                      Mean macro-F1 general {exp.aggregate.mean_macro_f1_general?.toFixed(3) ?? '—'} →
+                      personalized {exp.aggregate.mean_macro_f1_personalized?.toFixed(3) ?? '—'} (Δ{' '}
+                      {exp.aggregate.mean_macro_f1_delta?.toFixed(3) ?? '—'}) ·{' '}
+                      {exp.aggregate.participants_evaluated} participants
+                    </p>
+                  )}
+                  <div className="grid gap-2 sm:grid-cols-4">
+                    {exp.participants
+                      .filter((p) => p.status === 'ok')
+                      .map((p) => (
+                        <div key={p.user_id} className="rounded border border-zinc-800 p-2 text-xs">
+                          <p className="text-[10px] uppercase text-zinc-500">Participant {p.user_id}</p>
+                          <p className="text-zinc-300">
+                            G {p.general?.macro_f1?.toFixed(3)} / P {p.personalized?.macro_f1?.toFixed(3)}
+                          </p>
+                          <p className="text-signal-cyan">Δ {p.macro_f1_delta?.toFixed(3)}</p>
+                          <p className="text-[10px] text-zinc-600">
+                            cal {p.calibration_session_count} · eval {p.evaluation_session_count}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </TabsContent>
 
           <TabsContent value="experiments" className="mt-4 space-y-4">

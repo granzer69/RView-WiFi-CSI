@@ -19,6 +19,7 @@ from research.participant import (
     build_participant_overview,
     check_esp_fi_available,
 )
+from research.personalization import run_in_domain_personalization_ab
 
 
 def _git_sha() -> str | None:
@@ -80,23 +81,13 @@ def build_participants_payload(repo_root: Path) -> dict:
 
 
 def build_personalization_payload(repo_root: Path) -> dict:
-    availability = check_esp_fi_available(repo_root)
-    timestamp = datetime.now(timezone.utc).isoformat()
-    status = "blocked" if not availability.present else "not_evaluated"
-    reason = availability.reason if not availability.present else None
-
-    return {
-        "generated_at": timestamp,
-        "status": status,
-        "reason": reason,
-        "protocol": PERSONALIZATION_PROTOCOL,
-        "methodology_note": (
-            "Personalization A/B (global vs participant-calibrated) is documented but "
-            "not executed in this export. Use in-domain train/test session disjoint sets."
-        ),
-        "cross_user_personalization": "blocked",
-        "in_domain_personalization": "not_evaluated",
-    }
+    payload = run_in_domain_personalization_ab(repo_root)
+    git_sha = _git_sha()
+    payload["git_sha"] = git_sha
+    payload["baseline_run_ids"] = dict(BASELINE_RUN_IDS)
+    if "protocol" not in payload or len(payload.get("protocol", "")) < 20:
+        payload["protocol"] = PERSONALIZATION_PROTOCOL
+    return payload
 
 
 def main() -> None:

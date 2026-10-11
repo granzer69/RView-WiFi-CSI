@@ -17,7 +17,9 @@
 
 - **In-domain protocol:** Calibrate on each participant's **train** sessions; evaluate on that participant's **test** sessions (session-disjoint).
 - **cross_user:** Personalization blocked — held-out users do not appear in training.
-- **Export status:** `personalization.json` uses `not_evaluated` until an A/B personalization script is implemented.
+- **In-domain personalization:** For each participant, a `LogisticRegression` calibrator is fit on **train-split** sessions using features from the **frozen** baseline classical extractor; evaluation uses **test-split** sessions only. Compared against the frozen global classifier on the same test sessions. Families: `logreg`, `rf`. Seed: `42`.
+- **cross_user personalization:** **blocked** (held-out users absent from training).
+- Regenerate: `python3 scripts/export_participant_profiles.py` → `personalization.json`.
 
 ## Leakage rules
 

@@ -1,9 +1,302 @@
 {
-  "generated_at": "2026-10-11T15:35:55.704148+00:00",
-  "status": "not_evaluated",
-  "reason": null,
-  "protocol": "In-domain personalization (when evaluated): calibrate on each participant's train sessions only; evaluate on that participant's test sessions. cross_user personalization is blocked because held-out users do not appear in training.",
-  "methodology_note": "Personalization A/B (global vs participant-calibrated) is documented but not executed in this export. Use in-domain train/test session disjoint sets.",
+  "generated_at": "2026-10-11T15:42:50.265299+00:00",
+  "status": "completed",
+  "protocol": "In-domain: per participant, fit LogisticRegression on train-split sessions (features from frozen baseline extractor); evaluate on test-split sessions. Compare to frozen global baseline classifier on the same test sessions.",
   "cross_user_personalization": "blocked",
-  "in_domain_personalization": "not_evaluated"
+  "in_domain_personalization": "completed",
+  "calibrator_seed": 42,
+  "experiments": [
+    {
+      "family": "logreg",
+      "run_id": "20261010T045500Z",
+      "split_strategy": "in_domain",
+      "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/in_domain",
+      "aggregate": {
+        "mean_macro_f1_general": 0.5244047619047618,
+        "mean_macro_f1_personalized": 0.7005333951762522,
+        "mean_macro_f1_delta": 0.176129,
+        "participants_evaluated": 8
+      },
+      "participants": [
+        {
+          "user_id": 1,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.6037414965986393,
+            "accuracy": 0.6071428571428571
+          },
+          "personalized": {
+            "macro_f1": 0.8109977324263039,
+            "accuracy": 0.8214285714285714
+          },
+          "macro_f1_delta": 0.207256,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 2,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.502195423623995,
+            "accuracy": 0.5357142857142857
+          },
+          "personalized": {
+            "macro_f1": 0.5028756957328386,
+            "accuracy": 0.5357142857142857
+          },
+          "macro_f1_delta": 0.00068,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 3,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.3488971346114203,
+            "accuracy": 0.39285714285714285
+          },
+          "personalized": {
+            "macro_f1": 0.5857142857142856,
+            "accuracy": 0.6071428571428571
+          },
+          "macro_f1_delta": 0.236817,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 4,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.5595650381364666,
+            "accuracy": 0.5714285714285714
+          },
+          "personalized": {
+            "macro_f1": 0.7534013605442177,
+            "accuracy": 0.75
+          },
+          "macro_f1_delta": 0.193836,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 5,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.4984126984126984,
+            "accuracy": 0.5
+          },
+          "personalized": {
+            "macro_f1": 0.7117089259946402,
+            "accuracy": 0.7142857142857143
+          },
+          "macro_f1_delta": 0.213296,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 6,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.6645124716553289,
+            "accuracy": 0.6785714285714286
+          },
+          "personalized": {
+            "macro_f1": 0.8117913832199546,
+            "accuracy": 0.8214285714285714
+          },
+          "macro_f1_delta": 0.147279,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 7,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.5360544217687074,
+            "accuracy": 0.5714285714285714
+          },
+          "personalized": {
+            "macro_f1": 0.7826530612244899,
+            "accuracy": 0.7857142857142857
+          },
+          "macro_f1_delta": 0.246599,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        },
+        {
+          "user_id": 8,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.4818594104308391,
+            "accuracy": 0.5
+          },
+          "personalized": {
+            "macro_f1": 0.645124716553288,
+            "accuracy": 0.6428571428571429
+          },
+          "macro_f1_delta": 0.163265,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=logreg, extractor not refit)"
+        }
+      ]
+    },
+    {
+      "family": "rf",
+      "run_id": "20261010T060000Z",
+      "split_strategy": "in_domain",
+      "artifact_dir": "artifacts/v2_rf/20261010T060000Z/in_domain",
+      "aggregate": {
+        "mean_macro_f1_general": 0.7605532364460936,
+        "mean_macro_f1_personalized": 0.7005333951762522,
+        "mean_macro_f1_delta": -0.06002,
+        "participants_evaluated": 8
+      },
+      "participants": [
+        {
+          "user_id": 1,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.7236136878994023,
+            "accuracy": 0.7142857142857143
+          },
+          "personalized": {
+            "macro_f1": 0.8109977324263039,
+            "accuracy": 0.8214285714285714
+          },
+          "macro_f1_delta": 0.087384,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 2,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.5095238095238096,
+            "accuracy": 0.5714285714285714
+          },
+          "personalized": {
+            "macro_f1": 0.5028756957328386,
+            "accuracy": 0.5357142857142857
+          },
+          "macro_f1_delta": -0.006648,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 3,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.6276643990929706,
+            "accuracy": 0.6428571428571429
+          },
+          "personalized": {
+            "macro_f1": 0.5857142857142856,
+            "accuracy": 0.6071428571428571
+          },
+          "macro_f1_delta": -0.04195,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 4,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.8917233560090702,
+            "accuracy": 0.8928571428571429
+          },
+          "personalized": {
+            "macro_f1": 0.7534013605442177,
+            "accuracy": 0.75
+          },
+          "macro_f1_delta": -0.138322,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 5,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.8599773242630384,
+            "accuracy": 0.8571428571428571
+          },
+          "personalized": {
+            "macro_f1": 0.7117089259946402,
+            "accuracy": 0.7142857142857143
+          },
+          "macro_f1_delta": -0.148268,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 6,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.8282312925170068,
+            "accuracy": 0.8214285714285714
+          },
+          "personalized": {
+            "macro_f1": 0.8117913832199546,
+            "accuracy": 0.8214285714285714
+          },
+          "macro_f1_delta": -0.01644,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 7,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.8204493918779635,
+            "accuracy": 0.8214285714285714
+          },
+          "personalized": {
+            "macro_f1": 0.7826530612244899,
+            "accuracy": 0.7857142857142857
+          },
+          "macro_f1_delta": -0.037796,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        },
+        {
+          "user_id": 8,
+          "status": "ok",
+          "calibration_session_count": 224,
+          "evaluation_session_count": 28,
+          "general": {
+            "macro_f1": 0.8232426303854875,
+            "accuracy": 0.8214285714285714
+          },
+          "personalized": {
+            "macro_f1": 0.645124716553288,
+            "accuracy": 0.6428571428571429
+          },
+          "macro_f1_delta": -0.178118,
+          "adaptation_method": "logistic_regression on frozen classical features (baseline family=rf, extractor not refit)"
+        }
+      ]
+    }
+  ],
+  "limitations": "Classical families (logreg, rf) only; deep models not adapted. Aggregate means are unweighted across participants. Not a biometric identification claim.",
+  "git_sha": "c75d0e5e9434d087c90a7051c7966aa23126252c",
+  "baseline_run_ids": {
+    "logreg": "20261010T045500Z",
+    "rf": "20261010T060000Z",
+    "cnn1d": "20261010T070000Z",
+    "gru": "20261010T080000Z"
+  }
 }
