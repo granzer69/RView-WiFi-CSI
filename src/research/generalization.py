@@ -19,6 +19,10 @@ BASELINE_RUN_IDS: dict[str, str] = {
     "gru": "20261010T080000Z",
 }
 
+# Pin extended-family runs after training (same protocol as baselines). When empty,
+# extended_metrics_entries() uses the newest complete run under artifacts/v2_<family>/.
+EXTENDED_RUN_IDS: dict[str, str] = {}
+
 
 @dataclass(frozen=True)
 class BaselineMetricsRef:
@@ -62,19 +66,33 @@ def load_metrics_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _run_dir_candidates(repo_root: Path, family: str) -> list[Path]:
+    family_dir = repo_root / "artifacts" / f"v2_{family}"
+    if not family_dir.is_dir():
+        return []
+    pinned = EXTENDED_RUN_IDS.get(family)
+    if pinned:
+        pinned_dir = family_dir / pinned
+        if pinned_dir.is_dir():
+            rest = sorted(
+                [p for p in family_dir.iterdir() if p.is_dir() and p.name != pinned],
+                key=lambda p: p.name,
+                reverse=True,
+            )
+            return [pinned_dir, *rest]
+    return sorted(
+        [p for p in family_dir.iterdir() if p.is_dir()],
+        key=lambda p: p.name,
+        reverse=True,
+    )
+
+
 def _latest_run_metrics_entries(
     repo_root: Path,
     family: str,
 ) -> list[dict[str, Any]]:
     """Metrics for the newest run directory under artifacts/v2_<family> that has strategy folders."""
-    family_dir = repo_root / "artifacts" / f"v2_{family}"
-    if not family_dir.is_dir():
-        return []
-    run_dirs = sorted(
-        [p for p in family_dir.iterdir() if p.is_dir()],
-        key=lambda p: p.name,
-        reverse=True,
-    )
+    run_dirs = _run_dir_candidates(repo_root, family)
     for run_dir in run_dirs:
         refs: list[dict[str, Any]] = []
         for strategy in STRATEGIES:
@@ -107,11 +125,14 @@ def extended_metrics_entries(repo_root: Path | None = None) -> list[dict[str, An
     entries = baseline_metrics_entries(root)
     seen = {(e["family"], e["run_id"]) for e in entries}
     for family in EXTENDED_FAMILIES:
-        for item in _latest_run_metrics_entries(root, family):
-            key = (item["family"], item["run_id"])
-            if key not in seen:
-                entries.append(item)
-                seen.add(key)
+        batch = _latest_run_metrics_entries(root, family)
+        if not batch:
+            continue
+        key = (family, batch[0]["run_id"])
+        if key in seen:
+            continue
+        entries.extend(batch)
+        seen.add(key)
     return entries
 
 
