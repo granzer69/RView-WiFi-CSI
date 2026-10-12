@@ -1,21 +1,22 @@
 {
   "dataset_id": "esp-fi-har",
-  "generated_at": "2026-10-11T15:35:27.821423+00:00",
-  "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+  "generated_at": "2026-10-12T06:51:31.139036+00:00",
+  "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
   "baseline_run_ids": {
     "logreg": "20261010T045500Z",
     "rf": "20261010T060000Z",
     "cnn1d": "20261010T070000Z",
     "gru": "20261010T080000Z"
   },
+  "extended_run_ids": {},
   "provenance": {
-    "source": "artifacts/v2_*/<baseline_run_id>/<strategy>/metrics.json",
-    "note": "All metrics read from frozen baseline artifacts; gaps are in_domain_macro_f1 - strategy_macro_f1."
+    "source": "artifacts/v2_*/<run_id>/<strategy>/metrics.json",
+    "note": "Frozen baseline run IDs for logreg/rf/cnn1d/gru; extended families ['mlp', 'gbdt', 'tcn'] use EXTENDED_RUN_IDS when set, else newest complete run."
   },
   "strategies": [
     "cross_environment",
-    "cross_user",
-    "in_domain"
+    "in_domain",
+    "cross_user"
   ],
   "models": [
     {
@@ -2326,8 +2327,8 @@
   "experiments": [
     {
       "run_id": "20261010T045500Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "in_domain",
       "assignment_sha256": "6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da",
       "artifact_path": "artifacts/v2_logreg/20261010T045500Z/in_domain",
@@ -2338,8 +2339,8 @@
     },
     {
       "run_id": "20261010T045500Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_user",
       "assignment_sha256": "ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72",
       "artifact_path": "artifacts/v2_logreg/20261010T045500Z/cross_user",
@@ -2350,8 +2351,8 @@
     },
     {
       "run_id": "20261010T045500Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_environment",
       "assignment_sha256": "00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8",
       "artifact_path": "artifacts/v2_logreg/20261010T045500Z/cross_environment",
@@ -2362,8 +2363,8 @@
     },
     {
       "run_id": "20261010T060000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "in_domain",
       "assignment_sha256": "6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da",
       "artifact_path": "artifacts/v2_rf/20261010T060000Z/in_domain",
@@ -2374,8 +2375,8 @@
     },
     {
       "run_id": "20261010T060000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_user",
       "assignment_sha256": "ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72",
       "artifact_path": "artifacts/v2_rf/20261010T060000Z/cross_user",
@@ -2386,8 +2387,8 @@
     },
     {
       "run_id": "20261010T060000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_environment",
       "assignment_sha256": "00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8",
       "artifact_path": "artifacts/v2_rf/20261010T060000Z/cross_environment",
@@ -2398,8 +2399,8 @@
     },
     {
       "run_id": "20261010T070000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "in_domain",
       "assignment_sha256": "6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da",
       "artifact_path": "artifacts/v2_cnn1d/20261010T070000Z/in_domain",
@@ -2410,8 +2411,8 @@
     },
     {
       "run_id": "20261010T070000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_user",
       "assignment_sha256": "ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72",
       "artifact_path": "artifacts/v2_cnn1d/20261010T070000Z/cross_user",
@@ -2422,8 +2423,8 @@
     },
     {
       "run_id": "20261010T070000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_environment",
       "assignment_sha256": "00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8",
       "artifact_path": "artifacts/v2_cnn1d/20261010T070000Z/cross_environment",
@@ -2434,8 +2435,8 @@
     },
     {
       "run_id": "20261010T080000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "in_domain",
       "assignment_sha256": "6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da",
       "artifact_path": "artifacts/v2_gru/20261010T080000Z/in_domain",
@@ -2446,8 +2447,8 @@
     },
     {
       "run_id": "20261010T080000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_user",
       "assignment_sha256": "ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72",
       "artifact_path": "artifacts/v2_gru/20261010T080000Z/cross_user",
@@ -2458,8 +2459,8 @@
     },
     {
       "run_id": "20261010T080000Z",
-      "timestamp": "2026-10-11T15:35:27.821423+00:00",
-      "git_sha": "3f59fe2111f7c736381cc27fc2c1e43fc837d201",
+      "timestamp": "2026-10-12T06:51:31.139036+00:00",
+      "git_sha": "49573895af66f8e9adf96d290da35109019a40a4",
       "split_strategy": "cross_environment",
       "assignment_sha256": "00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8",
       "artifact_path": "artifacts/v2_gru/20261010T080000Z/cross_environment",

@@ -10,8 +10,54 @@
       "run_id": "20261010T045500Z",
       "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/in_domain",
       "macro_f1": 0.5385289517227084,
+      "macro_precision": 0.5460544944395876,
+      "macro_recall": 0.5446428571428571,
       "weighted_f1": 0.5385289517227084,
       "accuracy": 0.5446428571428571,
+      "per_class": {
+        "running": {
+          "precision": 0.76,
+          "recall": 0.59375,
+          "f1": 0.6666666666666666,
+          "support": 32
+        },
+        "walking": {
+          "precision": 0.6571428571428571,
+          "recall": 0.71875,
+          "f1": 0.6865671641791045,
+          "support": 32
+        },
+        "jumping": {
+          "precision": 0.36,
+          "recall": 0.28125,
+          "f1": 0.3157894736842105,
+          "support": 32
+        },
+        "squatting": {
+          "precision": 0.5217391304347826,
+          "recall": 0.375,
+          "f1": 0.43636363636363634,
+          "support": 32
+        },
+        "arm_wave": {
+          "precision": 0.4864864864864865,
+          "recall": 0.5625,
+          "f1": 0.5217391304347826,
+          "support": 32
+        },
+        "turning": {
+          "precision": 0.5142857142857142,
+          "recall": 0.5625,
+          "f1": 0.5373134328358209,
+          "support": 32
+        },
+        "falling": {
+          "precision": 0.5227272727272727,
+          "recall": 0.71875,
+          "f1": 0.6052631578947368,
+          "support": 32
+        }
+      },
       "per_class_f1": {
         "running": 0.6666666666666666,
         "walking": 0.6865671641791045,
@@ -20,6 +66,24 @@
         "arm_wave": 0.5217391304347826,
         "turning": 0.5373134328358209,
         "falling": 0.6052631578947368
+      },
+      "per_class_precision": {
+        "running": 0.76,
+        "walking": 0.6571428571428571,
+        "jumping": 0.36,
+        "squatting": 0.5217391304347826,
+        "arm_wave": 0.4864864864864865,
+        "turning": 0.5142857142857142,
+        "falling": 0.5227272727272727
+      },
+      "per_class_recall": {
+        "running": 0.59375,
+        "walking": 0.71875,
+        "jumping": 0.28125,
+        "squatting": 0.375,
+        "arm_wave": 0.5625,
+        "turning": 0.5625,
+        "falling": 0.71875
       },
       "confusion_matrix": {
         "labels": [
@@ -108,8 +172,54 @@
       "run_id": "20261010T045500Z",
       "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/cross_user",
       "macro_f1": 0.39737260073864566,
+      "macro_precision": 0.41069997907897576,
+      "macro_recall": 0.42857142857142855,
       "weighted_f1": 0.3973726007386456,
       "accuracy": 0.42857142857142855,
+      "per_class": {
+        "running": {
+          "precision": 0.5614035087719298,
+          "recall": 0.8,
+          "f1": 0.6597938144329897,
+          "support": 40
+        },
+        "walking": {
+          "precision": 0.42105263157894735,
+          "recall": 0.2,
+          "f1": 0.2711864406779661,
+          "support": 40
+        },
+        "jumping": {
+          "precision": 0.2857142857142857,
+          "recall": 0.1,
+          "f1": 0.14814814814814814,
+          "support": 40
+        },
+        "squatting": {
+          "precision": 0.2682926829268293,
+          "recall": 0.275,
+          "f1": 0.2716049382716049,
+          "support": 40
+        },
+        "arm_wave": {
+          "precision": 0.5,
+          "recall": 0.525,
+          "f1": 0.5121951219512195,
+          "support": 40
+        },
+        "turning": {
+          "precision": 0.4411764705882353,
+          "recall": 0.375,
+          "f1": 0.40540540540540543,
+          "support": 40
+        },
+        "falling": {
+          "precision": 0.3972602739726027,
+          "recall": 0.725,
+          "f1": 0.5132743362831859,
+          "support": 40
+        }
+      },
       "per_class_f1": {
         "running": 0.6597938144329897,
         "walking": 0.2711864406779661,
@@ -118,6 +228,24 @@
         "arm_wave": 0.5121951219512195,
         "turning": 0.40540540540540543,
         "falling": 0.5132743362831859
+      },
+      "per_class_precision": {
+        "running": 0.5614035087719298,
+        "walking": 0.42105263157894735,
+        "jumping": 0.2857142857142857,
+        "squatting": 0.2682926829268293,
+        "arm_wave": 0.5,
+        "turning": 0.4411764705882353,
+        "falling": 0.3972602739726027
+      },
+      "per_class_recall": {
+        "running": 0.8,
+        "walking": 0.2,
+        "jumping": 0.1,
+        "squatting": 0.275,
+        "arm_wave": 0.525,
+        "turning": 0.375,
+        "falling": 0.725
       },
       "confusion_matrix": {
         "labels": [
@@ -206,8 +334,54 @@
       "run_id": "20261010T045500Z",
       "artifact_dir": "artifacts/v2_logreg/20261010T045500Z/cross_environment",
       "macro_f1": 0.25643889666161934,
+      "macro_precision": 0.35918773631139655,
+      "macro_recall": 0.26964285714285713,
       "weighted_f1": 0.25643889666161934,
       "accuracy": 0.26964285714285713,
+      "per_class": {
+        "running": {
+          "precision": 0.41818181818181815,
+          "recall": 0.2875,
+          "f1": 0.34074074074074073,
+          "support": 80
+        },
+        "walking": {
+          "precision": 0.5106382978723404,
+          "recall": 0.3,
+          "f1": 0.3779527559055118,
+          "support": 80
+        },
+        "jumping": {
+          "precision": 0.18181818181818182,
+          "recall": 0.225,
+          "f1": 0.2011173184357542,
+          "support": 80
+        },
+        "squatting": {
+          "precision": 0.6666666666666666,
+          "recall": 0.075,
+          "f1": 0.1348314606741573,
+          "support": 80
+        },
+        "arm_wave": {
+          "precision": 0.10526315789473684,
+          "recall": 0.05,
+          "f1": 0.06779661016949153,
+          "support": 80
+        },
+        "turning": {
+          "precision": 0.43333333333333335,
+          "recall": 0.325,
+          "f1": 0.37142857142857144,
+          "support": 80
+        },
+        "falling": {
+          "precision": 0.1984126984126984,
+          "recall": 0.625,
+          "f1": 0.30120481927710846,
+          "support": 80
+        }
+      },
       "per_class_f1": {
         "running": 0.34074074074074073,
         "walking": 0.3779527559055118,
@@ -216,6 +390,24 @@
         "arm_wave": 0.06779661016949153,
         "turning": 0.37142857142857144,
         "falling": 0.30120481927710846
+      },
+      "per_class_precision": {
+        "running": 0.41818181818181815,
+        "walking": 0.5106382978723404,
+        "jumping": 0.18181818181818182,
+        "squatting": 0.6666666666666666,
+        "arm_wave": 0.10526315789473684,
+        "turning": 0.43333333333333335,
+        "falling": 0.1984126984126984
+      },
+      "per_class_recall": {
+        "running": 0.2875,
+        "walking": 0.3,
+        "jumping": 0.225,
+        "squatting": 0.075,
+        "arm_wave": 0.05,
+        "turning": 0.325,
+        "falling": 0.625
       },
       "confusion_matrix": {
         "labels": [
@@ -304,8 +496,54 @@
       "run_id": "20261010T060000Z",
       "artifact_dir": "artifacts/v2_rf/20261010T060000Z/in_domain",
       "macro_f1": 0.7668419869166858,
+      "macro_precision": 0.7718254892823858,
+      "macro_recall": 0.7678571428571429,
       "weighted_f1": 0.7668419869166858,
       "accuracy": 0.7678571428571429,
+      "per_class": {
+        "running": {
+          "precision": 0.8620689655172413,
+          "recall": 0.78125,
+          "f1": 0.819672131147541,
+          "support": 32
+        },
+        "walking": {
+          "precision": 0.8108108108108109,
+          "recall": 0.9375,
+          "f1": 0.8695652173913043,
+          "support": 32
+        },
+        "jumping": {
+          "precision": 0.6875,
+          "recall": 0.6875,
+          "f1": 0.6875,
+          "support": 32
+        },
+        "squatting": {
+          "precision": 0.8,
+          "recall": 0.625,
+          "f1": 0.7017543859649122,
+          "support": 32
+        },
+        "arm_wave": {
+          "precision": 0.78125,
+          "recall": 0.78125,
+          "f1": 0.78125,
+          "support": 32
+        },
+        "turning": {
+          "precision": 0.6486486486486487,
+          "recall": 0.75,
+          "f1": 0.6956521739130435,
+          "support": 32
+        },
+        "falling": {
+          "precision": 0.8125,
+          "recall": 0.8125,
+          "f1": 0.8125,
+          "support": 32
+        }
+      },
       "per_class_f1": {
         "running": 0.819672131147541,
         "walking": 0.8695652173913043,
@@ -313,6 +551,24 @@
         "squatting": 0.7017543859649122,
         "arm_wave": 0.78125,
         "turning": 0.6956521739130435,
+        "falling": 0.8125
+      },
+      "per_class_precision": {
+        "running": 0.8620689655172413,
+        "walking": 0.8108108108108109,
+        "jumping": 0.6875,
+        "squatting": 0.8,
+        "arm_wave": 0.78125,
+        "turning": 0.6486486486486487,
+        "falling": 0.8125
+      },
+      "per_class_recall": {
+        "running": 0.78125,
+        "walking": 0.9375,
+        "jumping": 0.6875,
+        "squatting": 0.625,
+        "arm_wave": 0.78125,
+        "turning": 0.75,
         "falling": 0.8125
       },
       "confusion_matrix": {
@@ -402,8 +658,54 @@
       "run_id": "20261010T060000Z",
       "artifact_dir": "artifacts/v2_rf/20261010T060000Z/cross_user",
       "macro_f1": 0.3348965896896945,
+      "macro_precision": 0.33532565899484634,
+      "macro_recall": 0.35000000000000003,
       "weighted_f1": 0.3348965896896945,
       "accuracy": 0.35,
+      "per_class": {
+        "running": {
+          "precision": 0.46296296296296297,
+          "recall": 0.625,
+          "f1": 0.5319148936170213,
+          "support": 40
+        },
+        "walking": {
+          "precision": 0.08695652173913043,
+          "recall": 0.05,
+          "f1": 0.06349206349206349,
+          "support": 40
+        },
+        "jumping": {
+          "precision": 0.40625,
+          "recall": 0.325,
+          "f1": 0.3611111111111111,
+          "support": 40
+        },
+        "squatting": {
+          "precision": 0.22857142857142856,
+          "recall": 0.2,
+          "f1": 0.21333333333333335,
+          "support": 40
+        },
+        "arm_wave": {
+          "precision": 0.3684210526315789,
+          "recall": 0.525,
+          "f1": 0.4329896907216495,
+          "support": 40
+        },
+        "turning": {
+          "precision": 0.29411764705882354,
+          "recall": 0.375,
+          "f1": 0.32967032967032966,
+          "support": 40
+        },
+        "falling": {
+          "precision": 0.5,
+          "recall": 0.35,
+          "f1": 0.4117647058823529,
+          "support": 40
+        }
+      },
       "per_class_f1": {
         "running": 0.5319148936170213,
         "walking": 0.06349206349206349,
@@ -412,6 +714,24 @@
         "arm_wave": 0.4329896907216495,
         "turning": 0.32967032967032966,
         "falling": 0.4117647058823529
+      },
+      "per_class_precision": {
+        "running": 0.46296296296296297,
+        "walking": 0.08695652173913043,
+        "jumping": 0.40625,
+        "squatting": 0.22857142857142856,
+        "arm_wave": 0.3684210526315789,
+        "turning": 0.29411764705882354,
+        "falling": 0.5
+      },
+      "per_class_recall": {
+        "running": 0.625,
+        "walking": 0.05,
+        "jumping": 0.325,
+        "squatting": 0.2,
+        "arm_wave": 0.525,
+        "turning": 0.375,
+        "falling": 0.35
       },
       "confusion_matrix": {
         "labels": [
@@ -500,8 +820,54 @@
       "run_id": "20261010T060000Z",
       "artifact_dir": "artifacts/v2_rf/20261010T060000Z/cross_environment",
       "macro_f1": 0.29124836704564366,
+      "macro_precision": 0.3106084694825855,
+      "macro_recall": 0.2982142857142857,
       "weighted_f1": 0.29124836704564366,
       "accuracy": 0.2982142857142857,
+      "per_class": {
+        "running": {
+          "precision": 0.2605042016806723,
+          "recall": 0.3875,
+          "f1": 0.31155778894472363,
+          "support": 80
+        },
+        "walking": {
+          "precision": 0.358974358974359,
+          "recall": 0.35,
+          "f1": 0.35443037974683544,
+          "support": 80
+        },
+        "jumping": {
+          "precision": 0.23655913978494625,
+          "recall": 0.275,
+          "f1": 0.2543352601156069,
+          "support": 80
+        },
+        "squatting": {
+          "precision": 0.2727272727272727,
+          "recall": 0.1125,
+          "f1": 0.1592920353982301,
+          "support": 80
+        },
+        "arm_wave": {
+          "precision": 0.37777777777777777,
+          "recall": 0.2125,
+          "f1": 0.272,
+          "support": 80
+        },
+        "turning": {
+          "precision": 0.2677165354330709,
+          "recall": 0.425,
+          "f1": 0.3285024154589372,
+          "support": 80
+        },
+        "falling": {
+          "precision": 0.4,
+          "recall": 0.325,
+          "f1": 0.3586206896551724,
+          "support": 80
+        }
+      },
       "per_class_f1": {
         "running": 0.31155778894472363,
         "walking": 0.35443037974683544,
@@ -510,6 +876,24 @@
         "arm_wave": 0.272,
         "turning": 0.3285024154589372,
         "falling": 0.3586206896551724
+      },
+      "per_class_precision": {
+        "running": 0.2605042016806723,
+        "walking": 0.358974358974359,
+        "jumping": 0.23655913978494625,
+        "squatting": 0.2727272727272727,
+        "arm_wave": 0.37777777777777777,
+        "turning": 0.2677165354330709,
+        "falling": 0.4
+      },
+      "per_class_recall": {
+        "running": 0.3875,
+        "walking": 0.35,
+        "jumping": 0.275,
+        "squatting": 0.1125,
+        "arm_wave": 0.2125,
+        "turning": 0.425,
+        "falling": 0.325
       },
       "confusion_matrix": {
         "labels": [
@@ -598,8 +982,54 @@
       "run_id": "20261010T070000Z",
       "artifact_dir": "artifacts/v2_cnn1d/20261010T070000Z/in_domain",
       "macro_f1": 0.441433022070603,
+      "macro_precision": 0.4939885799135455,
+      "macro_recall": 0.46875,
       "weighted_f1": 0.441433022070603,
       "accuracy": 0.46875,
+      "per_class": {
+        "running": {
+          "precision": 0.6923076923076923,
+          "recall": 0.5625,
+          "f1": 0.6206896551724138,
+          "support": 32
+        },
+        "walking": {
+          "precision": 0.7428571428571429,
+          "recall": 0.8125,
+          "f1": 0.7761194029850746,
+          "support": 32
+        },
+        "jumping": {
+          "precision": 0.32558139534883723,
+          "recall": 0.4375,
+          "f1": 0.37333333333333335,
+          "support": 32
+        },
+        "squatting": {
+          "precision": 0.3333333333333333,
+          "recall": 0.0625,
+          "f1": 0.10526315789473684,
+          "support": 32
+        },
+        "arm_wave": {
+          "precision": 0.3492063492063492,
+          "recall": 0.6875,
+          "f1": 0.4631578947368421,
+          "support": 32
+        },
+        "turning": {
+          "precision": 0.4146341463414634,
+          "recall": 0.53125,
+          "f1": 0.4657534246575342,
+          "support": 32
+        },
+        "falling": {
+          "precision": 0.6,
+          "recall": 0.1875,
+          "f1": 0.2857142857142857,
+          "support": 32
+        }
+      },
       "per_class_f1": {
         "running": 0.6206896551724138,
         "walking": 0.7761194029850746,
@@ -608,6 +1038,24 @@
         "arm_wave": 0.4631578947368421,
         "turning": 0.4657534246575342,
         "falling": 0.2857142857142857
+      },
+      "per_class_precision": {
+        "running": 0.6923076923076923,
+        "walking": 0.7428571428571429,
+        "jumping": 0.32558139534883723,
+        "squatting": 0.3333333333333333,
+        "arm_wave": 0.3492063492063492,
+        "turning": 0.4146341463414634,
+        "falling": 0.6
+      },
+      "per_class_recall": {
+        "running": 0.5625,
+        "walking": 0.8125,
+        "jumping": 0.4375,
+        "squatting": 0.0625,
+        "arm_wave": 0.6875,
+        "turning": 0.53125,
+        "falling": 0.1875
       },
       "confusion_matrix": {
         "labels": [
@@ -696,8 +1144,54 @@
       "run_id": "20261010T070000Z",
       "artifact_dir": "artifacts/v2_cnn1d/20261010T070000Z/cross_user",
       "macro_f1": 0.2262790100545515,
+      "macro_precision": 0.2662533531540333,
+      "macro_recall": 0.22857142857142856,
       "weighted_f1": 0.22627901005455153,
       "accuracy": 0.22857142857142856,
+      "per_class": {
+        "running": {
+          "precision": 0.39655172413793105,
+          "recall": 0.575,
+          "f1": 0.46938775510204084,
+          "support": 40
+        },
+        "walking": {
+          "precision": 0.7058823529411765,
+          "recall": 0.3,
+          "f1": 0.42105263157894735,
+          "support": 40
+        },
+        "jumping": {
+          "precision": 0.13953488372093023,
+          "recall": 0.15,
+          "f1": 0.14457831325301204,
+          "support": 40
+        },
+        "squatting": {
+          "precision": 0.14285714285714285,
+          "recall": 0.025,
+          "f1": 0.0425531914893617,
+          "support": 40
+        },
+        "arm_wave": {
+          "precision": 0.12280701754385964,
+          "recall": 0.175,
+          "f1": 0.14432989690721648,
+          "support": 40
+        },
+        "turning": {
+          "precision": 0.2894736842105263,
+          "recall": 0.275,
+          "f1": 0.28205128205128205,
+          "support": 40
+        },
+        "falling": {
+          "precision": 0.06666666666666667,
+          "recall": 0.1,
+          "f1": 0.08,
+          "support": 40
+        }
+      },
       "per_class_f1": {
         "running": 0.46938775510204084,
         "walking": 0.42105263157894735,
@@ -706,6 +1200,24 @@
         "arm_wave": 0.14432989690721648,
         "turning": 0.28205128205128205,
         "falling": 0.08
+      },
+      "per_class_precision": {
+        "running": 0.39655172413793105,
+        "walking": 0.7058823529411765,
+        "jumping": 0.13953488372093023,
+        "squatting": 0.14285714285714285,
+        "arm_wave": 0.12280701754385964,
+        "turning": 0.2894736842105263,
+        "falling": 0.06666666666666667
+      },
+      "per_class_recall": {
+        "running": 0.575,
+        "walking": 0.3,
+        "jumping": 0.15,
+        "squatting": 0.025,
+        "arm_wave": 0.175,
+        "turning": 0.275,
+        "falling": 0.1
       },
       "confusion_matrix": {
         "labels": [
@@ -794,8 +1306,54 @@
       "run_id": "20261010T070000Z",
       "artifact_dir": "artifacts/v2_cnn1d/20261010T070000Z/cross_environment",
       "macro_f1": 0.2341713695650083,
+      "macro_precision": 0.24549014234225255,
+      "macro_recall": 0.26071428571428573,
       "weighted_f1": 0.23417136956500828,
       "accuracy": 0.26071428571428573,
+      "per_class": {
+        "running": {
+          "precision": 0.3404255319148936,
+          "recall": 0.4,
+          "f1": 0.367816091954023,
+          "support": 80
+        },
+        "walking": {
+          "precision": 0.5,
+          "recall": 0.3,
+          "f1": 0.375,
+          "support": 80
+        },
+        "jumping": {
+          "precision": 0.3619047619047619,
+          "recall": 0.475,
+          "f1": 0.41081081081081083,
+          "support": 80
+        },
+        "squatting": {
+          "precision": 0.16666666666666666,
+          "recall": 0.025,
+          "f1": 0.043478260869565216,
+          "support": 80
+        },
+        "arm_wave": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 80
+        },
+        "turning": {
+          "precision": 0.15300546448087432,
+          "recall": 0.35,
+          "f1": 0.21292775665399238,
+          "support": 80
+        },
+        "falling": {
+          "precision": 0.19642857142857142,
+          "recall": 0.275,
+          "f1": 0.22916666666666666,
+          "support": 80
+        }
+      },
       "per_class_f1": {
         "running": 0.367816091954023,
         "walking": 0.375,
@@ -804,6 +1362,24 @@
         "arm_wave": 0.0,
         "turning": 0.21292775665399238,
         "falling": 0.22916666666666666
+      },
+      "per_class_precision": {
+        "running": 0.3404255319148936,
+        "walking": 0.5,
+        "jumping": 0.3619047619047619,
+        "squatting": 0.16666666666666666,
+        "arm_wave": 0.0,
+        "turning": 0.15300546448087432,
+        "falling": 0.19642857142857142
+      },
+      "per_class_recall": {
+        "running": 0.4,
+        "walking": 0.3,
+        "jumping": 0.475,
+        "squatting": 0.025,
+        "arm_wave": 0.0,
+        "turning": 0.35,
+        "falling": 0.275
       },
       "confusion_matrix": {
         "labels": [
@@ -892,8 +1468,54 @@
       "run_id": "20261010T080000Z",
       "artifact_dir": "artifacts/v2_gru/20261010T080000Z/in_domain",
       "macro_f1": 0.21259195830468575,
+      "macro_precision": 0.23562984935615813,
+      "macro_recall": 0.24107142857142858,
       "weighted_f1": 0.21259195830468575,
       "accuracy": 0.24107142857142858,
+      "per_class": {
+        "running": {
+          "precision": 0.24615384615384617,
+          "recall": 0.5,
+          "f1": 0.32989690721649484,
+          "support": 32
+        },
+        "walking": {
+          "precision": 0.2222222222222222,
+          "recall": 0.25,
+          "f1": 0.23529411764705882,
+          "support": 32
+        },
+        "jumping": {
+          "precision": 0.3076923076923077,
+          "recall": 0.25,
+          "f1": 0.27586206896551724,
+          "support": 32
+        },
+        "squatting": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 32
+        },
+        "arm_wave": {
+          "precision": 0.2033898305084746,
+          "recall": 0.375,
+          "f1": 0.26373626373626374,
+          "support": 32
+        },
+        "turning": {
+          "precision": 0.42857142857142855,
+          "recall": 0.09375,
+          "f1": 0.15384615384615385,
+          "support": 32
+        },
+        "falling": {
+          "precision": 0.2413793103448276,
+          "recall": 0.21875,
+          "f1": 0.22950819672131148,
+          "support": 32
+        }
+      },
       "per_class_f1": {
         "running": 0.32989690721649484,
         "walking": 0.23529411764705882,
@@ -902,6 +1524,24 @@
         "arm_wave": 0.26373626373626374,
         "turning": 0.15384615384615385,
         "falling": 0.22950819672131148
+      },
+      "per_class_precision": {
+        "running": 0.24615384615384617,
+        "walking": 0.2222222222222222,
+        "jumping": 0.3076923076923077,
+        "squatting": 0.0,
+        "arm_wave": 0.2033898305084746,
+        "turning": 0.42857142857142855,
+        "falling": 0.2413793103448276
+      },
+      "per_class_recall": {
+        "running": 0.5,
+        "walking": 0.25,
+        "jumping": 0.25,
+        "squatting": 0.0,
+        "arm_wave": 0.375,
+        "turning": 0.09375,
+        "falling": 0.21875
       },
       "confusion_matrix": {
         "labels": [
@@ -990,14 +1630,78 @@
       "run_id": "20261010T080000Z",
       "artifact_dir": "artifacts/v2_gru/20261010T080000Z/cross_user",
       "macro_f1": 0.13151174869195992,
+      "macro_precision": 0.1284435986203291,
+      "macro_recall": 0.21785714285714283,
       "weighted_f1": 0.13151174869195995,
       "accuracy": 0.21785714285714286,
+      "per_class": {
+        "running": {
+          "precision": 0.19696969696969696,
+          "recall": 0.65,
+          "f1": 0.3023255813953488,
+          "support": 40
+        },
+        "walking": {
+          "precision": 0.14285714285714285,
+          "recall": 0.075,
+          "f1": 0.09836065573770492,
+          "support": 40
+        },
+        "jumping": {
+          "precision": 0.16666666666666666,
+          "recall": 0.025,
+          "f1": 0.043478260869565216,
+          "support": 40
+        },
+        "squatting": {
+          "precision": 0.08333333333333333,
+          "recall": 0.025,
+          "f1": 0.038461538461538464,
+          "support": 40
+        },
+        "arm_wave": {
+          "precision": 0.30927835051546393,
+          "recall": 0.75,
+          "f1": 0.43795620437956206,
+          "support": 40
+        },
+        "turning": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 40
+        },
+        "falling": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 40
+        }
+      },
       "per_class_f1": {
         "running": 0.3023255813953488,
         "walking": 0.09836065573770492,
         "jumping": 0.043478260869565216,
         "squatting": 0.038461538461538464,
         "arm_wave": 0.43795620437956206,
+        "turning": 0.0,
+        "falling": 0.0
+      },
+      "per_class_precision": {
+        "running": 0.19696969696969696,
+        "walking": 0.14285714285714285,
+        "jumping": 0.16666666666666666,
+        "squatting": 0.08333333333333333,
+        "arm_wave": 0.30927835051546393,
+        "turning": 0.0,
+        "falling": 0.0
+      },
+      "per_class_recall": {
+        "running": 0.65,
+        "walking": 0.075,
+        "jumping": 0.025,
+        "squatting": 0.025,
+        "arm_wave": 0.75,
         "turning": 0.0,
         "falling": 0.0
       },
@@ -1088,8 +1792,54 @@
       "run_id": "20261010T080000Z",
       "artifact_dir": "artifacts/v2_gru/20261010T080000Z/cross_environment",
       "macro_f1": 0.17767875744829867,
+      "macro_precision": 0.1738839022638412,
+      "macro_recall": 0.19464285714285715,
       "weighted_f1": 0.17767875744829864,
       "accuracy": 0.19464285714285715,
+      "per_class": {
+        "running": {
+          "precision": 0.20270270270270271,
+          "recall": 0.1875,
+          "f1": 0.19480519480519481,
+          "support": 80
+        },
+        "walking": {
+          "precision": 0.07692307692307693,
+          "recall": 0.0375,
+          "f1": 0.05042016806722689,
+          "support": 80
+        },
+        "jumping": {
+          "precision": 0.3170731707317073,
+          "recall": 0.325,
+          "f1": 0.32098765432098764,
+          "support": 80
+        },
+        "squatting": {
+          "precision": 0.0625,
+          "recall": 0.0125,
+          "f1": 0.020833333333333332,
+          "support": 80
+        },
+        "arm_wave": {
+          "precision": 0.25925925925925924,
+          "recall": 0.35,
+          "f1": 0.2978723404255319,
+          "support": 80
+        },
+        "turning": {
+          "precision": 0.14960629921259844,
+          "recall": 0.2375,
+          "f1": 0.18357487922705315,
+          "support": 80
+        },
+        "falling": {
+          "precision": 0.14912280701754385,
+          "recall": 0.2125,
+          "f1": 0.17525773195876287,
+          "support": 80
+        }
+      },
       "per_class_f1": {
         "running": 0.19480519480519481,
         "walking": 0.05042016806722689,
@@ -1098,6 +1848,24 @@
         "arm_wave": 0.2978723404255319,
         "turning": 0.18357487922705315,
         "falling": 0.17525773195876287
+      },
+      "per_class_precision": {
+        "running": 0.20270270270270271,
+        "walking": 0.07692307692307693,
+        "jumping": 0.3170731707317073,
+        "squatting": 0.0625,
+        "arm_wave": 0.25925925925925924,
+        "turning": 0.14960629921259844,
+        "falling": 0.14912280701754385
+      },
+      "per_class_recall": {
+        "running": 0.1875,
+        "walking": 0.0375,
+        "jumping": 0.325,
+        "squatting": 0.0125,
+        "arm_wave": 0.35,
+        "turning": 0.2375,
+        "falling": 0.2125
       },
       "confusion_matrix": {
         "labels": [
