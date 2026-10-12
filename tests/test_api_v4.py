@@ -28,6 +28,23 @@ def client() -> TestClient:
     return TestClient(create_app(settings))
 
 
+def test_source_status_live_unavailable():
+    settings = ApiSettings.from_env()
+    missing_root = settings.repo_root / "data" / "raw" / "esp-fi-har-missing-for-test"
+    settings = ApiSettings(
+        repo_root=settings.repo_root,
+        data_root=missing_root,
+        model_artifact_dir=MODEL_DIR,
+        cors_origins=settings.cors_origins,
+    )
+    client = TestClient(create_app(settings))
+    response = client.get("/source/status")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["mode"] == "live_unavailable"
+    assert body["live_implemented"] is False
+
+
 @pytest.mark.skipif(not DATA.is_dir(), reason="ESP-Fi data missing")
 def test_source_status_dataset_replay(client: TestClient):
     response = client.get("/source/status")
