@@ -81,9 +81,12 @@ def test_experiments_schema(client: TestClient):
     assert schema.status_code == 200
     body = schema.json()
     assert "logreg" in body["families"]
+<<<<<<< HEAD
     assert "mlp" in body["families"]
     assert "gbdt" in body["families"]
     assert "tcn" in body["families"]
+=======
+>>>>>>> origin/main
     assert "in_domain" in body["split_strategies"]
 
 
