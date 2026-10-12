@@ -137,8 +137,13 @@ Holdout uses `floor(n × 0.15)` for val and test. **No trial/session appears in 
 | --- | --- | --- |
 | Logistic regression | 635-D `classical_v1` features | Fast baseline; best **cross_user** macro-F1 in current runs |
 | Random forest | Same features | Default V3 model; best **in_domain**; ~170 MB artifacts |
+| MLP | Same features | Implemented; **metrics pending** until ESP-Fi trained (`reports/v2_mlp_results.md`) |
+| GBDT (HistGradientBoosting) | Same features | Implemented; **metrics pending** (`reports/v2_gbdt_results.md`) |
 | 1D CNN | Raw `(52, 950)` channels-first | PyTorch |
 | GRU | Raw `(950, 52)` time-major | PyTorch |
+| TCN | Raw `(52, 950)` channels-first | PyTorch; **metrics pending** (`reports/v2_tcn_results.md`) |
+
+**Seven-family benchmark ladder (thesis):** `docs/thesis-benchmark-ladder.md`
 
 **Classical features (`classical_v1`):** Per-subcarrier statistics, global histogram entropy, spectral RFFT stats. Scaler fit **on train only**.
 
@@ -165,8 +170,9 @@ artifacts/
   v2_gru/<run_id>/<strategy>/
 ```
 
-Training entry points: `scripts/train_logreg.py`, `train_rf.py`, `train_cnn1d.py`, `train_gru.py`.  
-Evaluation JSON for UI: `scripts/export_evaluation_summary.py` → `frontend/public/evaluation/summary.json`.
+Training entry points: `scripts/train_logreg.py`, `train_rf.py`, `train_mlp.py`, `train_gbdt.py`, `train_cnn1d.py`, `train_gru.py`, `train_tcn.py`.  
+Evaluation JSON for UI: `scripts/export_evaluation_summary.py` → `frontend/public/evaluation/summary.json`.  
+Research Lab generalization: `scripts/export_research_lab.py` (baselines + optional MLP/GBDT/TCN via `extended_metrics_entries()`).
 
 ### V2 observations (for thesis)
 

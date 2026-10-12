@@ -17,6 +17,7 @@ from research.experiment_record import ExperimentRecord, ExperimentStatus
 from research.generalization import (
     BASELINE_RUN_IDS,
     EXTENDED_FAMILIES,
+    EXTENDED_RUN_IDS,
     build_generalization_rows,
     extended_metrics_entries,
 )
@@ -62,11 +63,13 @@ def build_payload(repo_root: Path) -> dict:
         "generated_at": timestamp,
         "git_sha": git_sha,
         "baseline_run_ids": dict(BASELINE_RUN_IDS),
+        "extended_run_ids": dict(EXTENDED_RUN_IDS),
         "provenance": {
             "source": "artifacts/v2_*/<run_id>/<strategy>/metrics.json",
             "note": (
                 "Frozen baseline run IDs for logreg/rf/cnn1d/gru; "
-                f"extended families {list(EXTENDED_FAMILIES)} use newest run when present."
+                f"extended families {list(EXTENDED_FAMILIES)} use EXTENDED_RUN_IDS when set, "
+                "else newest complete run."
             ),
         },
         "strategies": list({row["split_strategy"] for row in models}),
