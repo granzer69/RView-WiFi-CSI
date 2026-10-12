@@ -8,23 +8,37 @@
   --color-signal-cyan: oklch(0.72 0.12 195);
   --color-signal-teal: oklch(0.62 0.1 175);
   --color-warning-amber: oklch(0.78 0.14 75);
-  --color-surface-card: oklch(0.22 0.01 285);
-  --color-surface-elevated: oklch(0.26 0.012 285);
-  --color-border-subtle: oklch(0.32 0.01 285);
+  --color-surface-card: oklch(0.22 0.014 265);
+  --color-surface-elevated: oklch(0.27 0.016 265);
+  --color-border-subtle: oklch(0.34 0.012 265);
+  --font-display: ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
 }
 
 body {
   @apply min-h-screen bg-zinc-950 text-zinc-100 antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
 }
 
 @layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .workstation-grid {
+    background-color: oklch(0.14 0.01 265);
+    background-image:
+      linear-gradient(color-mix(in oklch, var(--color-border-subtle) 35%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklch, var(--color-border-subtle) 35%, transparent) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
   .surface-card {
-    background-color: color-mix(in oklch, var(--color-surface-card) 85%, transparent);
-    border-color: color-mix(in oklch, var(--color-border-subtle) 90%, transparent);
+    background-color: color-mix(in oklch, var(--color-surface-card) 88%, transparent);
+    border-color: color-mix(in oklch, var(--color-border-subtle) 92%, transparent);
   }
 
   .surface-elevated {
-    background-color: color-mix(in oklch, var(--color-surface-elevated) 90%, transparent);
+    background-color: color-mix(in oklch, var(--color-surface-elevated) 92%, transparent);
   }
 
   .text-signal {
@@ -33,6 +47,26 @@ body {
 
   .border-signal {
     border-color: color-mix(in oklch, var(--color-signal-teal) 55%, transparent);
+  }
+
+  .studio-page-header {
+    @apply px-0;
+  }
+
+  .data-table {
+    @apply w-full text-left text-sm;
+  }
+
+  .data-table thead th {
+    @apply border-b border-zinc-700/80 bg-zinc-900/80 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-400;
+  }
+
+  .data-table tbody td {
+    @apply border-b border-zinc-800/60 px-3 py-2 tabular-nums text-zinc-200;
+  }
+
+  .data-table tbody tr:nth-child(even) td {
+    @apply bg-zinc-900/25;
   }
 
   .skeleton-pulse {

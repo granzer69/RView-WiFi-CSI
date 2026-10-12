@@ -16,8 +16,9 @@ sys.path.insert(0, str(ROOT / "src"))
 from research.experiment_record import ExperimentRecord, ExperimentStatus
 from research.generalization import (
     BASELINE_RUN_IDS,
-    baseline_metrics_entries,
+    EXTENDED_FAMILIES,
     build_generalization_rows,
+    extended_metrics_entries,
 )
 
 
@@ -36,7 +37,7 @@ def _git_sha() -> str | None:
 
 
 def build_payload(repo_root: Path) -> dict:
-    entries = baseline_metrics_entries(repo_root)
+    entries = extended_metrics_entries(repo_root)
     models = build_generalization_rows(entries)
     git_sha = _git_sha()
     timestamp = datetime.now(timezone.utc).isoformat()
@@ -62,8 +63,11 @@ def build_payload(repo_root: Path) -> dict:
         "git_sha": git_sha,
         "baseline_run_ids": dict(BASELINE_RUN_IDS),
         "provenance": {
-            "source": "artifacts/v2_*/<baseline_run_id>/<strategy>/metrics.json",
-            "note": "All metrics read from frozen baseline artifacts; gaps are in_domain_macro_f1 - strategy_macro_f1.",
+            "source": "artifacts/v2_*/<run_id>/<strategy>/metrics.json",
+            "note": (
+                "Frozen baseline run IDs for logreg/rf/cnn1d/gru; "
+                f"extended families {list(EXTENDED_FAMILIES)} use newest run when present."
+            ),
         },
         "strategies": list({row["split_strategy"] for row in models}),
         "models": models,

@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
+<<<<<<< HEAD
+import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
 import { Badge } from '@/components/ui/badge'
+import { MODEL_FAMILIES } from '@/lib/modelFamilies'
+=======
+import { Badge } from '@/components/ui/badge'
+>>>>>>> origin/main
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -13,7 +19,11 @@ import {
   type ExperimentSchema,
 } from '@/services/experimentsClient'
 
+<<<<<<< HEAD
+const FAMILIES = MODEL_FAMILIES
+=======
 const FAMILIES = ['logreg', 'rf', 'cnn1d', 'gru'] as const
+>>>>>>> origin/main
 
 export function ExperimentsPage() {
   const [schema, setSchema] = useState<ExperimentSchema | null>(null)
@@ -111,6 +121,13 @@ export function ExperimentsPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6">
+<<<<<<< HEAD
+      <StudioPageChrome
+        showLabelCaveat
+        title="Experiment workbench"
+        subtitle="Configure ESP-Fi training via the v2 pipeline. Outputs land under artifacts/workbench/; frozen artifacts/v2_* baseline run IDs are never modified."
+      />
+=======
       <div>
         <h2 className="text-xl font-semibold text-zinc-50">Experiment Workbench</h2>
         <p className="mt-1 text-sm text-zinc-400">
@@ -119,6 +136,7 @@ export function ExperimentsPage() {
           <code className="text-zinc-300">artifacts/v2_*</code> baselines are never modified.
         </p>
       </div>
+>>>>>>> origin/main
 
       {error && (
         <Card className="border-red-900/50 bg-red-950/20">

@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 
+<<<<<<< HEAD
+import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
+=======
+>>>>>>> origin/main
 import { ExplorerHeatmap } from '@/components/csi/ExplorerHeatmap'
 import { SubcarrierWaveform } from '@/components/csi/SubcarrierWaveform'
 import { Badge } from '@/components/ui/badge'
@@ -103,6 +107,16 @@ export function ExplorerPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6">
+<<<<<<< HEAD
+      <StudioPageChrome
+        showLabelCaveat
+        title="CSI explorer"
+        subtitle="Inspect ESP-Fi amplitude matrices (950×52), subcarrier traces, and trial-level model alignment. Matrix row index is not wall-clock time unless independently verified."
+      />
+      {catalog?.label_caveat && (
+        <p className="text-xs text-amber-200/80">{catalog.label_caveat}</p>
+      )}
+=======
       <div>
         <h2 className="text-xl font-semibold text-zinc-50">CSI Explorer</h2>
         <p className="mt-1 text-sm text-zinc-400">
@@ -113,6 +127,7 @@ export function ExplorerPage() {
           <p className="mt-2 text-xs text-amber-200/80">{catalog.label_caveat}</p>
         )}
       </div>
+>>>>>>> origin/main
 
       {error && (
         <Card className="border-red-900/50 bg-red-950/20">

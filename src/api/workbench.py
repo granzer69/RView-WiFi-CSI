@@ -13,6 +13,20 @@ import yaml
 
 from common.errors import DatasetError
 from preprocessing.pipeline import PreprocessConfig
+<<<<<<< HEAD
+from training.deep_experiment import run_cnn1d_experiment, run_gru_experiment, run_tcn_experiment
+from training.experiment import (
+    run_gbdt_experiment,
+    run_logreg_experiment,
+    run_mlp_experiment,
+    run_rf_experiment,
+)
+
+Family = Literal["logreg", "rf", "mlp", "gbdt", "cnn1d", "gru", "tcn"]
+SplitStrategy = Literal["in_domain", "cross_user", "cross_environment"]
+
+SUPPORTED_FAMILIES: tuple[Family, ...] = ("logreg", "rf", "mlp", "gbdt", "cnn1d", "gru", "tcn")
+=======
 from training.deep_experiment import run_cnn1d_experiment, run_gru_experiment
 from training.experiment import run_logreg_experiment, run_rf_experiment
 
@@ -20,6 +34,7 @@ Family = Literal["logreg", "rf", "cnn1d", "gru"]
 SplitStrategy = Literal["in_domain", "cross_user", "cross_environment"]
 
 SUPPORTED_FAMILIES: tuple[Family, ...] = ("logreg", "rf", "cnn1d", "gru")
+>>>>>>> origin/main
 SUPPORTED_STRATEGIES: tuple[SplitStrategy, ...] = ("in_domain", "cross_user", "cross_environment")
 
 HYPERPARAM_SCHEMA: dict[str, dict[str, Any]] = {
@@ -47,6 +62,28 @@ HYPERPARAM_SCHEMA: dict[str, dict[str, Any]] = {
         "hidden_size": {"type": "int", "default": 64, "min": 8, "max": 512},
         "device": {"type": "string", "default": "cpu"},
     },
+<<<<<<< HEAD
+    "mlp": {
+        "hidden_layer_sizes": {"type": "int_list", "default": [128, 64]},
+        "max_iter": {"type": "int", "default": 300, "min": 50, "max": 2000},
+        "alpha": {"type": "float", "default": 1e-4, "min": 1e-8, "max": 10.0},
+        "learning_rate_init": {"type": "float", "default": 1e-3, "min": 1e-6, "max": 1.0},
+    },
+    "gbdt": {
+        "max_iter": {"type": "int", "default": 200, "min": 10, "max": 2000},
+        "max_depth": {"type": "int_or_null", "default": 8, "min": 1, "max": 64},
+        "learning_rate": {"type": "float", "default": 0.1, "min": 1e-4, "max": 1.0},
+        "min_samples_leaf": {"type": "int", "default": 20, "min": 1, "max": 200},
+    },
+    "tcn": {
+        "epochs": {"type": "int", "default": 8, "min": 1, "max": 100},
+        "batch_size": {"type": "int", "default": 32, "min": 4, "max": 256},
+        "learning_rate": {"type": "float", "default": 1e-3, "min": 1e-6, "max": 1.0},
+        "channels": {"type": "int", "default": 64, "min": 16, "max": 256},
+        "device": {"type": "string", "default": "cpu"},
+    },
+=======
+>>>>>>> origin/main
 }
 
 PREPROCESS_SCHEMA = {
@@ -196,8 +233,16 @@ def _cli_command(validated: dict[str, Any]) -> str:
     script = {
         "logreg": "scripts/train_logreg.py",
         "rf": "scripts/train_rf.py",
+<<<<<<< HEAD
+        "mlp": "scripts/train_mlp.py",
+        "gbdt": "scripts/train_gbdt.py",
         "cnn1d": "scripts/train_cnn1d.py",
         "gru": "scripts/train_gru.py",
+        "tcn": "scripts/train_tcn.py",
+=======
+        "cnn1d": "scripts/train_cnn1d.py",
+        "gru": "scripts/train_gru.py",
+>>>>>>> origin/main
     }[family]
     run_id = validated["run_id"]
     root = validated["artifacts_root"]
@@ -222,8 +267,16 @@ def _execute_run(validated: dict[str, Any]) -> dict[str, Any]:
     runners = {
         "logreg": run_logreg_experiment,
         "rf": run_rf_experiment,
+<<<<<<< HEAD
+        "mlp": run_mlp_experiment,
+        "gbdt": run_gbdt_experiment,
         "cnn1d": run_cnn1d_experiment,
         "gru": run_gru_experiment,
+        "tcn": run_tcn_experiment,
+=======
+        "cnn1d": run_cnn1d_experiment,
+        "gru": run_gru_experiment,
+>>>>>>> origin/main
     }
     return runners[family](config, artifacts_root=artifacts_root)
 

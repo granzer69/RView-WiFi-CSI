@@ -9,7 +9,9 @@ from typing import Any, Protocol
 
 from api.config import ApiSettings
 from common.errors import DatasetError
+from models.gbdt import GbdtHarModel
 from models.logreg import LogRegHarModel
+from models.mlp import MlpHarModel
 from models.rf import RandomForestHarModel
 
 STRATEGIES = ("in_domain", "cross_user", "cross_environment")
@@ -17,8 +19,11 @@ STRATEGIES = ("in_domain", "cross_user", "cross_environment")
 FAMILY_LOADERS: dict[str, tuple[str, ...]] = {
     "logreg": ("classifier.joblib",),
     "rf": ("classifier.joblib",),
+    "mlp": ("classifier.joblib",),
+    "gbdt": ("classifier.joblib",),
     "cnn1d": ("model.pt",),
     "gru": ("model.pt",),
+    "tcn": ("model.pt",),
 }
 
 
@@ -54,10 +59,14 @@ class LoadedModel:
 
 
 def _load_backend(family: str, artifact_dir: Path) -> HarBackend:
-    if family in ("logreg", "rf"):
-        if family == "logreg":
-            return LogRegHarModel.load(artifact_dir)
+    if family == "logreg":
+        return LogRegHarModel.load(artifact_dir)
+    if family == "rf":
         return RandomForestHarModel.load(artifact_dir)
+    if family == "mlp":
+        return MlpHarModel.load(artifact_dir)
+    if family == "gbdt":
+        return GbdtHarModel.load(artifact_dir)
     if family == "cnn1d":
         from models.cnn1d import Cnn1dHarModel
 
@@ -66,6 +75,10 @@ def _load_backend(family: str, artifact_dir: Path) -> HarBackend:
         from models.gru import GruHarModel
 
         return GruHarModel.load(artifact_dir)
+    if family == "tcn":
+        from models.tcn import TcnHarModel
+
+        return TcnHarModel.load(artifact_dir)
     raise DatasetError(f"unsupported model family: {family}")
 
 
