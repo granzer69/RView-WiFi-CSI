@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from research.generalization import BASELINE_RUN_IDS
+from research.generalization import BASELINE_RUN_IDS, EXTENDED_RUN_IDS
 from research.participant import (
     build_all_participant_model_metrics,
     build_participant_overview,
@@ -54,7 +54,7 @@ def build_participants_payload(repo_root: Path) -> dict:
             "git_sha": git_sha,
             "status": "blocked",
             "reason": availability.reason,
-            "baseline_run_ids": dict(BASELINE_RUN_IDS),
+            "baseline_run_ids": {**BASELINE_RUN_IDS, **EXTENDED_RUN_IDS},
             "overview": {"status": "blocked", "participants": []},
             "model_metrics": {"status": "blocked", "models": []},
             "methodology": (
@@ -73,7 +73,7 @@ def build_participants_payload(repo_root: Path) -> dict:
         "generated_at": timestamp,
         "git_sha": git_sha,
         "status": model_metrics.get("status", "ok"),
-        "baseline_run_ids": dict(BASELINE_RUN_IDS),
+        "baseline_run_ids": {**BASELINE_RUN_IDS, **EXTENDED_RUN_IDS},
         "overview": overview,
         "model_metrics": model_metrics,
         "methodology": model_metrics.get("methodology"),
@@ -84,7 +84,7 @@ def build_personalization_payload(repo_root: Path) -> dict:
     payload = run_in_domain_personalization_ab(repo_root)
     git_sha = _git_sha()
     payload["git_sha"] = git_sha
-    payload["baseline_run_ids"] = dict(BASELINE_RUN_IDS)
+    payload["baseline_run_ids"] = {**BASELINE_RUN_IDS, **EXTENDED_RUN_IDS}
     if "protocol" not in payload or len(payload.get("protocol", "")) < 20:
         payload["protocol"] = PERSONALIZATION_PROTOCOL
     return payload

@@ -4,6 +4,8 @@ Run: `20261010T080000Z` (artifacts under `artifacts/v2_gru/20261010T080000Z/`).
 Config: `configs/experiments/v2_gru_esp_fi.yaml`.  
 Build guide: `docs/v2-engine-build-guide.md`.
 
+**Config note:** **Default-config baseline (not hyperparameter-tuned)** — fixed epochs/architecture from YAML; fairly compared on locked splits, not a tuned deep-learning upper bound.
+
 **Labels:** `published_folder_codes_not_readme`. Scenarios 1, 2, and 4 are **INFERRED — NOT INDEPENDENTLY VERIFIED**.
 
 **Input:** Raw amplitude `(950, 52)` time-major after train-only `AmplitudeNormalizer`.  

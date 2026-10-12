@@ -14,7 +14,13 @@ from datasets.esp_fi import discover_trials
 from datasets.splits import assign_splits
 from evaluation.metrics import classification_report_dict
 from ingestion.ml_contract import NORMALIZED_LABELS, HarSample
-from research.generalization import BASELINE_RUN_IDS, baseline_artifact_dir
+from research.generalization import (
+    BASELINE_RUN_IDS,
+    EXTENDED_RUN_IDS,
+    baseline_artifact_dir,
+)
+
+PARTICIPANT_METRIC_FAMILIES = ("logreg", "rf", "cnn1d", "gru", "mlp", "gbdt", "tcn")
 from training.esp_fi import load_esp_fi_split_bundle
 
 ProfileStatus = Literal["ok", "blocked", "not_evaluated"]
@@ -126,7 +132,7 @@ def per_participant_test_metrics_for_model(
     if not availability.present:
         return {"status": "blocked", "reason": availability.reason, "participants": []}
 
-    resolved_run = run_id or BASELINE_RUN_IDS.get(family)
+    resolved_run = run_id or BASELINE_RUN_IDS.get(family) or EXTENDED_RUN_IDS.get(family)
     if not resolved_run:
         return {"status": "blocked", "reason": f"unknown family {family}", "participants": []}
 
@@ -185,7 +191,7 @@ def build_all_participant_model_metrics(
     repo_root: Path,
     *,
     strategies: tuple[str, ...] = ("in_domain",),
-    families: tuple[str, ...] = ("logreg", "rf", "cnn1d", "gru"),
+    families: tuple[str, ...] = PARTICIPANT_METRIC_FAMILIES,
 ) -> dict[str, Any]:
     availability = check_esp_fi_available(repo_root)
     if not availability.present:

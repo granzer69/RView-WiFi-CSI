@@ -1,6 +1,17 @@
 {
   "dataset_id": "esp-fi-har",
-  "generated_from": "artifacts/v2_*/**/metrics.json",
+  "generated_at": "2026-10-12T08:59:59.346841+00:00",
+  "git_sha": "ebbfd301e3da06147e47d41982bb4b98aa322f19",
+  "baseline_run_ids": {
+    "logreg": "20261010T045500Z",
+    "rf": "20261010T060000Z",
+    "cnn1d": "20261010T070000Z",
+    "gru": "20261010T080000Z",
+    "mlp": "20261012T140000Z",
+    "gbdt": "20261012T140000Z",
+    "tcn": "20261012T140000Z"
+  },
+  "generated_from": "artifacts/v2_*/<pinned_run_id>/<strategy>/metrics.json",
   "integrity_note": "Offline evaluation on ESP-Fi. Dashboard replay uses the same dataset; presence is derived from model confidence, not hardware sensing.",
   "models": [
     {
@@ -163,7 +174,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 61125,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_logreg_cross_user_20261010T045500Z",
@@ -325,7 +337,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 61153,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_logreg_cross_environment_20261010T045500Z",
@@ -487,7 +500,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 61124,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_rf_in_domain_20261010T060000Z",
@@ -649,7 +663,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 17378487,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_rf_cross_user_20261010T060000Z",
@@ -811,7 +826,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 15934675,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_rf_cross_environment_20261010T060000Z",
@@ -973,979 +989,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 10353446,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
-    },
-    {
-      "model_id": "v2_mlp_in_domain_20261012T140000Z",
-      "family": "mlp",
-      "split_strategy": "in_domain",
-      "run_id": "20261012T140000Z",
-      "artifact_dir": "artifacts/v2_mlp/20261012T140000Z/in_domain",
-      "macro_f1": 0.6290045466811949,
-      "macro_precision": 0.6449722865864026,
-      "macro_recall": 0.6383928571428571,
-      "weighted_f1": 0.6290045466811949,
-      "accuracy": 0.6383928571428571,
-      "per_class": {
-        "running": {
-          "precision": 0.7741935483870968,
-          "recall": 0.75,
-          "f1": 0.7619047619047619,
-          "support": 32
-        },
-        "walking": {
-          "precision": 0.696969696969697,
-          "recall": 0.71875,
-          "f1": 0.7076923076923077,
-          "support": 32
-        },
-        "jumping": {
-          "precision": 0.6,
-          "recall": 0.375,
-          "f1": 0.46153846153846156,
-          "support": 32
-        },
-        "squatting": {
-          "precision": 0.6842105263157895,
-          "recall": 0.40625,
-          "f1": 0.5098039215686274,
-          "support": 32
-        },
-        "arm_wave": {
-          "precision": 0.6153846153846154,
-          "recall": 0.75,
-          "f1": 0.676056338028169,
-          "support": 32
-        },
-        "turning": {
-          "precision": 0.525,
-          "recall": 0.65625,
-          "f1": 0.5833333333333334,
-          "support": 32
-        },
-        "falling": {
-          "precision": 0.6190476190476191,
-          "recall": 0.8125,
-          "f1": 0.7027027027027027,
-          "support": 32
-        }
-      },
-      "per_class_f1": {
-        "running": 0.7619047619047619,
-        "walking": 0.7076923076923077,
-        "jumping": 0.46153846153846156,
-        "squatting": 0.5098039215686274,
-        "arm_wave": 0.676056338028169,
-        "turning": 0.5833333333333334,
-        "falling": 0.7027027027027027
-      },
-      "per_class_precision": {
-        "running": 0.7741935483870968,
-        "walking": 0.696969696969697,
-        "jumping": 0.6,
-        "squatting": 0.6842105263157895,
-        "arm_wave": 0.6153846153846154,
-        "turning": 0.525,
-        "falling": 0.6190476190476191
-      },
-      "per_class_recall": {
-        "running": 0.75,
-        "walking": 0.71875,
-        "jumping": 0.375,
-        "squatting": 0.40625,
-        "arm_wave": 0.75,
-        "turning": 0.65625,
-        "falling": 0.8125
-      },
-      "confusion_matrix": {
-        "labels": [
-          "running",
-          "walking",
-          "jumping",
-          "squatting",
-          "arm_wave",
-          "turning",
-          "falling"
-        ],
-        "matrix": [
-          [
-            24,
-            8,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          [
-            7,
-            23,
-            0,
-            0,
-            2,
-            0,
-            0
-          ],
-          [
-            0,
-            0,
-            12,
-            2,
-            7,
-            5,
-            6
-          ],
-          [
-            0,
-            0,
-            3,
-            13,
-            4,
-            7,
-            5
-          ],
-          [
-            0,
-            0,
-            3,
-            0,
-            24,
-            3,
-            2
-          ],
-          [
-            0,
-            2,
-            2,
-            2,
-            2,
-            21,
-            3
-          ],
-          [
-            0,
-            0,
-            0,
-            2,
-            0,
-            4,
-            26
-          ]
-        ]
-      },
-      "latency_ms": null,
-      "model_size_bytes": 2196446,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
-    },
-    {
-      "model_id": "v2_mlp_cross_user_20261012T140000Z",
-      "family": "mlp",
-      "split_strategy": "cross_user",
-      "run_id": "20261012T140000Z",
-      "artifact_dir": "artifacts/v2_mlp/20261012T140000Z/cross_user",
-      "macro_f1": 0.28118939915363456,
-      "macro_precision": 0.2761155563488599,
-      "macro_recall": 0.3,
-      "weighted_f1": 0.2811893991536345,
-      "accuracy": 0.3,
-      "per_class": {
-        "running": {
-          "precision": 0.5263157894736842,
-          "recall": 0.75,
-          "f1": 0.6185567010309279,
-          "support": 40
-        },
-        "walking": {
-          "precision": 0.21739130434782608,
-          "recall": 0.125,
-          "f1": 0.15873015873015872,
-          "support": 40
-        },
-        "jumping": {
-          "precision": 0.2413793103448276,
-          "recall": 0.175,
-          "f1": 0.2028985507246377,
-          "support": 40
-        },
-        "squatting": {
-          "precision": 0.14285714285714285,
-          "recall": 0.1,
-          "f1": 0.11764705882352941,
-          "support": 40
-        },
-        "arm_wave": {
-          "precision": 0.21153846153846154,
-          "recall": 0.275,
-          "f1": 0.2391304347826087,
-          "support": 40
-        },
-        "turning": {
-          "precision": 0.2978723404255319,
-          "recall": 0.35,
-          "f1": 0.3218390804597701,
-          "support": 40
-        },
-        "falling": {
-          "precision": 0.29545454545454547,
-          "recall": 0.325,
-          "f1": 0.30952380952380953,
-          "support": 40
-        }
-      },
-      "per_class_f1": {
-        "running": 0.6185567010309279,
-        "walking": 0.15873015873015872,
-        "jumping": 0.2028985507246377,
-        "squatting": 0.11764705882352941,
-        "arm_wave": 0.2391304347826087,
-        "turning": 0.3218390804597701,
-        "falling": 0.30952380952380953
-      },
-      "per_class_precision": {
-        "running": 0.5263157894736842,
-        "walking": 0.21739130434782608,
-        "jumping": 0.2413793103448276,
-        "squatting": 0.14285714285714285,
-        "arm_wave": 0.21153846153846154,
-        "turning": 0.2978723404255319,
-        "falling": 0.29545454545454547
-      },
-      "per_class_recall": {
-        "running": 0.75,
-        "walking": 0.125,
-        "jumping": 0.175,
-        "squatting": 0.1,
-        "arm_wave": 0.275,
-        "turning": 0.35,
-        "falling": 0.325
-      },
-      "confusion_matrix": {
-        "labels": [
-          "running",
-          "walking",
-          "jumping",
-          "squatting",
-          "arm_wave",
-          "turning",
-          "falling"
-        ],
-        "matrix": [
-          [
-            30,
-            9,
-            0,
-            0,
-            1,
-            0,
-            0
-          ],
-          [
-            21,
-            5,
-            2,
-            0,
-            9,
-            2,
-            1
-          ],
-          [
-            1,
-            0,
-            7,
-            3,
-            14,
-            2,
-            13
-          ],
-          [
-            0,
-            0,
-            1,
-            4,
-            4,
-            20,
-            11
-          ],
-          [
-            5,
-            9,
-            8,
-            0,
-            11,
-            6,
-            1
-          ],
-          [
-            0,
-            0,
-            4,
-            7,
-            10,
-            14,
-            5
-          ],
-          [
-            0,
-            0,
-            7,
-            14,
-            3,
-            3,
-            13
-          ]
-        ]
-      },
-      "latency_ms": null,
-      "model_size_bytes": 2197482,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
-    },
-    {
-      "model_id": "v2_mlp_cross_environment_20261012T140000Z",
-      "family": "mlp",
-      "split_strategy": "cross_environment",
-      "run_id": "20261012T140000Z",
-      "artifact_dir": "artifacts/v2_mlp/20261012T140000Z/cross_environment",
-      "macro_f1": 0.2748068299456076,
-      "macro_precision": 0.3101231469143702,
-      "macro_recall": 0.28750000000000003,
-      "weighted_f1": 0.2748068299456077,
-      "accuracy": 0.2875,
-      "per_class": {
-        "running": {
-          "precision": 0.3177570093457944,
-          "recall": 0.425,
-          "f1": 0.36363636363636365,
-          "support": 80
-        },
-        "walking": {
-          "precision": 0.3333333333333333,
-          "recall": 0.35,
-          "f1": 0.34146341463414637,
-          "support": 80
-        },
-        "jumping": {
-          "precision": 0.32653061224489793,
-          "recall": 0.2,
-          "f1": 0.24806201550387597,
-          "support": 80
-        },
-        "squatting": {
-          "precision": 0.5,
-          "recall": 0.15,
-          "f1": 0.23076923076923078,
-          "support": 80
-        },
-        "arm_wave": {
-          "precision": 0.1951219512195122,
-          "recall": 0.1,
-          "f1": 0.1322314049586777,
-          "support": 80
-        },
-        "turning": {
-          "precision": 0.2636363636363636,
-          "recall": 0.3625,
-          "f1": 0.30526315789473685,
-          "support": 80
-        },
-        "falling": {
-          "precision": 0.23448275862068965,
-          "recall": 0.425,
-          "f1": 0.3022222222222222,
-          "support": 80
-        }
-      },
-      "per_class_f1": {
-        "running": 0.36363636363636365,
-        "walking": 0.34146341463414637,
-        "jumping": 0.24806201550387597,
-        "squatting": 0.23076923076923078,
-        "arm_wave": 0.1322314049586777,
-        "turning": 0.30526315789473685,
-        "falling": 0.3022222222222222
-      },
-      "per_class_precision": {
-        "running": 0.3177570093457944,
-        "walking": 0.3333333333333333,
-        "jumping": 0.32653061224489793,
-        "squatting": 0.5,
-        "arm_wave": 0.1951219512195122,
-        "turning": 0.2636363636363636,
-        "falling": 0.23448275862068965
-      },
-      "per_class_recall": {
-        "running": 0.425,
-        "walking": 0.35,
-        "jumping": 0.2,
-        "squatting": 0.15,
-        "arm_wave": 0.1,
-        "turning": 0.3625,
-        "falling": 0.425
-      },
-      "confusion_matrix": {
-        "labels": [
-          "running",
-          "walking",
-          "jumping",
-          "squatting",
-          "arm_wave",
-          "turning",
-          "falling"
-        ],
-        "matrix": [
-          [
-            34,
-            21,
-            5,
-            0,
-            14,
-            4,
-            2
-          ],
-          [
-            41,
-            28,
-            0,
-            0,
-            5,
-            5,
-            1
-          ],
-          [
-            4,
-            5,
-            16,
-            6,
-            9,
-            6,
-            34
-          ],
-          [
-            9,
-            2,
-            11,
-            12,
-            2,
-            19,
-            25
-          ],
-          [
-            4,
-            16,
-            4,
-            1,
-            8,
-            21,
-            26
-          ],
-          [
-            8,
-            8,
-            7,
-            3,
-            2,
-            29,
-            23
-          ],
-          [
-            7,
-            4,
-            6,
-            2,
-            1,
-            26,
-            34
-          ]
-        ]
-      },
-      "latency_ms": null,
-      "model_size_bytes": 2196138,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
-    },
-    {
-      "model_id": "v2_gbdt_in_domain_20261012T140000Z",
-      "family": "gbdt",
-      "split_strategy": "in_domain",
-      "run_id": "20261012T140000Z",
-      "artifact_dir": "artifacts/v2_gbdt/20261012T140000Z/in_domain",
-      "macro_f1": 0.7366743209197214,
-      "macro_precision": 0.7430562557290668,
-      "macro_recall": 0.7366071428571429,
-      "weighted_f1": 0.7366743209197214,
-      "accuracy": 0.7366071428571429,
-      "per_class": {
-        "running": {
-          "precision": 0.8518518518518519,
-          "recall": 0.71875,
-          "f1": 0.7796610169491526,
-          "support": 32
-        },
-        "walking": {
-          "precision": 0.7567567567567568,
-          "recall": 0.875,
-          "f1": 0.8115942028985508,
-          "support": 32
-        },
-        "jumping": {
-          "precision": 0.7142857142857143,
-          "recall": 0.625,
-          "f1": 0.6666666666666666,
-          "support": 32
-        },
-        "squatting": {
-          "precision": 0.75,
-          "recall": 0.65625,
-          "f1": 0.7,
-          "support": 32
-        },
-        "arm_wave": {
-          "precision": 0.7222222222222222,
-          "recall": 0.8125,
-          "f1": 0.7647058823529411,
-          "support": 32
-        },
-        "turning": {
-          "precision": 0.5675675675675675,
-          "recall": 0.65625,
-          "f1": 0.6086956521739131,
-          "support": 32
-        },
-        "falling": {
-          "precision": 0.8387096774193549,
-          "recall": 0.8125,
-          "f1": 0.8253968253968254,
-          "support": 32
-        }
-      },
-      "per_class_f1": {
-        "running": 0.7796610169491526,
-        "walking": 0.8115942028985508,
-        "jumping": 0.6666666666666666,
-        "squatting": 0.7,
-        "arm_wave": 0.7647058823529411,
-        "turning": 0.6086956521739131,
-        "falling": 0.8253968253968254
-      },
-      "per_class_precision": {
-        "running": 0.8518518518518519,
-        "walking": 0.7567567567567568,
-        "jumping": 0.7142857142857143,
-        "squatting": 0.75,
-        "arm_wave": 0.7222222222222222,
-        "turning": 0.5675675675675675,
-        "falling": 0.8387096774193549
-      },
-      "per_class_recall": {
-        "running": 0.71875,
-        "walking": 0.875,
-        "jumping": 0.625,
-        "squatting": 0.65625,
-        "arm_wave": 0.8125,
-        "turning": 0.65625,
-        "falling": 0.8125
-      },
-      "confusion_matrix": {
-        "labels": [
-          "running",
-          "walking",
-          "jumping",
-          "squatting",
-          "arm_wave",
-          "turning",
-          "falling"
-        ],
-        "matrix": [
-          [
-            23,
-            8,
-            0,
-            0,
-            1,
-            0,
-            0
-          ],
-          [
-            2,
-            28,
-            1,
-            0,
-            1,
-            0,
-            0
-          ],
-          [
-            1,
-            1,
-            20,
-            2,
-            3,
-            4,
-            1
-          ],
-          [
-            0,
-            0,
-            3,
-            21,
-            1,
-            6,
-            1
-          ],
-          [
-            0,
-            0,
-            2,
-            0,
-            26,
-            4,
-            0
-          ],
-          [
-            0,
-            0,
-            2,
-            4,
-            2,
-            21,
-            3
-          ],
-          [
-            1,
-            0,
-            0,
-            1,
-            2,
-            2,
-            26
-          ]
-        ]
-      },
-      "latency_ms": null,
-      "model_size_bytes": 5222406,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
-    },
-    {
-      "model_id": "v2_gbdt_cross_user_20261012T140000Z",
-      "family": "gbdt",
-      "split_strategy": "cross_user",
-      "run_id": "20261012T140000Z",
-      "artifact_dir": "artifacts/v2_gbdt/20261012T140000Z/cross_user",
-      "macro_f1": 0.379117220964567,
-      "macro_precision": 0.39063585032718656,
-      "macro_recall": 0.4,
-      "weighted_f1": 0.37911722096456707,
-      "accuracy": 0.4,
-      "per_class": {
-        "running": {
-          "precision": 0.484375,
-          "recall": 0.775,
-          "f1": 0.5961538461538461,
-          "support": 40
-        },
-        "walking": {
-          "precision": 0.16666666666666666,
-          "recall": 0.075,
-          "f1": 0.10344827586206896,
-          "support": 40
-        },
-        "jumping": {
-          "precision": 0.36666666666666664,
-          "recall": 0.275,
-          "f1": 0.3142857142857143,
-          "support": 40
-        },
-        "squatting": {
-          "precision": 0.34782608695652173,
-          "recall": 0.4,
-          "f1": 0.37209302325581395,
-          "support": 40
-        },
-        "arm_wave": {
-          "precision": 0.3389830508474576,
-          "recall": 0.5,
-          "f1": 0.40404040404040403,
-          "support": 40
-        },
-        "turning": {
-          "precision": 0.43902439024390244,
-          "recall": 0.45,
-          "f1": 0.4444444444444444,
-          "support": 40
-        },
-        "falling": {
-          "precision": 0.5909090909090909,
-          "recall": 0.325,
-          "f1": 0.41935483870967744,
-          "support": 40
-        }
-      },
-      "per_class_f1": {
-        "running": 0.5961538461538461,
-        "walking": 0.10344827586206896,
-        "jumping": 0.3142857142857143,
-        "squatting": 0.37209302325581395,
-        "arm_wave": 0.40404040404040403,
-        "turning": 0.4444444444444444,
-        "falling": 0.41935483870967744
-      },
-      "per_class_precision": {
-        "running": 0.484375,
-        "walking": 0.16666666666666666,
-        "jumping": 0.36666666666666664,
-        "squatting": 0.34782608695652173,
-        "arm_wave": 0.3389830508474576,
-        "turning": 0.43902439024390244,
-        "falling": 0.5909090909090909
-      },
-      "per_class_recall": {
-        "running": 0.775,
-        "walking": 0.075,
-        "jumping": 0.275,
-        "squatting": 0.4,
-        "arm_wave": 0.5,
-        "turning": 0.45,
-        "falling": 0.325
-      },
-      "confusion_matrix": {
-        "labels": [
-          "running",
-          "walking",
-          "jumping",
-          "squatting",
-          "arm_wave",
-          "turning",
-          "falling"
-        ],
-        "matrix": [
-          [
-            31,
-            5,
-            1,
-            0,
-            0,
-            3,
-            0
-          ],
-          [
-            22,
-            3,
-            1,
-            0,
-            10,
-            4,
-            0
-          ],
-          [
-            3,
-            1,
-            11,
-            8,
-            11,
-            3,
-            3
-          ],
-          [
-            0,
-            0,
-            3,
-            16,
-            9,
-            8,
-            4
-          ],
-          [
-            8,
-            8,
-            1,
-            0,
-            20,
-            2,
-            1
-          ],
-          [
-            0,
-            1,
-            4,
-            10,
-            6,
-            18,
-            1
-          ],
-          [
-            0,
-            0,
-            9,
-            12,
-            3,
-            3,
-            13
-          ]
-        ]
-      },
-      "latency_ms": null,
-      "model_size_bytes": 5053538,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
-    },
-    {
-      "model_id": "v2_gbdt_cross_environment_20261012T140000Z",
-      "family": "gbdt",
-      "split_strategy": "cross_environment",
-      "run_id": "20261012T140000Z",
-      "artifact_dir": "artifacts/v2_gbdt/20261012T140000Z/cross_environment",
-      "macro_f1": 0.30964529248592404,
-      "macro_precision": 0.33992019110809935,
-      "macro_recall": 0.3196428571428571,
-      "weighted_f1": 0.3096452924859241,
-      "accuracy": 0.3196428571428571,
-      "per_class": {
-        "running": {
-          "precision": 0.297029702970297,
-          "recall": 0.375,
-          "f1": 0.3314917127071823,
-          "support": 80
-        },
-        "walking": {
-          "precision": 0.48214285714285715,
-          "recall": 0.3375,
-          "f1": 0.39705882352941174,
-          "support": 80
-        },
-        "jumping": {
-          "precision": 0.23809523809523808,
-          "recall": 0.25,
-          "f1": 0.24390243902439024,
-          "support": 80
-        },
-        "squatting": {
-          "precision": 0.2,
-          "recall": 0.0625,
-          "f1": 0.09523809523809523,
-          "support": 80
-        },
-        "arm_wave": {
-          "precision": 0.5306122448979592,
-          "recall": 0.325,
-          "f1": 0.40310077519379844,
-          "support": 80
-        },
-        "turning": {
-          "precision": 0.25842696629213485,
-          "recall": 0.575,
-          "f1": 0.35658914728682173,
-          "support": 80
-        },
-        "falling": {
-          "precision": 0.373134328358209,
-          "recall": 0.3125,
-          "f1": 0.3401360544217687,
-          "support": 80
-        }
-      },
-      "per_class_f1": {
-        "running": 0.3314917127071823,
-        "walking": 0.39705882352941174,
-        "jumping": 0.24390243902439024,
-        "squatting": 0.09523809523809523,
-        "arm_wave": 0.40310077519379844,
-        "turning": 0.35658914728682173,
-        "falling": 0.3401360544217687
-      },
-      "per_class_precision": {
-        "running": 0.297029702970297,
-        "walking": 0.48214285714285715,
-        "jumping": 0.23809523809523808,
-        "squatting": 0.2,
-        "arm_wave": 0.5306122448979592,
-        "turning": 0.25842696629213485,
-        "falling": 0.373134328358209
-      },
-      "per_class_recall": {
-        "running": 0.375,
-        "walking": 0.3375,
-        "jumping": 0.25,
-        "squatting": 0.0625,
-        "arm_wave": 0.325,
-        "turning": 0.575,
-        "falling": 0.3125
-      },
-      "confusion_matrix": {
-        "labels": [
-          "running",
-          "walking",
-          "jumping",
-          "squatting",
-          "arm_wave",
-          "turning",
-          "falling"
-        ],
-        "matrix": [
-          [
-            30,
-            21,
-            8,
-            2,
-            7,
-            4,
-            8
-          ],
-          [
-            37,
-            27,
-            1,
-            3,
-            2,
-            8,
-            2
-          ],
-          [
-            8,
-            3,
-            20,
-            6,
-            7,
-            21,
-            15
-          ],
-          [
-            9,
-            0,
-            22,
-            5,
-            5,
-            33,
-            6
-          ],
-          [
-            6,
-            1,
-            9,
-            1,
-            26,
-            31,
-            6
-          ],
-          [
-            5,
-            4,
-            17,
-            3,
-            0,
-            46,
-            5
-          ],
-          [
-            6,
-            0,
-            7,
-            5,
-            2,
-            35,
-            25
-          ]
-        ]
-      },
-      "latency_ms": null,
-      "model_size_bytes": 4269317,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_cnn1d_in_domain_20261010T070000Z",
@@ -2107,7 +1152,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 463862,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_cnn1d_cross_user_20261010T070000Z",
@@ -2269,7 +1315,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 463865,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_cnn1d_cross_environment_20261010T070000Z",
@@ -2431,7 +1478,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 463872,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_gru_in_domain_20261010T080000Z",
@@ -2593,7 +1641,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 97150,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_gru_cross_user_20261010T080000Z",
@@ -2755,7 +1804,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 97153,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_gru_cross_environment_20261010T080000Z",
@@ -2917,7 +1967,986 @@
       },
       "latency_ms": null,
       "model_size_bytes": 97160,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
+    },
+    {
+      "model_id": "v2_mlp_in_domain_20261012T140000Z",
+      "family": "mlp",
+      "split_strategy": "in_domain",
+      "run_id": "20261012T140000Z",
+      "artifact_dir": "artifacts/v2_mlp/20261012T140000Z/in_domain",
+      "macro_f1": 0.6290045466811949,
+      "macro_precision": 0.6449722865864026,
+      "macro_recall": 0.6383928571428571,
+      "weighted_f1": 0.6290045466811949,
+      "accuracy": 0.6383928571428571,
+      "per_class": {
+        "running": {
+          "precision": 0.7741935483870968,
+          "recall": 0.75,
+          "f1": 0.7619047619047619,
+          "support": 32
+        },
+        "walking": {
+          "precision": 0.696969696969697,
+          "recall": 0.71875,
+          "f1": 0.7076923076923077,
+          "support": 32
+        },
+        "jumping": {
+          "precision": 0.6,
+          "recall": 0.375,
+          "f1": 0.46153846153846156,
+          "support": 32
+        },
+        "squatting": {
+          "precision": 0.6842105263157895,
+          "recall": 0.40625,
+          "f1": 0.5098039215686274,
+          "support": 32
+        },
+        "arm_wave": {
+          "precision": 0.6153846153846154,
+          "recall": 0.75,
+          "f1": 0.676056338028169,
+          "support": 32
+        },
+        "turning": {
+          "precision": 0.525,
+          "recall": 0.65625,
+          "f1": 0.5833333333333334,
+          "support": 32
+        },
+        "falling": {
+          "precision": 0.6190476190476191,
+          "recall": 0.8125,
+          "f1": 0.7027027027027027,
+          "support": 32
+        }
+      },
+      "per_class_f1": {
+        "running": 0.7619047619047619,
+        "walking": 0.7076923076923077,
+        "jumping": 0.46153846153846156,
+        "squatting": 0.5098039215686274,
+        "arm_wave": 0.676056338028169,
+        "turning": 0.5833333333333334,
+        "falling": 0.7027027027027027
+      },
+      "per_class_precision": {
+        "running": 0.7741935483870968,
+        "walking": 0.696969696969697,
+        "jumping": 0.6,
+        "squatting": 0.6842105263157895,
+        "arm_wave": 0.6153846153846154,
+        "turning": 0.525,
+        "falling": 0.6190476190476191
+      },
+      "per_class_recall": {
+        "running": 0.75,
+        "walking": 0.71875,
+        "jumping": 0.375,
+        "squatting": 0.40625,
+        "arm_wave": 0.75,
+        "turning": 0.65625,
+        "falling": 0.8125
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            24,
+            8,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            7,
+            23,
+            0,
+            0,
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            12,
+            2,
+            7,
+            5,
+            6
+          ],
+          [
+            0,
+            0,
+            3,
+            13,
+            4,
+            7,
+            5
+          ],
+          [
+            0,
+            0,
+            3,
+            0,
+            24,
+            3,
+            2
+          ],
+          [
+            0,
+            2,
+            2,
+            2,
+            2,
+            21,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            2,
+            0,
+            4,
+            26
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 2196446,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
+    },
+    {
+      "model_id": "v2_mlp_cross_user_20261012T140000Z",
+      "family": "mlp",
+      "split_strategy": "cross_user",
+      "run_id": "20261012T140000Z",
+      "artifact_dir": "artifacts/v2_mlp/20261012T140000Z/cross_user",
+      "macro_f1": 0.28118939915363456,
+      "macro_precision": 0.2761155563488599,
+      "macro_recall": 0.3,
+      "weighted_f1": 0.2811893991536345,
+      "accuracy": 0.3,
+      "per_class": {
+        "running": {
+          "precision": 0.5263157894736842,
+          "recall": 0.75,
+          "f1": 0.6185567010309279,
+          "support": 40
+        },
+        "walking": {
+          "precision": 0.21739130434782608,
+          "recall": 0.125,
+          "f1": 0.15873015873015872,
+          "support": 40
+        },
+        "jumping": {
+          "precision": 0.2413793103448276,
+          "recall": 0.175,
+          "f1": 0.2028985507246377,
+          "support": 40
+        },
+        "squatting": {
+          "precision": 0.14285714285714285,
+          "recall": 0.1,
+          "f1": 0.11764705882352941,
+          "support": 40
+        },
+        "arm_wave": {
+          "precision": 0.21153846153846154,
+          "recall": 0.275,
+          "f1": 0.2391304347826087,
+          "support": 40
+        },
+        "turning": {
+          "precision": 0.2978723404255319,
+          "recall": 0.35,
+          "f1": 0.3218390804597701,
+          "support": 40
+        },
+        "falling": {
+          "precision": 0.29545454545454547,
+          "recall": 0.325,
+          "f1": 0.30952380952380953,
+          "support": 40
+        }
+      },
+      "per_class_f1": {
+        "running": 0.6185567010309279,
+        "walking": 0.15873015873015872,
+        "jumping": 0.2028985507246377,
+        "squatting": 0.11764705882352941,
+        "arm_wave": 0.2391304347826087,
+        "turning": 0.3218390804597701,
+        "falling": 0.30952380952380953
+      },
+      "per_class_precision": {
+        "running": 0.5263157894736842,
+        "walking": 0.21739130434782608,
+        "jumping": 0.2413793103448276,
+        "squatting": 0.14285714285714285,
+        "arm_wave": 0.21153846153846154,
+        "turning": 0.2978723404255319,
+        "falling": 0.29545454545454547
+      },
+      "per_class_recall": {
+        "running": 0.75,
+        "walking": 0.125,
+        "jumping": 0.175,
+        "squatting": 0.1,
+        "arm_wave": 0.275,
+        "turning": 0.35,
+        "falling": 0.325
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            30,
+            9,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            21,
+            5,
+            2,
+            0,
+            9,
+            2,
+            1
+          ],
+          [
+            1,
+            0,
+            7,
+            3,
+            14,
+            2,
+            13
+          ],
+          [
+            0,
+            0,
+            1,
+            4,
+            4,
+            20,
+            11
+          ],
+          [
+            5,
+            9,
+            8,
+            0,
+            11,
+            6,
+            1
+          ],
+          [
+            0,
+            0,
+            4,
+            7,
+            10,
+            14,
+            5
+          ],
+          [
+            0,
+            0,
+            7,
+            14,
+            3,
+            3,
+            13
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 2197482,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
+    },
+    {
+      "model_id": "v2_mlp_cross_environment_20261012T140000Z",
+      "family": "mlp",
+      "split_strategy": "cross_environment",
+      "run_id": "20261012T140000Z",
+      "artifact_dir": "artifacts/v2_mlp/20261012T140000Z/cross_environment",
+      "macro_f1": 0.2748068299456076,
+      "macro_precision": 0.3101231469143702,
+      "macro_recall": 0.28750000000000003,
+      "weighted_f1": 0.2748068299456077,
+      "accuracy": 0.2875,
+      "per_class": {
+        "running": {
+          "precision": 0.3177570093457944,
+          "recall": 0.425,
+          "f1": 0.36363636363636365,
+          "support": 80
+        },
+        "walking": {
+          "precision": 0.3333333333333333,
+          "recall": 0.35,
+          "f1": 0.34146341463414637,
+          "support": 80
+        },
+        "jumping": {
+          "precision": 0.32653061224489793,
+          "recall": 0.2,
+          "f1": 0.24806201550387597,
+          "support": 80
+        },
+        "squatting": {
+          "precision": 0.5,
+          "recall": 0.15,
+          "f1": 0.23076923076923078,
+          "support": 80
+        },
+        "arm_wave": {
+          "precision": 0.1951219512195122,
+          "recall": 0.1,
+          "f1": 0.1322314049586777,
+          "support": 80
+        },
+        "turning": {
+          "precision": 0.2636363636363636,
+          "recall": 0.3625,
+          "f1": 0.30526315789473685,
+          "support": 80
+        },
+        "falling": {
+          "precision": 0.23448275862068965,
+          "recall": 0.425,
+          "f1": 0.3022222222222222,
+          "support": 80
+        }
+      },
+      "per_class_f1": {
+        "running": 0.36363636363636365,
+        "walking": 0.34146341463414637,
+        "jumping": 0.24806201550387597,
+        "squatting": 0.23076923076923078,
+        "arm_wave": 0.1322314049586777,
+        "turning": 0.30526315789473685,
+        "falling": 0.3022222222222222
+      },
+      "per_class_precision": {
+        "running": 0.3177570093457944,
+        "walking": 0.3333333333333333,
+        "jumping": 0.32653061224489793,
+        "squatting": 0.5,
+        "arm_wave": 0.1951219512195122,
+        "turning": 0.2636363636363636,
+        "falling": 0.23448275862068965
+      },
+      "per_class_recall": {
+        "running": 0.425,
+        "walking": 0.35,
+        "jumping": 0.2,
+        "squatting": 0.15,
+        "arm_wave": 0.1,
+        "turning": 0.3625,
+        "falling": 0.425
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            34,
+            21,
+            5,
+            0,
+            14,
+            4,
+            2
+          ],
+          [
+            41,
+            28,
+            0,
+            0,
+            5,
+            5,
+            1
+          ],
+          [
+            4,
+            5,
+            16,
+            6,
+            9,
+            6,
+            34
+          ],
+          [
+            9,
+            2,
+            11,
+            12,
+            2,
+            19,
+            25
+          ],
+          [
+            4,
+            16,
+            4,
+            1,
+            8,
+            21,
+            26
+          ],
+          [
+            8,
+            8,
+            7,
+            3,
+            2,
+            29,
+            23
+          ],
+          [
+            7,
+            4,
+            6,
+            2,
+            1,
+            26,
+            34
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 2196138,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
+    },
+    {
+      "model_id": "v2_gbdt_in_domain_20261012T140000Z",
+      "family": "gbdt",
+      "split_strategy": "in_domain",
+      "run_id": "20261012T140000Z",
+      "artifact_dir": "artifacts/v2_gbdt/20261012T140000Z/in_domain",
+      "macro_f1": 0.7366743209197214,
+      "macro_precision": 0.7430562557290668,
+      "macro_recall": 0.7366071428571429,
+      "weighted_f1": 0.7366743209197214,
+      "accuracy": 0.7366071428571429,
+      "per_class": {
+        "running": {
+          "precision": 0.8518518518518519,
+          "recall": 0.71875,
+          "f1": 0.7796610169491526,
+          "support": 32
+        },
+        "walking": {
+          "precision": 0.7567567567567568,
+          "recall": 0.875,
+          "f1": 0.8115942028985508,
+          "support": 32
+        },
+        "jumping": {
+          "precision": 0.7142857142857143,
+          "recall": 0.625,
+          "f1": 0.6666666666666666,
+          "support": 32
+        },
+        "squatting": {
+          "precision": 0.75,
+          "recall": 0.65625,
+          "f1": 0.7,
+          "support": 32
+        },
+        "arm_wave": {
+          "precision": 0.7222222222222222,
+          "recall": 0.8125,
+          "f1": 0.7647058823529411,
+          "support": 32
+        },
+        "turning": {
+          "precision": 0.5675675675675675,
+          "recall": 0.65625,
+          "f1": 0.6086956521739131,
+          "support": 32
+        },
+        "falling": {
+          "precision": 0.8387096774193549,
+          "recall": 0.8125,
+          "f1": 0.8253968253968254,
+          "support": 32
+        }
+      },
+      "per_class_f1": {
+        "running": 0.7796610169491526,
+        "walking": 0.8115942028985508,
+        "jumping": 0.6666666666666666,
+        "squatting": 0.7,
+        "arm_wave": 0.7647058823529411,
+        "turning": 0.6086956521739131,
+        "falling": 0.8253968253968254
+      },
+      "per_class_precision": {
+        "running": 0.8518518518518519,
+        "walking": 0.7567567567567568,
+        "jumping": 0.7142857142857143,
+        "squatting": 0.75,
+        "arm_wave": 0.7222222222222222,
+        "turning": 0.5675675675675675,
+        "falling": 0.8387096774193549
+      },
+      "per_class_recall": {
+        "running": 0.71875,
+        "walking": 0.875,
+        "jumping": 0.625,
+        "squatting": 0.65625,
+        "arm_wave": 0.8125,
+        "turning": 0.65625,
+        "falling": 0.8125
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            23,
+            8,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            28,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            20,
+            2,
+            3,
+            4,
+            1
+          ],
+          [
+            0,
+            0,
+            3,
+            21,
+            1,
+            6,
+            1
+          ],
+          [
+            0,
+            0,
+            2,
+            0,
+            26,
+            4,
+            0
+          ],
+          [
+            0,
+            0,
+            2,
+            4,
+            2,
+            21,
+            3
+          ],
+          [
+            1,
+            0,
+            0,
+            1,
+            2,
+            2,
+            26
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 5222406,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
+    },
+    {
+      "model_id": "v2_gbdt_cross_user_20261012T140000Z",
+      "family": "gbdt",
+      "split_strategy": "cross_user",
+      "run_id": "20261012T140000Z",
+      "artifact_dir": "artifacts/v2_gbdt/20261012T140000Z/cross_user",
+      "macro_f1": 0.379117220964567,
+      "macro_precision": 0.39063585032718656,
+      "macro_recall": 0.4,
+      "weighted_f1": 0.37911722096456707,
+      "accuracy": 0.4,
+      "per_class": {
+        "running": {
+          "precision": 0.484375,
+          "recall": 0.775,
+          "f1": 0.5961538461538461,
+          "support": 40
+        },
+        "walking": {
+          "precision": 0.16666666666666666,
+          "recall": 0.075,
+          "f1": 0.10344827586206896,
+          "support": 40
+        },
+        "jumping": {
+          "precision": 0.36666666666666664,
+          "recall": 0.275,
+          "f1": 0.3142857142857143,
+          "support": 40
+        },
+        "squatting": {
+          "precision": 0.34782608695652173,
+          "recall": 0.4,
+          "f1": 0.37209302325581395,
+          "support": 40
+        },
+        "arm_wave": {
+          "precision": 0.3389830508474576,
+          "recall": 0.5,
+          "f1": 0.40404040404040403,
+          "support": 40
+        },
+        "turning": {
+          "precision": 0.43902439024390244,
+          "recall": 0.45,
+          "f1": 0.4444444444444444,
+          "support": 40
+        },
+        "falling": {
+          "precision": 0.5909090909090909,
+          "recall": 0.325,
+          "f1": 0.41935483870967744,
+          "support": 40
+        }
+      },
+      "per_class_f1": {
+        "running": 0.5961538461538461,
+        "walking": 0.10344827586206896,
+        "jumping": 0.3142857142857143,
+        "squatting": 0.37209302325581395,
+        "arm_wave": 0.40404040404040403,
+        "turning": 0.4444444444444444,
+        "falling": 0.41935483870967744
+      },
+      "per_class_precision": {
+        "running": 0.484375,
+        "walking": 0.16666666666666666,
+        "jumping": 0.36666666666666664,
+        "squatting": 0.34782608695652173,
+        "arm_wave": 0.3389830508474576,
+        "turning": 0.43902439024390244,
+        "falling": 0.5909090909090909
+      },
+      "per_class_recall": {
+        "running": 0.775,
+        "walking": 0.075,
+        "jumping": 0.275,
+        "squatting": 0.4,
+        "arm_wave": 0.5,
+        "turning": 0.45,
+        "falling": 0.325
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            31,
+            5,
+            1,
+            0,
+            0,
+            3,
+            0
+          ],
+          [
+            22,
+            3,
+            1,
+            0,
+            10,
+            4,
+            0
+          ],
+          [
+            3,
+            1,
+            11,
+            8,
+            11,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            3,
+            16,
+            9,
+            8,
+            4
+          ],
+          [
+            8,
+            8,
+            1,
+            0,
+            20,
+            2,
+            1
+          ],
+          [
+            0,
+            1,
+            4,
+            10,
+            6,
+            18,
+            1
+          ],
+          [
+            0,
+            0,
+            9,
+            12,
+            3,
+            3,
+            13
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 5053538,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
+    },
+    {
+      "model_id": "v2_gbdt_cross_environment_20261012T140000Z",
+      "family": "gbdt",
+      "split_strategy": "cross_environment",
+      "run_id": "20261012T140000Z",
+      "artifact_dir": "artifacts/v2_gbdt/20261012T140000Z/cross_environment",
+      "macro_f1": 0.30964529248592404,
+      "macro_precision": 0.33992019110809935,
+      "macro_recall": 0.3196428571428571,
+      "weighted_f1": 0.3096452924859241,
+      "accuracy": 0.3196428571428571,
+      "per_class": {
+        "running": {
+          "precision": 0.297029702970297,
+          "recall": 0.375,
+          "f1": 0.3314917127071823,
+          "support": 80
+        },
+        "walking": {
+          "precision": 0.48214285714285715,
+          "recall": 0.3375,
+          "f1": 0.39705882352941174,
+          "support": 80
+        },
+        "jumping": {
+          "precision": 0.23809523809523808,
+          "recall": 0.25,
+          "f1": 0.24390243902439024,
+          "support": 80
+        },
+        "squatting": {
+          "precision": 0.2,
+          "recall": 0.0625,
+          "f1": 0.09523809523809523,
+          "support": 80
+        },
+        "arm_wave": {
+          "precision": 0.5306122448979592,
+          "recall": 0.325,
+          "f1": 0.40310077519379844,
+          "support": 80
+        },
+        "turning": {
+          "precision": 0.25842696629213485,
+          "recall": 0.575,
+          "f1": 0.35658914728682173,
+          "support": 80
+        },
+        "falling": {
+          "precision": 0.373134328358209,
+          "recall": 0.3125,
+          "f1": 0.3401360544217687,
+          "support": 80
+        }
+      },
+      "per_class_f1": {
+        "running": 0.3314917127071823,
+        "walking": 0.39705882352941174,
+        "jumping": 0.24390243902439024,
+        "squatting": 0.09523809523809523,
+        "arm_wave": 0.40310077519379844,
+        "turning": 0.35658914728682173,
+        "falling": 0.3401360544217687
+      },
+      "per_class_precision": {
+        "running": 0.297029702970297,
+        "walking": 0.48214285714285715,
+        "jumping": 0.23809523809523808,
+        "squatting": 0.2,
+        "arm_wave": 0.5306122448979592,
+        "turning": 0.25842696629213485,
+        "falling": 0.373134328358209
+      },
+      "per_class_recall": {
+        "running": 0.375,
+        "walking": 0.3375,
+        "jumping": 0.25,
+        "squatting": 0.0625,
+        "arm_wave": 0.325,
+        "turning": 0.575,
+        "falling": 0.3125
+      },
+      "confusion_matrix": {
+        "labels": [
+          "running",
+          "walking",
+          "jumping",
+          "squatting",
+          "arm_wave",
+          "turning",
+          "falling"
+        ],
+        "matrix": [
+          [
+            30,
+            21,
+            8,
+            2,
+            7,
+            4,
+            8
+          ],
+          [
+            37,
+            27,
+            1,
+            3,
+            2,
+            8,
+            2
+          ],
+          [
+            8,
+            3,
+            20,
+            6,
+            7,
+            21,
+            15
+          ],
+          [
+            9,
+            0,
+            22,
+            5,
+            5,
+            33,
+            6
+          ],
+          [
+            6,
+            1,
+            9,
+            1,
+            26,
+            31,
+            6
+          ],
+          [
+            5,
+            4,
+            17,
+            3,
+            0,
+            46,
+            5
+          ],
+          [
+            6,
+            0,
+            7,
+            5,
+            2,
+            35,
+            25
+          ]
+        ]
+      },
+      "latency_ms": null,
+      "model_size_bytes": 4269317,
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI.",
+      "config_baseline_note": null
     },
     {
       "model_id": "v2_tcn_in_domain_20261012T140000Z",
@@ -3079,7 +3108,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 169390,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_tcn_cross_user_20261012T140000Z",
@@ -3241,7 +3271,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 169393,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     },
     {
       "model_id": "v2_tcn_cross_environment_20261012T140000Z",
@@ -3403,7 +3434,8 @@
       },
       "latency_ms": null,
       "model_size_bytes": 169400,
-      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI."
+      "integrity_note": "Measured on ESP-Fi holdout splits; labels inferred for scenarios 1/2/4 \u2014 not live hardware CSI. Default-config baseline (not hyperparameter-tuned).",
+      "config_baseline_note": "Default-config baseline (not hyperparameter-tuned)"
     }
   ]
 }

@@ -26,7 +26,16 @@ type EvalSummary = {
   models: EvalModel[]
 }
 
-const FAMILIES = ['logreg', 'rf', 'cnn1d', 'gru'] as const
+const FAMILY_ORDER = [
+  'logreg',
+  'rf',
+  'cnn1d',
+  'gru',
+  'mlp',
+  'gbdt',
+  'tcn',
+] as const
+const DEEP_DEFAULT_CONFIG_FAMILIES = new Set(['cnn1d', 'gru', 'tcn'])
 const STRATEGIES = ['in_domain', 'cross_user', 'cross_environment'] as const
 
 function formatBytes(n?: number) {
@@ -101,6 +110,11 @@ function ModelMetricsPanel({ model, title }: { model: EvalModel | null; title: s
           {title}
           <Badge variant="model">{model.family}</Badge>
           <Badge variant="neutral">{model.split_strategy.replace(/_/g, ' ')}</Badge>
+          {DEEP_DEFAULT_CONFIG_FAMILIES.has(model.family) && (
+            <Badge variant="neutral" className="text-[10px] font-normal">
+              Default-config baseline (not hyperparameter-tuned)
+            </Badge>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -237,7 +251,9 @@ export function EvaluationPage() {
 
   const families = useMemo(() => {
     const fromData = new Set(summary?.models.map((m) => m.family) ?? [])
-    return FAMILIES.filter((f) => fromData.has(f) || fromData.size === 0)
+    const ordered = FAMILY_ORDER.filter((f) => fromData.has(f))
+    if (ordered.length > 0) return ordered
+    return [...FAMILY_ORDER]
   }, [summary])
 
   const resolve = (slot: SlotState) =>

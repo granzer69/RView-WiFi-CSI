@@ -245,6 +245,9 @@ def run_in_domain_personalization_ab(
         "limitations": (
             "Classical families (logreg, rf) only; deep models not adapted. "
             "Aggregate means are unweighted across participants. "
-            "Not a biometric identification claim."
+            "Global baseline classifiers were trained on the full in-domain train split, "
+            "including each participant's calibration sessions — this is not unseen-user "
+            "personalization or leave-one-user-out evaluation. For logreg, both arms use "
+            "logistic regression on the same frozen features. Not a biometric identification claim."
         ),
     }
