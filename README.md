@@ -8,6 +8,8 @@ Software-first pipeline for recognizing human activity from Wi-Fi channel state 
 | --- | --- |
 | **[`docs/SETUP.md`](docs/SETUP.md)** | **Start here** — clone, install, ESP-Fi, run API + UI, Cursor ports, env vars, troubleshooting |
 | [`docs/what-we-built.md`](docs/what-we-built.md) | Architecture, V1–V3, measured results, limitations |
+| [`docs/thesis-strengths-limitations.md`](docs/thesis-strengths-limitations.md) | Examiner-facing strengths and limitations |
+| [`docs/thesis-benchmark-ladder.md`](docs/thesis-benchmark-ladder.md) | Seven-family ESP-Fi benchmark table |
 | [`docs/cursor-in-app-browser.md`](docs/cursor-in-app-browser.md) | Cursor Cloud port forwarding |
 
 ## Quick start

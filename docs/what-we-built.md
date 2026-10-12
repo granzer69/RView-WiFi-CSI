@@ -261,7 +261,8 @@ python3 scripts/export_participant_profiles.py # refresh participant + personali
 - **Unit/integration:** `python3 -m pytest` (ingestion, splits, preprocessing, simulator session, API v3, replay).  
 - **Frontend:** `cd frontend && npm run build` (TypeScript + Vite production build).  
 - **Split integrity:** Assignment hash verification in training loaders.  
-- **Label integrity:** Manifest `label_note` and UI copy for inferred scenarios.
+- **Label integrity:** Manifest `label_note` and UI copy for inferred scenarios.  
+- **Thesis validity:** [`thesis-strengths-limitations.md`](thesis-strengths-limitations.md), [`research-validity-audit.md`](research-validity-audit.md), [`thesis-benchmark-ladder.md`](thesis-benchmark-ladder.md).
 
 ---
 
