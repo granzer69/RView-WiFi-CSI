@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
 import { Badge } from '@/components/ui/badge'
+import { DEEP_DEFAULT_CONFIG_FAMILIES } from '@/lib/deepModelBadges'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
@@ -135,6 +136,7 @@ export function ResearchLabPage() {
   const [generalization, setGeneralization] = useState<GeneralizationPayload | null>(null)
   const [participants, setParticipants] = useState<ParticipantsPayload | null>(null)
   const [personalization, setPersonalization] = useState<PersonalizationPayload | null>(null)
+  const [profilingFamily, setProfilingFamily] = useState<string>('logreg')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -166,6 +168,27 @@ export function ResearchLabPage() {
       .filter((m) => m.split_strategy !== 'in_domain' && m.generalization_gap != null)
       .slice(0, 4)
   }, [generalization])
+
+  const profilingFamilies = useMemo(() => {
+    const fromExport = participants?.model_metrics?.models?.map((m) => m.family) ?? []
+    const unique = [...new Set(fromExport)].sort()
+    return unique.length > 0 ? unique : ['logreg', 'rf', 'cnn1d', 'gru', 'mlp', 'gbdt', 'tcn']
+  }, [participants])
+
+  const profilingModel = useMemo(() => {
+    const models = participants?.model_metrics?.models ?? []
+    return (
+      models.find((m) => m.family === profilingFamily) ??
+      models.find((m) => m.family === profilingFamilies[0]) ??
+      null
+    )
+  }, [participants, profilingFamily, profilingFamilies])
+
+  useEffect(() => {
+    if (profilingFamilies.length && !profilingFamilies.includes(profilingFamily)) {
+      setProfilingFamily(profilingFamilies[0])
+    }
+  }, [profilingFamilies, profilingFamily])
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:p-6">
@@ -205,7 +228,12 @@ export function ResearchLabPage() {
             )}
             <Card className="surface-card border-zinc-800">
               <CardHeader>
-                <CardTitle className="text-sm">Macro-F1 and generalization gap (Δ vs in-domain)</CardTitle>
+                <CardTitle className="text-sm flex flex-wrap items-center gap-2">
+                  Macro-F1 and generalization gap (Δ vs in-domain)
+                  <Badge variant="neutral" className="text-[10px] font-normal">
+                    cnn1d / gru / tcn: default-config baseline (not hyperparameter-tuned)
+                  </Badge>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <GapTable models={generalization.models} />
@@ -221,6 +249,11 @@ export function ResearchLabPage() {
                     <div key={model.model_id}>
                       <p className="mb-1 font-medium text-zinc-200">
                         {model.family} · {model.split_strategy.replace(/_/g, ' ')}
+                        {DEEP_DEFAULT_CONFIG_FAMILIES.has(model.family) && (
+                          <Badge variant="neutral" className="ml-2 text-[10px]">
+                            default-config baseline
+                          </Badge>
+                        )}
                       </p>
                       <ul className="list-disc pl-4">
                         {(model.confused_pairs ?? []).slice(0, 3).map((pair) => (
@@ -271,16 +304,31 @@ export function ResearchLabPage() {
                 </CardContent>
               </Card>
             )}
-            {participants?.model_metrics?.models?.[0] && (
+            {profilingModel && (
               <Card className="surface-card border-zinc-800">
                 <CardHeader>
-                  <CardTitle className="text-sm flex items-center gap-2">
+                  <CardTitle className="text-sm flex flex-wrap items-center gap-2">
                     Per-participant test macro-F1
-                    <Badge variant="model">{participants.model_metrics.models[0].family}</Badge>
+                    <div className="flex flex-wrap gap-1">
+                      {profilingFamilies.map((family) => (
+                        <button
+                          key={family}
+                          type="button"
+                          onClick={() => setProfilingFamily(family)}
+                          className={`rounded-full px-2 py-0.5 text-[10px] ${
+                            profilingFamily === family
+                              ? 'bg-cyan-900 text-cyan-100'
+                              : 'bg-zinc-800 text-zinc-400'
+                          }`}
+                        >
+                          {family}
+                        </button>
+                      ))}
+                    </div>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-2 sm:grid-cols-4">
-                  {participants.model_metrics.models[0].participants.map((p) => (
+                  {profilingModel.participants.map((p) => (
                     <div key={p.user_id} className="rounded border border-zinc-800 p-2">
                       <p className="text-[10px] uppercase text-zinc-500">User {p.user_id}</p>
                       <p className="text-lg font-semibold">{p.macro_f1?.toFixed(3) ?? '—'}</p>
@@ -293,6 +341,17 @@ export function ResearchLabPage() {
           </TabsContent>
 
           <TabsContent value="personalization" className="mt-4 space-y-4">
+            <div
+              role="alert"
+              className="rounded-lg border border-rose-900/60 bg-rose-950/30 px-4 py-3 text-sm text-rose-100/95"
+            >
+              <p className="font-semibold text-rose-50">Not unseen-user personalization</p>
+              <p className="mt-1 text-rose-100/90">
+                The global baseline models were trained on the full in-domain train split, including each
+                participant&apos;s sessions used later for calibration. Reported gains are in-domain A/B
+                comparisons — not leave-one-user-out or deployment to users absent from training.
+              </p>
+            </div>
             <Card className="surface-card border-zinc-800">
               <CardHeader>
                 <CardTitle className="text-sm flex items-center gap-2">

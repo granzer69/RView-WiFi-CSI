@@ -8,13 +8,16 @@ from fastapi import FastAPI, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.config import ApiSettings, settings
-from api.inference import predict_from_amplitude
+from api.activity_service import evaluate_trial_sample, list_activity_trials
+from api.inference import predict_from_amplitude, resolve_active_model
+from api.source_status import build_source_status
 from api.model_registry import ModelRegistry
 from api.replay_manifest import build_manifest
 from api.replay_stream import ReplayStreamSession
 from api.explorer_service import (
     build_catalog,
     compare_trials,
+    export_catalog_json,
     slice_amplitude,
     subcarrier_waveform,
     trial_detail,
@@ -31,6 +34,8 @@ from api.schemas import (
     PredictRequest,
     PredictionResponse,
     SelectModelRequest,
+    SourceStatusResponse,
+    ActivitySampleRequest,
 )
 from api.workbench import (
     compare_runs,
@@ -68,6 +73,11 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    @application.get("/source/status", response_model=SourceStatusResponse)
+    def source_status() -> SourceStatusResponse:
+        payload = build_source_status(cfg)
+        return SourceStatusResponse(**payload)
 
     @application.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
@@ -139,6 +149,29 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
     def research_participants() -> dict:
         return _read_research_json("participants.json")
 
+    @application.get("/activity/trials")
+    def activity_trials() -> dict:
+        try:
+            return list_activity_trials(cfg.data_root)
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    @application.post("/activity/sample")
+    def activity_sample(body: ActivitySampleRequest) -> dict:
+        try:
+            return evaluate_trial_sample(
+                cfg.data_root,
+                registry,
+                cfg,
+                session_id=body.session_id,
+                sample_index=body.sample_index,
+                model_id=body.model_id,
+            )
+        except FileNotFoundError as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+        except DatasetError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+
     @application.get("/replay/manifest")
     def replay_manifest() -> dict:
         if not cfg.data_root.is_dir():
@@ -151,7 +184,7 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
     @application.post("/predict", response_model=PredictionResponse)
     def predict(body: PredictRequest) -> PredictionResponse:
         try:
-            model = _resolve_active(registry, cfg)
+            model = resolve_active_model(registry, cfg)
         except FileNotFoundError as exc:
             raise HTTPException(status_code=503, detail=str(exc)) from exc
         except Exception as exc:  # noqa: BLE001
@@ -185,6 +218,13 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
         except DatasetError as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
         return ExplorerCatalogResponse(**payload)
+
+    @application.get("/explorer/catalog/export")
+    def explorer_catalog_export(max_trials: int = Query(500, ge=1, le=2000)) -> dict:
+        try:
+            return export_catalog_json(cfg.data_root, max_trials=max_trials)
+        except DatasetError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
 
     @application.get("/explorer/trials/{session_id}")
     def explorer_trial(session_id: str) -> dict:
@@ -239,6 +279,7 @@ def create_app(api_settings: ApiSettings | None = None) -> FastAPI:
             return trial_prediction(
                 cfg.data_root,
                 registry,
+                cfg,
                 session_id,
                 model_id=model_id,
                 max_rows=cfg.max_amplitude_rows,

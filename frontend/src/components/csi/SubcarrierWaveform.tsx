@@ -5,6 +5,7 @@ import { SUBCARRIERS } from '@/types/csi'
 type Props = {
   subcarriers?: number[] | null
   timeIndex?: number
+  sampleCount?: number
   /** Explorer mode: amplitude vs sample index for one subcarrier */
   values?: number[]
   subcarrierIndex?: number
@@ -13,6 +14,7 @@ type Props = {
 export function SubcarrierWaveform({
   subcarriers = null,
   timeIndex = 0,
+  sampleCount,
   values: timeSeries,
   subcarrierIndex,
 }: Props) {
@@ -47,7 +49,10 @@ export function SubcarrierWaveform({
               subcarrier {subcarrierIndex ?? 0} · raw amplitude
             </span>
           ) : (
-            <span className="text-xs font-normal text-zinc-500">frame t={timeIndex}</span>
+            <span className="text-xs font-normal text-zinc-500">
+              sample index {timeIndex}
+              {sampleCount != null ? ` / ${sampleCount - 1}` : ''}
+            </span>
           )}
         </CardTitle>
       </CardHeader>

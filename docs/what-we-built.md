@@ -2,7 +2,7 @@
 
 **Authoring context:** Final-year software project (Ribhu S.).  
 **Repository:** [granzer69/RView-WiFi-CSI](https://github.com/granzer69/RView-WiFi-CSI)  
-**Status (October 2026):** V1 data foundation, V2 ML engine, and V3 software platform are implemented and signed off for **software-only** delivery (no ESP32 / live hardware).
+**Status (October 2026):** V1 data foundation, V2 ML engine, V3 software platform, and **V4 sensing workbench** (source status, Activity/Models routes, unified replay inference) for **software-only** delivery (no ESP32 / live hardware).
 
 This document is the single narrative of what exists today: purpose, architecture, measured results, integrity rules, how to run the demo, and known limits. Deeper build guides remain in linked files at the end.
 
@@ -199,8 +199,13 @@ Research Lab generalization: `scripts/export_research_lab.py` (baselines + optio
 | `GET` | `/replay/manifest` | Session catalog from `RVIEW_DATA_ROOT` |
 | `POST` | `/predict` | Classify amplitude window (max 950×52) |
 | `WS` | `/ws/stream` | Replay + `csi_frame` + `prediction` + `timeline` |
+| `GET` | `/source/status` | **V4** — `dataset_replay` vs `live_unavailable` |
+| `GET` | `/activity/trials` | **V4** — trial catalog for on-demand inference |
+| `POST` | `/activity/sample` | **V4** — GT vs prediction at sample index |
 
 Default active model: `artifacts/v2_rf/20261010T060000Z/in_domain`.
+
+**V4 guide:** `docs/v4-sensing-platform.md` — `/activity`, `/models` UI routes, explorer `?session=`, sample-index axes, quality flags.
 
 Key modules: `src/api/main.py`, `inference.py`, `model_registry.py`, `replay_stream.py`, `replay_manifest.py`. Replay engine shares `src/simulator/sources/dataset_replay.py` with tests.
 
@@ -215,6 +220,10 @@ Key modules: `src/api/main.py`, `inference.py`, `model_registry.py`, `replay_str
 | **SPATIAL** | Top-down floor plan — **simulated** (`spatial.simulated: true`) |
 | **SYSTEM** | Model status, transport hints |
 | **Evaluation** (`/evaluation`) | Offline metrics from exported summary JSON |
+| **Activity** (`/activity`) | **V4** — trial list, sample-index inference on demand |
+| **Models** (`/models`) | **V4** — 7×3 metric matrix from exported JSON |
+| **CSI Explorer** (`/explorer`) | Trial heatmaps, compare, bounded catalog export |
+| **Experiments** (`/experiments`) | Workbench runs against frozen splits |
 | **Research Lab** (`/research`) | Generalization gaps, participant test metrics, personalization protocol |
 | **Model picker** | Switch logreg / RF / CNN / GRU and split strategy via API |
 

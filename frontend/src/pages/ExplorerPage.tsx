@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
 import { ExplorerHeatmap } from '@/components/csi/ExplorerHeatmap'
@@ -18,6 +19,7 @@ import {
 import { fetchModels } from '@/services/apiClient'
 
 export function ExplorerPage() {
+  const [searchParams] = useSearchParams()
   const [catalog, setCatalog] = useState<ExplorerCatalog | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [primaryId, setPrimaryId] = useState<string>('')
@@ -36,13 +38,16 @@ export function ExplorerPage() {
     fetchExplorerCatalog()
       .then((c) => {
         setCatalog(c)
-        if (c.trials.length) setPrimaryId(c.trials[0].session_id)
+        const fromQuery = searchParams.get('session')
+        if (fromQuery && c.trials.some((t) => t.session_id === fromQuery)) {
+          setPrimaryId(fromQuery)
+        } else if (c.trials.length) setPrimaryId(c.trials[0].session_id)
       })
       .catch((e: Error) => setError(e.message))
     fetchModels()
       .then((m) => setModelId(m.active_model_id ?? undefined))
       .catch(() => undefined)
-  }, [])
+  }, [searchParams])
 
   const trials = catalog?.trials ?? []
 

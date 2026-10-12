@@ -7,7 +7,7 @@ from typing import Any
 
 import numpy as np
 
-from api.inference import predict_from_amplitude
+from api.inference import predict_from_amplitude, resolve_active_model
 from api.model_registry import ModelRegistry
 from common.errors import DatasetError
 from datasets.esp_fi import (
@@ -52,7 +52,21 @@ def build_catalog(data_root: Path) -> dict[str, Any]:
     }
 
 
+def quality_flags(amplitude: np.ndarray) -> dict[str, Any]:
+    stats = signal_statistics(amplitude)
+    shape_ok = amplitude.shape == (TIME_STEPS, SUBCARRIERS)
+    return {
+        "non_finite": stats.get("finite_fraction", 1.0) < 1.0,
+        "constant": bool(stats.get("constant")),
+        "shape_ok": shape_ok,
+        "shape": list(amplitude.shape),
+        "finite_fraction": stats.get("finite_fraction"),
+    }
+
+
 def _trial_summary(record: TrialRecord) -> dict[str, Any]:
+    window = load_window(record)
+    flags = quality_flags(window.amplitude)
     return {
         "session_id": record.session_id,
         "scenario_id": record.scenario_id,
@@ -64,6 +78,7 @@ def _trial_summary(record: TrialRecord) -> dict[str, Any]:
         "trial_id": record.trial_id,
         "label_verified_by_folder": record.label_verified_by_folder,
         "label_status": "verified" if record.label_verified_by_folder else "inferred",
+        "quality_flags": flags,
     }
 
 
@@ -187,9 +202,26 @@ def compare_trials(data_root: Path, session_a: str, session_b: str) -> dict[str,
     }
 
 
+def export_catalog_json(data_root: Path, *, max_trials: int = 500) -> dict[str, Any]:
+    catalog = build_catalog(data_root)
+    trials = catalog["trials"]
+    if len(trials) > max_trials:
+        catalog = {
+            **catalog,
+            "trials": trials[:max_trials],
+            "truncated": True,
+            "trial_count_total": len(trials),
+            "trial_count_exported": max_trials,
+        }
+    else:
+        catalog = {**catalog, "truncated": False}
+    return catalog
+
+
 def trial_prediction(
     data_root: Path,
     registry: ModelRegistry,
+    settings: Any,
     session_id: str,
     *,
     model_id: str | None,
@@ -198,10 +230,7 @@ def trial_prediction(
 ) -> dict[str, Any]:
     record = _find_record(data_root, session_id)
     window = load_window(record)
-    if model_id:
-        model = registry.load_by_id(model_id)
-    else:
-        model = registry.load_default()
+    model = resolve_active_model(registry, settings, model_id=model_id)
     amplitude = window.amplitude.tolist()
     payload = predict_from_amplitude(
         model,

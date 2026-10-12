@@ -55,6 +55,19 @@ class PredictRequest(BaseModel):
         return value
 
 
+class SourceStatusResponse(BaseModel):
+    mode: Literal["dataset_replay", "live_unavailable"]
+    reason: str
+    dataset_id: str | None = None
+    live_implemented: bool = False
+
+
+class ActivitySampleRequest(BaseModel):
+    session_id: str
+    sample_index: int = Field(ge=0)
+    model_id: str | None = None
+
+
 class PredictionResponse(BaseModel):
     activity: str
     confidence: float
@@ -67,6 +80,8 @@ class PredictionResponse(BaseModel):
     probabilities: dict[str, float] | None = None
     model_version: str | None = None
     spatial: dict[str, Any] | None = None
+    sample_index: int | None = None
+    sample_count: int | None = None
 
 
 class ExplorerCatalogResponse(BaseModel):
