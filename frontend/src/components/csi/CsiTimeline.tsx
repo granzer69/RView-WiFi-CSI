@@ -11,7 +11,7 @@ export function CsiTimeline({ timeIndex, totalSteps, label }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm">Replay progress</CardTitle>
+        <CardTitle className="text-sm">Sample index progress</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         <div
@@ -28,7 +28,8 @@ export function CsiTimeline({ timeIndex, totalSteps, label }: Props) {
           />
         </div>
         <p className="text-xs text-zinc-500">
-          Ground-truth band: <span className="capitalize text-zinc-300">{label}</span> (full trial)
+          Index {timeIndex} / {totalSteps - 1} · ground truth:{' '}
+          <span className="capitalize text-zinc-300">{label}</span> (trial-level label)
         </p>
       </CardContent>
     </Card>

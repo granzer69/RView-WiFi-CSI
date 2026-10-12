@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
+import { Badge } from '@/components/ui/badge'
+import { useSourceStatus } from '@/hooks/useSourceStatus'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -16,6 +18,10 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   )
 
 export function WorkspaceShell({ children }: Props) {
+  const { status: sourceStatus } = useSourceStatus()
+  const sourceLabel =
+    sourceStatus?.mode === 'dataset_replay' ? 'DATASET REPLAY' : 'LIVE UNAVAILABLE'
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <header className="sticky top-0 z-20 border-b border-border-subtle/90 bg-zinc-950/90 backdrop-blur-md">
@@ -37,8 +43,17 @@ export function WorkspaceShell({ children }: Props) {
             </div>
           </div>
           <nav className="flex flex-wrap items-center gap-1.5" aria-label="Primary navigation">
+            <Badge variant={sourceStatus?.mode === 'dataset_replay' ? 'real' : 'neutral'}>
+              {sourceLabel}
+            </Badge>
             <NavLink to="/" className={navLinkClass} end>
               Sensing
+            </NavLink>
+            <NavLink to="/activity" className={navLinkClass}>
+              Activity
+            </NavLink>
+            <NavLink to="/models" className={navLinkClass}>
+              Models
             </NavLink>
             <NavLink to="/evaluation" className={navLinkClass}>
               Evaluation
@@ -59,6 +74,10 @@ export function WorkspaceShell({ children }: Props) {
       <footer className="border-t border-border-subtle/80 bg-zinc-950/95 py-3">
         <div className="mx-auto max-w-7xl px-4 text-xs text-zinc-500">
           <Link to="/" className="hover:text-zinc-400">Sensing</Link>
+          <span className="mx-2">·</span>
+          <Link to="/activity" className="hover:text-zinc-400">Activity</Link>
+          <span className="mx-2">·</span>
+          <Link to="/models" className="hover:text-zinc-400">Models</Link>
           <span className="mx-2">·</span>
           <Link to="/evaluation" className="hover:text-zinc-400">Evaluation laboratory</Link>
           <span className="mx-2">·</span>

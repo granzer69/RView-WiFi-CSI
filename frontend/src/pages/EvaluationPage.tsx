@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { DEEP_DEFAULT_CONFIG_FAMILIES } from '@/lib/deepModelBadges'
 import { MODEL_FAMILIES } from '@/lib/modelFamilies'
 
 type PerClassMetrics = Record<string, number>
@@ -103,6 +104,11 @@ function ModelMetricsPanel({ model, title }: { model: EvalModel | null; title: s
           {title}
           <Badge variant="model">{model.family}</Badge>
           <Badge variant="neutral">{model.split_strategy.replace(/_/g, ' ')}</Badge>
+          {DEEP_DEFAULT_CONFIG_FAMILIES.has(model.family) && (
+            <Badge variant="neutral" className="text-[10px] font-normal">
+              Default-config baseline (not hyperparameter-tuned)
+            </Badge>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

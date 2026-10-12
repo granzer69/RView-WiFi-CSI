@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useConnectionStatus } from '@/hooks/useConnectionStatus'
 import { useReplaySession } from '@/hooks/useReplaySession'
+import { useSourceStatus } from '@/hooks/useSourceStatus'
 import { replayTransport } from '@/services/replayClient'
 import { TIME_STEPS } from '@/types/csi'
 
@@ -23,6 +24,7 @@ export function LiveSensingPage() {
   const [pickerError, setPickerError] = useState<string | null>(null)
   const [activeModelLabel, setActiveModelLabel] = useState<string>('—')
   const connection = useConnectionStatus()
+  const { status: sourceStatus } = useSourceStatus()
   const {
     manifest,
     sessions,
@@ -70,11 +72,14 @@ export function LiveSensingPage() {
       <header className="flex flex-col gap-3 border-b border-zinc-800 pb-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="real">DATASET REPLAY</Badge>
-            <SourceChip />
+            <Badge variant={sourceStatus?.mode === 'dataset_replay' ? 'real' : 'neutral'}>
+              {sourceStatus?.mode === 'dataset_replay' ? 'DATASET REPLAY' : 'LIVE UNAVAILABLE'}
+            </Badge>
+            <SourceChip mode={sourceStatus?.mode} />
           </div>
           <p className="text-sm text-zinc-400">
-            Research workstation · ESP-Fi amplitude replay (no hardware)
+            {sourceStatus?.reason ??
+              'Research workstation · ESP-Fi amplitude replay (no hardware)'}
           </p>
           <ConnectionStatusChip status={connection} />
         </div>
@@ -142,7 +147,11 @@ export function LiveSensingPage() {
             <TabsContent value="sensing" className="space-y-4">
               <div className="grid gap-4 xl:grid-cols-2">
                 <CsiHeatmap heatmap={heatmap} timeIndex={timeIndex} totalSteps={totalSteps} />
-                <SubcarrierWaveform subcarriers={frame?.subcarriers ?? null} timeIndex={timeIndex} />
+                <SubcarrierWaveform
+                  subcarriers={frame?.subcarriers ?? null}
+                  timeIndex={timeIndex}
+                  sampleCount={totalSteps}
+                />
               </div>
               <CsiTimeline
                 timeIndex={timeIndex}
@@ -175,6 +184,11 @@ export function LiveSensingPage() {
                 transportMode={transportMode}
                 timeline={timeline}
                 connection={connection}
+                sourceStatus={sourceStatus}
+                sampleIndex={timeIndex}
+                sampleCount={totalSteps}
+                speed={speed}
+                inferenceError={error}
               />
             </TabsContent>
           </Tabs>
