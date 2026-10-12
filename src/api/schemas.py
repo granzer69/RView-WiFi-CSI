@@ -67,3 +67,44 @@ class PredictionResponse(BaseModel):
     probabilities: dict[str, float] | None = None
     model_version: str | None = None
     spatial: dict[str, Any] | None = None
+
+
+class ExplorerCatalogResponse(BaseModel):
+    dataset_id: str
+    trial_count: int
+    shape: dict[str, int]
+    orientation_note: str
+    label_caveat: str
+    trials: list[dict[str, Any]]
+
+
+class AmplitudeSliceResponse(BaseModel):
+    session_id: str
+    kind: str
+    row_start: int
+    row_end: int
+    subcarrier_start: int
+    subcarrier_end: int
+    shape: list[int]
+    amplitude: list[list[float]]
+
+
+class ExperimentRunRequest(BaseModel):
+    family: Literal["logreg", "rf", "cnn1d", "gru"]
+    strategies: list[Literal["in_domain", "cross_user", "cross_environment"]] | None = None
+    seed: int = 42
+    preprocess: dict[str, Any] | None = None
+    model: dict[str, Any] | None = None
+    run_id: str | None = None
+    name: str | None = None
+    verify_assignment_hash: bool = True
+    dataset_root: str | None = None
+    preview_only: bool = False
+
+
+class ExperimentRunResponse(BaseModel):
+    run_id: str
+    family: str
+    status: str
+    artifacts_dir: str | None = None
+    preview: dict[str, Any] | None = None

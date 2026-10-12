@@ -66,7 +66,7 @@ export function LiveSensingPage() {
   )
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:p-6">
+    <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:p-6 lg:rounded-xl lg:bg-zinc-950/75 lg:p-6 lg:shadow-sm lg:ring-1 lg:ring-border-subtle/40">
       <header className="flex flex-col gap-3 border-b border-zinc-800 pb-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">

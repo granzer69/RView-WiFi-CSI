@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { MODEL_FAMILIES } from '@/lib/modelFamilies'
 
 type PerClassMetrics = Record<string, number>
 
@@ -26,7 +28,7 @@ type EvalSummary = {
   models: EvalModel[]
 }
 
-const FAMILIES = ['logreg', 'rf', 'cnn1d', 'gru'] as const
+const FAMILIES = MODEL_FAMILIES
 const STRATEGIES = ['in_domain', 'cross_user', 'cross_environment'] as const
 
 function formatBytes(n?: number) {
@@ -248,12 +250,10 @@ export function EvaluationPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:p-6">
-      <header className="border-b border-zinc-800 pb-4">
-        <h1 className="text-xl font-semibold text-zinc-50">Evaluation laboratory</h1>
-        <p className="text-sm text-zinc-400">
-          Offline metrics from exported summary.json · holdout split strategies
-        </p>
-      </header>
+      <StudioPageChrome
+        title="Evaluation laboratory"
+        subtitle="Offline metrics from exported summary.json only — no live or fabricated scores. Compare holdout split strategies side by side."
+      />
 
       {error && (
         <div className="rounded-md border border-amber-800 bg-amber-950/30 px-3 py-2 text-sm text-amber-100">

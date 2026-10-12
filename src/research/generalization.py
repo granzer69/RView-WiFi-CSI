@@ -10,6 +10,7 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parents[2]
 STRATEGIES = ("in_domain", "cross_user", "cross_environment")
 FAMILIES = ("logreg", "rf", "cnn1d", "gru")
+EXTENDED_FAMILIES = ("mlp", "gbdt", "tcn")
 
 BASELINE_RUN_IDS: dict[str, str] = {
     "logreg": "20261010T045500Z",
@@ -59,6 +60,59 @@ def load_metrics_json(path: Path) -> dict[str, Any]:
     if not path.is_file():
         raise FileNotFoundError(f"metrics.json not found: {path}")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _latest_run_metrics_entries(
+    repo_root: Path,
+    family: str,
+) -> list[dict[str, Any]]:
+    """Metrics for the newest run directory under artifacts/v2_<family> that has strategy folders."""
+    family_dir = repo_root / "artifacts" / f"v2_{family}"
+    if not family_dir.is_dir():
+        return []
+    run_dirs = sorted(
+        [p for p in family_dir.iterdir() if p.is_dir()],
+        key=lambda p: p.name,
+        reverse=True,
+    )
+    for run_dir in run_dirs:
+        refs: list[dict[str, Any]] = []
+        for strategy in STRATEGIES:
+            artifact_dir = run_dir / strategy
+            metrics_path = artifact_dir / "metrics.json"
+            if not metrics_path.is_file():
+                continue
+            metrics = load_metrics_json(metrics_path)
+            test = metrics.get("test") or {}
+            refs.append(
+                {
+                    "family": family,
+                    "run_id": run_dir.name,
+                    "split_strategy": strategy,
+                    "artifact_dir": str(artifact_dir.relative_to(repo_root)),
+                    "metrics_path": str(metrics_path.relative_to(repo_root)),
+                    "assignment_sha256": metrics.get("assignment_sha256"),
+                    "counts": metrics.get("counts"),
+                    "test": test,
+                }
+            )
+        if refs:
+            return refs
+    return []
+
+
+def extended_metrics_entries(repo_root: Path | None = None) -> list[dict[str, Any]]:
+    """Baseline frozen runs plus optional mlp/gbdt/tcn when trained artifacts exist."""
+    root = repo_root or REPO_ROOT
+    entries = baseline_metrics_entries(root)
+    seen = {(e["family"], e["run_id"]) for e in entries}
+    for family in EXTENDED_FAMILIES:
+        for item in _latest_run_metrics_entries(root, family):
+            key = (item["family"], item["run_id"])
+            if key not in seen:
+                entries.append(item)
+                seen.add(key)
+    return entries
 
 
 def baseline_metrics_entries(repo_root: Path | None = None) -> list[dict[str, Any]]:

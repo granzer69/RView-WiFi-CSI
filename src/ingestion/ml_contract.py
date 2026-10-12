@@ -47,6 +47,19 @@ MODEL_INPUT_SHAPES: dict[str, dict[str, Any]] = {
         "shape": (950, 52),
         "note": "Matches storage order directly.",
     },
+    "mlp": {
+        "features": "classical_v1 engineered features (train-fit scaler)",
+        "shape": (635,),
+    },
+    "gbdt": {
+        "features": "classical_v1 engineered features (train-fit scaler)",
+        "shape": (635,),
+    },
+    "tcn": {
+        "features": "amplitude as (channels=subcarriers, length=time), dilated residual TCN",
+        "shape": (52, 950),
+        "note": "Same channels-first layout as cnn_1d.",
+    },
 }
 
 SPLIT_NAMES = ("train", "val", "test")

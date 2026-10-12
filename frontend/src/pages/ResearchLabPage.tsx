@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import { StudioPageChrome } from '@/components/layout/StudioPageChrome'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -168,12 +169,11 @@ export function ResearchLabPage() {
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:p-6">
-      <header className="border-b border-zinc-800 pb-4">
-        <h1 className="text-xl font-semibold text-zinc-50">Research Lab</h1>
-        <p className="text-sm text-zinc-400">
-          Generalization gaps, participant test metrics, and experiment provenance
-        </p>
-      </header>
+      <StudioPageChrome
+        showLabelCaveat
+        title="Research lab"
+        subtitle="Generalization gaps, participant holdout metrics, and experiment provenance from exported artifact JSON only."
+      />
 
       {error && (
         <div className="rounded-md border border-amber-800 bg-amber-950/30 px-3 py-2 text-sm text-amber-100">
