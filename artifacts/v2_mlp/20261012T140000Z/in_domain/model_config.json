@@ -1,0 +1,30 @@
+{
+  "model_type": "mlp",
+  "feature_kind": "classical_v1",
+  "random_state": 42,
+  "hidden_layer_sizes": [
+    128,
+    64
+  ],
+  "max_iter": 300,
+  "alpha": 0.0001,
+  "learning_rate_init": 0.001,
+  "label_names": [
+    "running",
+    "walking",
+    "jumping",
+    "squatting",
+    "arm_wave",
+    "turning",
+    "falling"
+  ],
+  "split_strategy": "in_domain",
+  "dataset_id": "esp-fi-har",
+  "preprocess": {
+    "clip_mad": false,
+    "mad_k": 5.0,
+    "normalize": "none",
+    "window_length": null,
+    "hop": null
+  }
+}

@@ -21,7 +21,11 @@ BASELINE_RUN_IDS: dict[str, str] = {
 
 # Pin extended-family runs after training (same protocol as baselines). When empty,
 # extended_metrics_entries() uses the newest complete run under artifacts/v2_<family>/.
-EXTENDED_RUN_IDS: dict[str, str] = {}
+EXTENDED_RUN_IDS: dict[str, str] = {
+    "mlp": "20261012T140000Z",
+    "gbdt": "20261012T140000Z",
+    "tcn": "20261012T140000Z",
+}
 
 
 @dataclass(frozen=True)

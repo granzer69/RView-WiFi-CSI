@@ -1,39 +1,37 @@
-# V2 GBDT baseline — results status
+# V2 GBDT baseline — measured results
 
-**Config:** `configs/experiments/v2_gbdt_esp_fi.yaml`  
-**Training entry:** `scripts/train_gbdt.py`  
-**Artifacts root:** `artifacts/v2_gbdt/<run_id>/<strategy>/`
+Run: `20261012T140000Z` (artifacts under `artifacts/v2_gbdt/20261012T140000Z/`).  
+Config: `configs/experiments/v2_gbdt_esp_fi.yaml`.  
+Training: `python3 scripts/train_gbdt.py --run-id 20261012T140000Z`.
 
-## Status: not measured in this repository snapshot
+**Labels:** `published_folder_codes_not_readme`. Scenarios 1, 2, and 4 are **INFERRED — NOT INDEPENDENTLY VERIFIED**.
 
-Full ESP-Fi training was **not executed** on the 2026-10-12 benchmark VM because `data/raw/esp-fi-har/` is missing. No `artifacts/v2_gbdt/` run is checked in yet.
+**Model:** sklearn `HistGradientBoostingClassifier` on `classical_v1` features; scaler fit on **train** only.
 
-## Intended protocol (same as RF / logreg)
+## Split verification
 
-| Strategy | Assignment SHA-256 (locked) |
-| --- | --- |
-| `in_domain` | `6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da` |
-| `cross_user` | `ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72` |
-| `cross_environment` | `00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8` |
-
-**Labels:** `published_folder_codes_not_readme`; scenarios 1, 2, 4 **INFERRED — NOT INDEPENDENTLY VERIFIED**.
-
-**Model:** `HistGradientBoostingClassifier` on `classical_v1` features; scaler fit on train only.
-
-## Reproduce
-
-```bash
-python3 scripts/train_gbdt.py --run-id 20261012T120000Z
-```
-
-Pin `EXTENDED_RUN_IDS["gbdt"]`, export JSON for the UI, then fill the table below from `artifacts/v2_gbdt/<run_id>/<strategy>/metrics.json`.
+| Strategy | Assignment SHA-256 (locked) | Train | Val | Test |
+| --- | --- | ---: | ---: | ---: |
+| `in_domain` | `6304085ccf8260d560232088d9d0b5e7013dbe6583d164e7e46fb52f3a6753da` | 1792 | 224 | 224 |
+| `cross_user` | `ff148c7c7b28c78d17553832bae15d380b11ce3266d165d2c6d3ea87cb38fb72` | 1680 | 280 | 280 |
+| `cross_environment` | `00d03230dcaf901996550b4716e81ef91fbe97c0ddde776df6607c27308d73f8` | 1120 | 560 | 560 |
 
 ## Test-set headline metrics
 
-| Strategy | Accuracy | Macro-F1 | Weighted-F1 | Model size | Inference (ms/sample) |
+| Strategy | Accuracy | Macro-F1 | Weighted-F1 | Model size (bytes) | Inference (ms/sample, mean) |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `in_domain` | *pending* | *pending* | *pending* | *pending* | *pending* |
-| `cross_user` | *pending* | *pending* | *pending* | *pending* | *pending* |
-| `cross_environment` | *pending* | *pending* | *pending* | *pending* | *pending* |
+| `in_domain` | 0.7366 | 0.7367 | 0.7367 | 5222406 | 0.078 |
+| `cross_user` | 0.4000 | 0.3791 | 0.3791 | 5053538 | 0.078 |
+| `cross_environment` | 0.3196 | 0.3096 | 0.3096 | 4269317 | 0.078 |
+
+## Comparison to random forest (test macro-F1)
+
+| Strategy | GBDT | Random Forest |
+| --- | ---: | ---: |
+| `in_domain` | 0.7367 | **0.7668** |
+| `cross_user` | **0.3791** | 0.3349 |
+| `cross_environment` | **0.3096** | 0.2912 |
+
+GBDT is the strongest measured model on **cross-user** and **cross-environment** test macro-F1 among tree/boosting and classical baselines in this ladder (logreg cross-user: 0.3974).
 
 **Thesis ladder:** `docs/thesis-benchmark-ladder.md`
