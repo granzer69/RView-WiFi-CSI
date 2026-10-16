@@ -7,8 +7,13 @@ Software-first pipeline for recognizing human activity from Wi-Fi channel state 
 | Doc | Purpose |
 | --- | --- |
 | **[`docs/SETUP.md`](docs/SETUP.md)** | **Start here** — clone, install, ESP-Fi, run API + UI, Cursor ports, env vars, troubleshooting |
+| [`docs/smoke-test.md`](docs/smoke-test.md) | Reproducibility smoke test (CI parity + UI checklist) |
+| [`docs/viva-demo-script.md`](docs/viva-demo-script.md) | Thesis defense demo script (~15 min, replay only) |
+| [`docs/thesis-contributions.md`](docs/thesis-contributions.md) | Contributions, splits, benchmark headlines |
 | [`docs/what-we-built.md`](docs/what-we-built.md) | Architecture, V1–V3, measured results, limitations |
 | [`docs/cursor-in-app-browser.md`](docs/cursor-in-app-browser.md) | Cursor Cloud port forwarding |
+
+**Toolchain (CI-aligned):** Python **3.11+** (3.12 in GitHub Actions), Node **20+** (22 in CI).
 
 ## Quick start
 

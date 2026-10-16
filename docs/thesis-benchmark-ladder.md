@@ -2,6 +2,7 @@
 
 **Authoring context:** Final-year project (Ribhu S.), R-View WiFi CSI.  
 **Evaluation protocol:** Session-grouped splits (`in_domain`, `cross_user`, `cross_environment`); locked assignment SHA-256 per strategy; test metrics only for headline comparisons.  
+**Status (2026-10-12):** Four families have frozen measured runs in-repo; **MLP, GBDT, and TCN** are implemented and registered in the platform but **were not re-trained on this VM** because `data/raw/esp-fi-har/` is absent (see [Extended families blocker](#extended-families-blocker)).
 **Status (2026-10-12):** All **seven** families have measured ESP-Fi runs in-repo. Extended families (MLP, GBDT, TCN) share run ID `20261012T140000Z` on locked session-grouped splits.
 
 ---
@@ -12,6 +13,7 @@ This project compares **seven** human-activity recognition models on the **same*
 
 The software platform exports these metrics into the **Evaluation** and **Research Lab** views from `artifacts/v2_*/<run_id>/<strategy>/metrics.json` — numbers are never hard-coded in the UI. Label uncertainty for scenarios without class folders and limitations of offline personalization are documented below and in `docs/generalization-user-profiling-audit.md`.
 
+**Recommended thesis narrative:** Present the ladder as a **fair comparison under fixed splits**, discuss **generalization gaps** (in-domain minus cross-user macro-F1), and treat MLP/GBDT/TCN as **architectural extensions** whose metrics should be filled from a single shared training run once ESP-Fi is available locally.
 **Recommended thesis narrative:** Present the ladder as a **fair comparison under fixed splits**, discuss **generalization gaps** (in-domain minus cross-user macro-F1), and use GBDT as the example that **boosting on classical features** can beat RF on cross-user holdout while RF still leads in-domain.
 
 ---
@@ -26,6 +28,18 @@ Macro-F1 and accuracy from frozen baselines unless noted. **Cross-user gap** = i
 | Logistic regression | `20261010T045500Z` | 0.545 | 0.539 | 0.429 | **0.397** | 0.270 | 0.256 | 0.141 |
 | 1D CNN | `20261010T070000Z` | 0.469 | 0.441 | 0.229 | 0.226 | 0.261 | 0.234 | 0.215 |
 | GRU | `20261010T080000Z` | 0.241 | 0.213 | 0.218 | 0.132 | 0.195 | 0.178 | 0.081 |
+| MLP | *pending* | — | — | — | — | — | — | — |
+| GBDT | *pending* | — | — | — | — | — | — | — |
+| TCN | *pending* | — | — | — | — | — | — | — |
+
+### Which model wins which axis (measured families only)
+
+| Axis | Winner (macro-F1) | Value | Runner-up |
+| --- | --- | ---: | --- |
+| In-domain | Random forest | 0.767 | Logistic regression (0.539) |
+| Cross-user | Logistic regression | 0.397 | Random forest (0.335) |
+| Cross-environment | Random forest | 0.291 | 1D CNN (0.234) |
+| Smallest cross-user gap | GRU | 0.081 | Logistic regression (0.141) |
 | MLP | `20261012T140000Z` | 0.638 | 0.629 | 0.300 | 0.281 | 0.288 | 0.275 | 0.348 |
 | GBDT | `20261012T140000Z` | 0.737 | 0.737 | 0.400 | 0.379 | 0.320 | 0.310 | 0.358 |
 | TCN | `20261012T140000Z` | 0.313 | 0.301 | 0.186 | 0.158 | 0.177 | 0.171 | 0.144 |
@@ -99,6 +113,9 @@ Then pin in `src/research/generalization.py`:
 
 ```python
 EXTENDED_RUN_IDS = {
+    "mlp": "20261012T120000Z",
+    "gbdt": "20261012T120000Z",
+    "tcn": "20261012T120000Z",
     "mlp": "20261012T140000Z",
     "gbdt": "20261012T140000Z",
     "tcn": "20261012T140000Z",
