@@ -35,10 +35,11 @@ export function SessionPicker({ sessions, selectedId, onSelect }: Props) {
   )
 }
 
-export function SourceChip() {
+export function SourceChip({ mode }: { mode?: 'dataset_replay' | 'live_unavailable' }) {
+  const label = mode === 'live_unavailable' ? 'ESP32 live: unavailable' : 'ESP-Fi replay'
   return (
     <Badge variant="neutral" className="text-sm">
-      Dataset Replay
+      {label}
     </Badge>
   )
 }

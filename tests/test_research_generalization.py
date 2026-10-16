@@ -9,10 +9,12 @@ import pytest
 
 from research.generalization import (
     BASELINE_RUN_IDS,
+    EXTENDED_RUN_IDS,
     baseline_metrics_entries,
     build_generalization_rows,
     compute_generalization_gap,
     confused_pairs_from_matrix,
+    extended_metrics_entries,
     load_metrics_json,
     supplement_macro_averages,
 )
@@ -62,6 +64,37 @@ def test_supplement_macro_from_per_class():
     not (ROOT / "artifacts" / "v2_logreg" / BASELINE_RUN_IDS["logreg"] / "in_domain" / "metrics.json").is_file(),
     reason="baseline logreg metrics missing",
 )
+def _write_minimal_metrics(path: Path, macro_f1: float) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "assignment_sha256": "test",
+                "test": {"accuracy": macro_f1, "macro_f1": macro_f1},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def test_extended_entries_include_mlp_when_artifacts_present(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    run_id = "fixture_extended_run"
+    for strategy, macro in (
+        ("in_domain", 0.5),
+        ("cross_user", 0.3),
+        ("cross_environment", 0.25),
+    ):
+        _write_minimal_metrics(
+            tmp_path / "artifacts" / "v2_mlp" / run_id / strategy / "metrics.json",
+            macro,
+        )
+    monkeypatch.setitem(EXTENDED_RUN_IDS, "mlp", run_id)
+    entries = extended_metrics_entries(tmp_path)
+    mlp = [e for e in entries if e["family"] == "mlp"]
+    assert len(mlp) == 3
+    assert all(e["run_id"] == run_id for e in mlp)
+
+
 def test_baseline_entries_and_gaps():
     entries = baseline_metrics_entries(ROOT)
     assert len(entries) >= 12
