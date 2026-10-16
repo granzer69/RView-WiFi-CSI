@@ -20,5 +20,9 @@
     }
   },
   "published_folders": "leakage check only; not an evaluation split",
-  "do_not_average_strategies": true
+  "do_not_average_strategies": true,
+  "louo": {
+    "config": "configs/experiments/esp_fi_louo_splits.json",
+    "note": "Eight leave-one-user-out folds; separate artifact tree under artifacts/louo/"
+  }
 }
