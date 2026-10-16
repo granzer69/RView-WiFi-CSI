@@ -21,6 +21,7 @@ from common.errors import SplitError
 from datasets.esp_fi import TrialRecord
 
 SPLIT_NAMES = ("train", "val", "test")
+LOUO_PARTICIPANTS = tuple(range(1, 9))
 
 
 @dataclass(frozen=True)
@@ -127,3 +128,85 @@ def _assert_group_integrity(
     leaked = {group: splits for group, splits in group_splits.items() if len(splits) != 1}
     if leaked:
         raise SplitError(f"groups crossed splits: {list(leaked)[:5]}")
+
+
+def louo_strategy_name(held_out_participant: int) -> str:
+    if held_out_participant not in LOUO_PARTICIPANTS:
+        raise SplitError(f"held_out_participant must be in 1..8, got {held_out_participant}")
+    return f"louo_user_{held_out_participant}"
+
+
+def assign_louo_splits(
+    records: list[TrialRecord],
+    *,
+    held_out_participant: int,
+    seed: int = 42,
+    val_fraction: float = 0.15,
+) -> SplitAssignment:
+    """Leave-one-user-out: one participant is test; val is drawn from the other seven.
+
+    The split unit is the participant id (all sessions move together). Among the
+    seven non-held-out users, one validation user is chosen with the same
+    ``floor(n * val_fraction)`` rule as ``cross_user``, using
+    ``numpy.random.Generator(seed + held_out_participant)``.
+    """
+    if not records:
+        raise SplitError("no records to split")
+    louo_strategy_name(held_out_participant)
+
+    participants = {record.participant_id for record in records}
+    if held_out_participant not in participants:
+        raise SplitError(f"participant {held_out_participant} not present in records")
+
+    remaining = sorted(participants - {held_out_participant})
+    if len(remaining) < 3:
+        raise SplitError(f"need at least 3 train users for val holdout, got {len(remaining)}")
+
+    n_val = max(1, int(len(remaining) * val_fraction))
+    if n_val >= len(remaining):
+        raise SplitError(
+            f"val_fraction leaves no training user ({n_val} val, {len(remaining)} remaining users)"
+        )
+
+    rng = np.random.default_rng(seed + held_out_participant)
+    group_ids = [str(participant_id) for participant_id in remaining]
+    assigned = _assign_groups(group_ids, rng, n_test=0, n_val=n_val)
+    participant_to_split = {
+        held_out_participant: "test",
+        **{int(group_id): split_name for group_id, split_name in assigned.items()},
+    }
+
+    session_to_split: dict[str, str] = {}
+    for record in records:
+        split_name = participant_to_split[record.participant_id]
+        previous = session_to_split.get(record.session_id)
+        if previous is not None and previous != split_name:
+            raise SplitError(f"session {record.session_id} landed in two splits")
+        session_to_split[record.session_id] = split_name
+
+    _assert_participant_integrity(records, session_to_split, held_out_participant)
+    return SplitAssignment(
+        strategy=louo_strategy_name(held_out_participant),
+        seed=seed,
+        test_fraction=0.0,
+        val_fraction=val_fraction,
+        session_to_split=session_to_split,
+    )
+
+
+def _assert_participant_integrity(
+    records: list[TrialRecord],
+    session_to_split: dict[str, str],
+    held_out_participant: int,
+) -> None:
+    by_participant: dict[int, set[str]] = defaultdict(set)
+    for record in records:
+        by_participant[record.participant_id].add(session_to_split[record.session_id])
+    leaked = {participant: splits for participant, splits in by_participant.items() if len(splits) != 1}
+    if leaked:
+        raise SplitError(f"participants crossed splits: {list(leaked)[:5]}")
+    held_out_splits = by_participant.get(held_out_participant, set())
+    if held_out_splits != {"test"}:
+        raise SplitError(
+            f"held-out participant {held_out_participant} must be entirely test, got {held_out_splits}"
+        )

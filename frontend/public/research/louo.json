@@ -1,0 +1,9 @@
+{
+  "dataset_id": "esp-fi-har",
+  "evaluation_protocol": "leave_one_user_out",
+  "status": "pending",
+  "integrity_note": "LOUO metrics are separate from frozen v2 in_domain/cross_user/cross_environment baselines. Each fold holds out one participant entirely for test; val is one participant among the other seven.",
+  "folds": [],
+  "summary": {},
+  "generated_at": "2026-10-16T06:50:34.756293+00:00"
+}

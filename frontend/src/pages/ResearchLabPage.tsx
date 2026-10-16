@@ -85,6 +85,25 @@ type PersonalizationPayload = {
   experiments?: PersonalizationExperiment[]
 }
 
+type LouoFoldRow = {
+  family: string
+  held_out_participant: number
+  test_macro_f1?: number
+  test_accuracy?: number
+  split_strategy?: string
+}
+
+type LouoPayload = {
+  status: string
+  evaluation_protocol?: string
+  integrity_note?: string
+  folds?: LouoFoldRow[]
+  summary?: Record<
+    string,
+    { mean_macro_f1?: number; std_macro_f1?: number; fold_count?: number }
+  >
+}
+
 const STRATEGIES = ['in_domain', 'cross_user', 'cross_environment'] as const
 
 function GapTable({ models }: { models: GeneralizationModel[] }) {
@@ -134,6 +153,7 @@ export function ResearchLabPage() {
   const [generalization, setGeneralization] = useState<GeneralizationPayload | null>(null)
   const [participants, setParticipants] = useState<ParticipantsPayload | null>(null)
   const [personalization, setPersonalization] = useState<PersonalizationPayload | null>(null)
+  const [louo, setLouo] = useState<LouoPayload | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -150,11 +170,16 @@ export function ResearchLabPage() {
         if (!res.ok) return null
         return (await res.json()) as PersonalizationPayload
       }),
+      fetch('/research/louo.json').then(async (res) => {
+        if (!res.ok) return null
+        return (await res.json()) as LouoPayload
+      }),
     ])
-      .then(([gen, part, pers]) => {
+      .then(([gen, part, pers, louoData]) => {
         setGeneralization(gen)
         setParticipants(part)
         setPersonalization(pers)
+        setLouo(louoData)
       })
       .catch((err: Error) => setError(err.message))
   }, [])
@@ -190,8 +215,9 @@ export function ResearchLabPage() {
 
       {generalization && (
         <Tabs defaultValue="generalization" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 gap-1 md:grid-cols-4">
+          <TabsList className="grid w-full grid-cols-2 gap-1 md:grid-cols-5">
             <TabsTrigger value="generalization">Generalization</TabsTrigger>
+            <TabsTrigger value="louo">LOUO</TabsTrigger>
             <TabsTrigger value="profiling">User Profiling</TabsTrigger>
             <TabsTrigger value="personalization">Personalization</TabsTrigger>
             <TabsTrigger value="experiments">Experiment Details</TabsTrigger>
@@ -234,6 +260,38 @@ export function ResearchLabPage() {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="louo" className="mt-4 space-y-4">
+            <Card className="surface-card border-zinc-800">
+              <CardHeader>
+                <CardTitle className="text-sm">Leave-one-user-out (LOUO)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-xs text-zinc-400">
+                {!louo || louo.status === 'pending' ? (
+                  <p>
+                    No LOUO artifacts exported yet. Run{' '}
+                    <code className="text-zinc-300">python scripts/run_louo_eval.py</code> then{' '}
+                    <code className="text-zinc-300">python scripts/export_louo_research.py</code>{' '}
+                    (see <code className="text-zinc-300">docs/louo-evaluation.md</code>).
+                  </p>
+                ) : (
+                  <>
+                    {louo.integrity_note && <p className="text-cyan-100/90">{louo.integrity_note}</p>}
+                    {louo.summary && (
+                      <ul className="list-disc pl-4 text-zinc-300">
+                        {Object.entries(louo.summary).map(([family, stats]) => (
+                          <li key={family}>
+                            {family}: mean macro-F1 {stats.mean_macro_f1?.toFixed(3) ?? '—'} (
+                            {stats.fold_count ?? 0} folds)
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                )}
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="profiling" className="mt-4 space-y-4">
