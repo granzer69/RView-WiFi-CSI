@@ -14,6 +14,18 @@ from simulator.sources.dataset_replay import DatasetReplaySource
 ESP_FI_ROOT = Path(__file__).resolve().parents[1] / "data" / "raw" / "esp-fi-har"
 
 
+def _esp_fi_archive_ready() -> bool:
+    if not ESP_FI_ROOT.is_dir():
+        return False
+    return any(ESP_FI_ROOT.rglob("*.mat"))
+
+
+pytestmark = pytest.mark.skipif(
+    not _esp_fi_archive_ready(),
+    reason="ESP-Fi archive is not present",
+)
+
+
 @pytest.fixture(scope="module")
 def any_session_id() -> str:
     records = discover_trials(ESP_FI_ROOT)

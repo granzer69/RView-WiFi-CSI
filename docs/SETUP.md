@@ -296,6 +296,12 @@ Logs (dev-stack): `/tmp/rview-vite.log`, `/tmp/rview-api.log`.
 | Doc | Contents |
 | --- | --- |
 | [`SETUP.md`](SETUP.md) | This file |
+| [`smoke-test.md`](smoke-test.md) | Pre-defense reproducibility checklist |
+| [`viva-demo-script.md`](viva-demo-script.md) | ~15 min examiner demo (software-only) |
+| [`thesis-contributions.md`](thesis-contributions.md) | Thesis-facing contributions & results |
+| [`thesis-benchmark-ladder.md`](thesis-benchmark-ladder.md) | Seven families, frozen metrics table |
+| [`thesis-strengths-limitations.md`](thesis-strengths-limitations.md) | Viva strengths / limitations |
+| [`research-validity-audit.md`](research-validity-audit.md) | Validity audit (PASS WITH LIMITATIONS) |
 | [`what-we-built.md`](what-we-built.md) | Project narrative V1–V3 |
 | [`project-scope.md`](project-scope.md) | In/out of scope |
 | [`v3-platform-build-guide.md`](v3-platform-build-guide.md) | API & WebSocket reference |
