@@ -1,0 +1,26 @@
+{
+  "dataset_id": "esp-fi-har",
+  "seed": 42,
+  "val_fraction": 0.15,
+  "held_out_participants": [1, 2, 3, 4, 5, 6, 7, 8],
+  "generator": "assign_louo_splits(records, held_out_participant=p, seed=42)",
+  "group": "participant_id (all sessions from a participant share one split)",
+  "val_among_train_users": "max(1, floor(7 * val_fraction)) participants from the seven non-held-out users; RNG seed + held_out_participant",
+  "comparison_to_cross_user": "cross_user randomly assigns one test and one val user among eight; LOUO fixes the test user per fold and varies val draw with the fold index.",
+  "locked_assignment_sha256": {
+    "1": "67ca50bc8765a3e885565e762ed5a385b08fd78bfbb478f3e7eb7c2524c89dd3",
+    "2": "9841e8beb9c80e3f6f8d511fce04cd024943e2f90e90240a2fcc4a23b70c4295",
+    "3": "351fccbf9b0bece94b7bfb5c543790bbef3978f48e5cf00861d8526507a969ae",
+    "4": "1b7fddfd8e69c16e6c8c7cf19d8e17152abbdf0c750c85784ba72bc51da6cf68",
+    "5": "da06ce2b023452833e59af9441f95f52c5b9280dd34d77809be5b65f03694140",
+    "6": "f0d5cdb14427e470b4f16b70d581cb99e65110f0bc072b2b224ba9111510a7fd",
+    "7": "0bfb23a9eb73b28c785ca0cf845ff6ffe348aad2f46a1e29579ff2d0574c1933",
+    "8": "0ccf664586b0c78bc5965b1e265ff760069b870369034d5272fcdadc83727f18"
+  },
+  "expected_counts_per_fold": {
+    "train": 1680,
+    "val": 280,
+    "test": 280
+  },
+  "do_not_mutate_v2_baselines": true
+}

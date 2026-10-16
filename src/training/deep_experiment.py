@@ -11,6 +11,7 @@ from typing import Any, Callable
 from evaluation.metrics import classification_report_dict
 from models.cnn1d import train_cnn1d
 from models.gru import train_gru
+from models.tcn import train_tcn
 from preprocessing.pipeline import PreprocessConfig
 from training.esp_fi import assignment_sha256, load_esp_fi_split_bundle
 from training.experiment import _git_commit
@@ -56,6 +57,8 @@ def _run_deep_strategy(
     }
     if model_label == "gru":
         common["hidden_size"] = int(model_params.get("hidden_size", 64))
+    if model_label == "tcn":
+        common["channels"] = int(model_params.get("channels", 64))
 
     model = train_fn(train_x, train_y, val_x, val_y, **common)
 
@@ -144,4 +147,14 @@ def run_gru_experiment(config: dict[str, Any], *, artifacts_root: Path) -> dict[
         experiment_name="v2_gru",
         train_fn=train_gru,
         model_label="gru",
+    )
+
+
+def run_tcn_experiment(config: dict[str, Any], *, artifacts_root: Path) -> dict[str, Any]:
+    return _run_deep_experiment(
+        config,
+        artifacts_root=artifacts_root,
+        experiment_name="v2_tcn",
+        train_fn=train_tcn,
+        model_label="tcn",
     )

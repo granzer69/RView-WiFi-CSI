@@ -75,7 +75,7 @@ The default preprocess config keeps each trial unchanged. Clipping, z-scoring, a
 | `frontend/` | Visual CSI Activity Simulator UI (Vite + React) |
 | `configs/` | Dataset, preprocess, split, and experiment settings |
 | `src/models/`, `src/training/` | V2 model ladder and experiment runners |
-| `artifacts/` | Versioned training outputs (`v2_logreg`, `v2_rf`, `v2_cnn1d`, `v2_gru`) |
+| `artifacts/` | Versioned training outputs (`v2_logreg`, `v2_rf`, `v2_mlp`, `v2_gbdt`, `v2_cnn1d`, `v2_gru`, `v2_tcn`) |
 | `reports/` | Measured inspection and V2 experiment summaries |
 
 ## V2 ML/HAR engine

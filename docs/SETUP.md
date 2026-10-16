@@ -42,6 +42,7 @@ The repo includes:
 - **Pre-trained V2 models** under `artifacts/v2_*` (logreg, RF, CNN, GRU)
 - **Demo replay JSON** for two sessions: `frontend/public/replay/trials/1-1-1-1.json`, `1-1-2-1.json`
 - **Evaluation summary** for the UI: `frontend/public/evaluation/summary.json`
+- **CSI Explorer** (`/explorer`) and **Experiment Workbench** (`/experiments`) — see [`csi-explorer-user-guide.md`](csi-explorer-user-guide.md) and [`experiment-workbench-guide.md`](experiment-workbench-guide.md)
 
 ---
 

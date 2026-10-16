@@ -1,0 +1,30 @@
+{
+  "model_type": "tcn",
+  "input_layout": "channels_first_subcarriers_time",
+  "architecture_note": "dilated residual Conv1d blocks (d=1,2,4) + global avg pool",
+  "n_subcarriers": 52,
+  "n_times": 950,
+  "channels": 64,
+  "random_state": 42,
+  "epochs": 8,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "label_names": [
+    "running",
+    "walking",
+    "jumping",
+    "squatting",
+    "arm_wave",
+    "turning",
+    "falling"
+  ],
+  "split_strategy": "in_domain",
+  "dataset_id": "esp-fi-har",
+  "preprocess": {
+    "clip_mad": false,
+    "mad_k": 5.0,
+    "normalize": "none",
+    "window_length": null,
+    "hop": null
+  }
+}

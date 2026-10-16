@@ -10,7 +10,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO_ROOT / "frontend" / "public" / "evaluation" / "summary.json"
 STRATEGIES = ("in_domain", "cross_user", "cross_environment")
-FAMILIES = ("logreg", "rf", "cnn1d", "gru")
+FAMILIES = ("logreg", "rf", "mlp", "gbdt", "cnn1d", "gru", "tcn")
 
 
 def _latency_ms(metrics: dict) -> float | None:

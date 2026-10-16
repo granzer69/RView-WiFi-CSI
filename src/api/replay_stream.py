@@ -10,8 +10,10 @@ from typing import Any
 from fastapi import WebSocket, WebSocketDisconnect
 
 from api.config import ApiSettings
-from api.inference import predict_from_amplitude
+from api.inference import predict_from_amplitude, resolve_active_model
 from api.model_registry import ModelRegistry
+from simulator.clock import ALLOWED_SPEEDS, ReplayClock
+from simulator.session_controller import SessionController, TransportState
 from simulator.sources.dataset_replay import DatasetReplaySource
 
 
@@ -26,14 +28,14 @@ class ReplayStreamSession:
         self._settings = settings
         self._registry = registry
         self._source = DatasetReplaySource(settings.data_root)
+        self._clock = ReplayClock()
+        self._controller = SessionController(source=self._source, clock=self._clock)
         self._task: asyncio.Task[None] | None = None
-        self._playing = False
-        self._speed = 1.0
         self._buffer: deque[list[float]] = deque(maxlen=settings.ws_replay_buffer_rows)
-        self._frame_count = 0
-        self._meta: dict[str, Any] | None = None
         self._history: list[dict[str, Any]] = []
         self._history_limit = 200
+        self._session_meta: dict[str, Any] | None = None
+        self._speed = 1.0
 
     async def run(self) -> None:
         await self._websocket.accept()
@@ -54,10 +56,7 @@ class ReplayStreamSession:
         model_id = self._registry.active_model_id()
         if loaded is None:
             try:
-                if self._settings.active_model_id:
-                    loaded = self._registry.load_by_id(self._settings.active_model_id)
-                else:
-                    loaded = self._registry.load_default()
+                loaded = resolve_active_model(self._registry, self._settings)
                 model_id = loaded.model_id
             except Exception as exc:  # noqa: BLE001
                 load_error = str(exc)
@@ -107,53 +106,57 @@ class ReplayStreamSession:
             )
             return
         try:
-            self._source.open(session_id)
+            self._controller.open_session(session_id)
         except KeyError:
             await self._send_error(f"unknown session_id: {session_id}")
             return
         self._buffer.clear()
         self._history.clear()
-        self._frame_count = self._source.frame_count
-        self._meta = None
+        self._session_meta = None
+        frame_count = self._source.frame_count
         await self._websocket.send_json(
             {
                 "type": "session_started",
                 "session_id": session_id,
                 "source": "dataset_replay",
-                "frame_count": self._frame_count,
+                "frame_count": frame_count,
+                "sample_count": frame_count,
             }
         )
 
     async def _control(self, action: str, speed: float | None) -> None:
+        clock_speed = None
         if speed is not None:
             self._speed = float(speed)
+            if self._speed in ALLOWED_SPEEDS:
+                clock_speed = self._speed
+        try:
+            state = self._controller.control(action, speed=clock_speed)  # type: ignore[arg-type]
+        except RuntimeError as exc:
+            await self._send_error(str(exc))
+            return
         if action == "play":
-            if self._source.session_id is None:
-                await self._send_error("no session open")
-                return
-            self._playing = True
             if self._task is None or self._task.done():
                 self._task = asyncio.create_task(self._replay_loop())
-        elif action == "pause":
-            self._playing = False
         elif action == "stop":
             await self._stop_loop()
             self._source.close()
             await self._websocket.send_json({"type": "session_ended", "reason": "stop"})
         elif action == "restart":
             await self._stop_loop()
-            sid = self._source.session_id
-            if sid:
-                self._source.open(sid)
-                self._buffer.clear()
-                self._history.clear()
-                self._frame_count = self._source.frame_count
-                await self._emit_frame_at(0)
-        else:
-            await self._send_error(f"unknown control action: {action}")
+            self._buffer.clear()
+            self._history.clear()
+            if self._source.session_id:
+                idx = 0
+                await self._emit_frame_at(idx)
+        if action in ("play", "pause", "restart"):
+            await self._websocket.send_json(
+                {"type": "transport_state", "state": state.value, "speed": self._clock.speed}
+            )
 
     async def _stop_loop(self) -> None:
-        self._playing = False
+        if self._controller.state == TransportState.PLAYING:
+            self._controller.control("pause")
         if self._task is not None:
             self._task.cancel()
             try:
@@ -168,23 +171,30 @@ class ReplayStreamSession:
     async def _replay_loop(self) -> None:
         interval = 1.0 / (self._settings.nominal_replay_hz * max(self._speed, 0.1))
         try:
-            while self._playing:
-                frame = self._source.read_next()
+            while self._controller.state == TransportState.PLAYING:
+                frame = self._controller.tick()
                 if frame is None:
-                    self._playing = False
-                    await self._websocket.send_json({"type": "session_ended", "reason": "complete"})
+                    if self._controller.state == TransportState.COMPLETE:
+                        await self._websocket.send_json(
+                            {"type": "session_ended", "reason": "complete"}
+                        )
                     break
-                self._meta = frame.meta
                 self._append_row(frame.subcarriers)
+                self._session_meta = frame.meta
+                sample_index = frame.time_index
+                sample_count = self._source.frame_count
                 await self._websocket.send_json(
                     {
                         "type": "csi_frame",
-                        "time_index": frame.time_index,
+                        "time_index": sample_index,
+                        "sample_index": sample_index,
+                        "sample_count": sample_count,
                         "subcarriers": frame.subcarriers,
                         "meta": frame.meta,
+                        "source": "dataset_replay",
                     }
                 )
-                await self._emit_prediction(frame.time_index)
+                await self._emit_prediction(sample_index, sample_count)
                 await asyncio.sleep(interval)
         except asyncio.CancelledError:
             pass
@@ -199,26 +209,29 @@ class ReplayStreamSession:
             if frame is None:
                 break
             self._append_row(frame.subcarriers)
-            self._meta = frame.meta
-        if self._meta is None or not self._buffer:
+            self._session_meta = frame.meta
+        if not self._buffer:
             return
+        sample_count = self._source.frame_count
         await self._websocket.send_json(
             {
                 "type": "csi_frame",
                 "time_index": time_index,
+                "sample_index": time_index,
+                "sample_count": sample_count,
                 "subcarriers": self._buffer[-1],
-                "meta": self._meta,
+                "meta": self._session_meta,
+                "source": "dataset_replay",
             }
         )
-        await self._emit_prediction(time_index)
+        await self._emit_prediction(time_index, sample_count)
 
-    async def _emit_prediction(self, time_index: int) -> None:
-        if self._meta is None or not self._buffer:
+    async def _emit_prediction(self, sample_index: int, sample_count: int) -> None:
+        if not self._buffer or self._session_meta is None:
             return
+        meta = self._session_meta
         try:
-            model = self._registry.load_default() if self._registry.active() is None else self._registry.active()
-            if model is None:
-                model = self._registry.load_default()
+            model = resolve_active_model(self._registry, self._settings)
         except Exception as exc:  # noqa: BLE001
             await self._websocket.send_json(
                 {"type": "model_status", "model_loaded": False, "load_error": str(exc)}
@@ -229,19 +242,20 @@ class ReplayStreamSession:
             prediction = predict_from_amplitude(
                 model,
                 list(self._buffer),
-                session_id=str(self._meta.get("session_id", "")),
-                environment_id=str(self._meta.get("environment_id", "")),
-                time_index=time_index,
-                frame_count=self._frame_count,
+                session_id=str(meta.get("session_id", "")),
+                environment_id=str(meta.get("environment_id", "")),
+                time_index=sample_index,
+                frame_count=sample_count,
                 max_rows=self._settings.max_amplitude_rows,
                 max_subcarriers=self._settings.max_subcarriers,
+                replay_source="dataset_replay",
             )
         except Exception as exc:  # noqa: BLE001
             await self._send_error(f"prediction failed: {exc}")
             return
-        prediction["source"] = "dataset_replay"
         history_item = {
-            "time_index": time_index,
+            "time_index": sample_index,
+            "sample_index": sample_index,
             "activity": prediction["activity"],
             "confidence": prediction["confidence"],
             "presence": prediction.get("presence", True),
